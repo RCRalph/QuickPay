@@ -91,13 +91,13 @@
                             <tr>
                                 <td class="align-middle">13.06.2020</td>
                                 <td class="align-middle">This is a normal title for a transaction.</td>
-                                <td class="align-middle font-weight-bold text-success">100.00&nbspEUR</td>
+                                <td class="align-middle font-weight-bold text-success">+100.00&nbspEUR</td>
                                 <td class="align-middle"><a role="button" class="btn btn-primary btn-sm btn-block" href="#">View transaction</a></td>
                             </tr>
                             <tr>
                                 <td class="align-middle">12.06.2020</td>
                                 <td class="align-middle">This is a normal title for a transaction. This is a normal title for a transaction.</td>
-                                <td class="align-middle font-weight-bold text-success">12&nbsp321&nbsp100.00&nbspEUR</td>
+                                <td class="align-middle font-weight-bold text-success">+12&nbsp321&nbsp100.00&nbspEUR</td>
                                 <td class="align-middle"><a role="button" class="btn btn-primary btn-sm btn-block" href="#">View transaction</a></td>
                             </tr>
                             <tr>

@@ -33,7 +33,17 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
-
+                        @auth
+                        <li class="nav-item">
+                            <a id="homeView" class="nav-link" href="/home">{{ __('Home') }}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a id="homeView" class="nav-link" href="/requests">{{ __('Requests') }}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a id="homeView" class="nav-link" href="/transactions">{{ __('Transactions') }}</a>
+                        </li>
+                        @endauth
                     </ul>
 
                     <!-- Right Side Of Navbar -->
