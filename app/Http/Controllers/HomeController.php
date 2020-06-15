@@ -23,6 +23,10 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $tSender = auth()->user()->transactionsSender;
+        $tRecipient = auth()->user()->transactionsRecipient;
+        $transactions = $tSender->merge($tRecipient)->sortByDesc("created_at")->take(5);
+
+        return view('home', compact('transactions'));
     }
 }

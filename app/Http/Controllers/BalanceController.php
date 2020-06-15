@@ -3,11 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\User;
-use App\Transaction;
-use \Awobaz\Compoships\Compoships;
 
-class TransactionsController extends Controller
+class BalanceController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -28,8 +25,10 @@ class TransactionsController extends Controller
     {
         $tSender = auth()->user()->transactionsSender;
         $tRecipient = auth()->user()->transactionsRecipient;
-        $transactions = $tSender->merge($tRecipient)->sortByDesc("created_at");
 
-        return view('transactions', compact('transactions'));
+
+        $balances = $tSender->merge($tRecipient)->sortByDesc("created_at");
+
+        return view('balance', compact('balances'));
     }
 }
