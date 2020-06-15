@@ -8,6 +8,11 @@ class Transaction extends Model
 {
     public function sender()
     {
-        return $this->belongsTo();
+        return $this->belongsTo(User::class, 'sender_id');
+    }
+
+    public function recipient()
+    {
+        return $this->belongsTo(User::class, 'recipient_id');
     }
 }

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use App\Transaction;
+use \Awobaz\Compoships\Compoships;
 
 class TransactionsController extends Controller
 {
@@ -24,11 +26,11 @@ class TransactionsController extends Controller
      */
     public function index()
     {
-        return view('transactions');
-    }
+        $tSender = auth()->user()->transactionsSender;
+        $tRecipient = auth()->user()->transactionsRecipient;
 
-    public function show($transaction)
-    {
-        return view('transactions');
+        $transactions = $tSender->merge($tRecipient)->sortByDesc("created_at");
+        //dd($transactions);
+        return view('transactions', compact('transactions'));
     }
 }

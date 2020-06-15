@@ -38,10 +38,13 @@
                             <a id="homeView" class="nav-link" href="/home">{{ __('Home') }}</a>
                         </li>
                         <li class="nav-item">
-                            <a id="homeView" class="nav-link" href="/requests">{{ __('Requests') }}</a>
+                            <a id="balanceView" class="nav-link" href="/balance">{{ __('Balance') }}</a>
                         </li>
                         <li class="nav-item">
-                            <a id="homeView" class="nav-link" href="/transactions">{{ __('Transactions') }}</a>
+                            <a id="requestsView" class="nav-link" href="/requests">{{ __('Requests') }}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a id="transactionsView" class="nav-link" href="/transactions">{{ __('Transactions') }}</a>
                         </li>
                         @endauth
                     </ul>
