@@ -5,7 +5,10 @@
     <div class="row justify-content-center">
         <div class="col-lg-12 mt-3">
             <div class="card">
-                <div class="card-header">Recent Transactions</div>
+                <div class="card-header d-flex">
+                    <div class="mr-auto my-auto">Transactions</div>
+                    <a role="button" class="btn btn-primary" href="/transactions/create">New Transaction</a>
+                </div>
 
                 <div class="card-body w-100 d-flex justify-content-center align-items-center">
                     @if ($transactions->count() > 0)
@@ -27,7 +30,7 @@
                                     <td class="align-middle">{{ $transaction->recipient->username }}</td>
                                     <td class="align-middle">{{ $transaction->title }}</td>
                                     <td class="align-middle font-weight-bold {{ $transaction->recipient->id == auth()->user()->id ? ('text-success') : ('text-danger') }}">
-                                        {{ ($transaction->recipient->id == auth()->user()->id ? "+" : "-") . number_format($transaction->amount, 2, ".", " ") . " " . $transaction->currency }}
+                                        {{ ($transaction->recipient->id == auth()->user()->id ? "+" : "-") . number_format($transaction->amount, 2, ".", " ") . " " . $transaction->currency->ISO-4217 }}
                                     </td>
                                 </tr>
                             @endforeach

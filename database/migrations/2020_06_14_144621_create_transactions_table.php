@@ -19,10 +19,10 @@ class CreateTransactionsTable extends Migration
             $table->unsignedBigInteger('recipient_id');
             $table->string('title');
             $table->decimal('amount', 20, 2);
-            $table->string('currency');
+            $table->unsignedBigInteger('currency_id');
             $table->timestamps();
 
-            $table->index(['sender_id', 'recipient_id']);
+            $table->index(['id', 'sender_id', 'recipient_id']);
         });
     }
 

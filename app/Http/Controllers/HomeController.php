@@ -29,10 +29,10 @@ class HomeController extends Controller
             ->sortByDesc("created_at")->take(5);
 
         // -- get balance --
-        $tRecipient = auth()->user()->transactionsRecipient->groupBy("currency")->map(function ($row) {
+        $tRecipient = auth()->user()->transactionsRecipient->groupBy("currency_id")->map(function ($row) {
             return $row->sum('amount');
         });
-        $tSender = auth()->user()->transactionsSender->groupBy("currency")->map(function ($row) {
+        $tSender = auth()->user()->transactionsSender->groupBy("currency_id")->map(function ($row) {
             return -$row->sum('amount');
         });
         $keysAndValues = [

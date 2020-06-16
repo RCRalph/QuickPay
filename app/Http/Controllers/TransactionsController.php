@@ -30,6 +30,13 @@ class TransactionsController extends Controller
         $tRecipient = auth()->user()->transactionsRecipient;
         $transactions = $tSender->merge($tRecipient)->sortByDesc("created_at");
 
-        return view('transactions', compact('transactions'));
+        return view('transactions.index', compact('transactions'));
+    }
+
+    public function create()
+    {
+        $currencies = array_keys(auth()->user()->transactionsRecipient->groupBy('currency')->toArray());
+
+        return view('transactions.create', compact('currencies'));
     }
 }

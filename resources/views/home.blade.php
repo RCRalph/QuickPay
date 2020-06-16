@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-lg-4 mt-3">
             <div class="card h-100">
-            <div class="card-header d-flex">
+                <div class="card-header d-flex">
                     <div class="mr-auto my-auto">Account Balance</div>
                     <a role="button" class="btn btn-primary" href="/balance">Show Balance</a>
                 </div>
@@ -28,10 +28,10 @@
                             @endforeach
                         </tbody>
                     </table>
-                </div>
                 @else
-                No account balance was found
+                    The account currenly has no balance
                 @endif
+                </div>
             </div>
         </div>
         <div class="col-lg-8 mt-3">
@@ -98,22 +98,22 @@
                             </thead>
                             <tbody>
                             @foreach($transactions as $transaction)
-                                    <tr onclick='window.document.location="/transactions/{{ $transaction->id }}"'>
-                                        <td class="align-middle">{{ DateTime::createFromFormat("yy-m-d G:i:s", $transaction->created_at)->format("yy-m-d") }}</td>
-                                        <td class="align-middle">{{ $transaction->sender_id == 0 ? "Superuser" : $transaction->sender->username }}</td>
-                                        <td class="align-middle">{{ $transaction->recipient->username }}</td>
-                                        <td class="align-middle">{{ $transaction->title }}</td>
-                                        <td class="align-middle font-weight-bold {{ $transaction->recipient->id == auth()->user()->id ? ('text-success') : ('text-danger') }}">
-                                            {{ ($transaction->recipient->id == auth()->user()->id ? "+" : "-") . number_format($transaction->amount, 2, ".", " ") . " " . $transaction->currency }}
-                                        </td>
-                                    </tr>
-                                @endforeach
+                                <tr onclick='window.document.location="/transactions/{{ $transaction->id }}"'>
+                                    <td class="align-middle">{{ DateTime::createFromFormat("yy-m-d G:i:s", $transaction->created_at)->format("yy-m-d") }}</td>
+                                    <td class="align-middle">{{ $transaction->sender_id == 0 ? "Superuser" : $transaction->sender->username }}</td>
+                                    <td class="align-middle">{{ $transaction->recipient->username }}</td>
+                                    <td class="align-middle">{{ $transaction->title }}</td>
+                                    <td class="align-middle font-weight-bold {{ $transaction->recipient->id == auth()->user()->id ? ('text-success') : ('text-danger') }}">
+                                        {{ ($transaction->recipient->id == auth()->user()->id ? "+" : "-") . number_format($transaction->amount, 2, ".", " ") . " " . $transaction->currency->ISO-4217 }}
+                                    </td>
+                                </tr>
+                            @endforeach
                             </tbody>
                         </table>
-                    </div>
-                @else
-                No transactions were found
-                @endif
+                    @else
+                    No transactions were found
+                    @endif
+                </div>
             </div>
         </div>
     </div>
