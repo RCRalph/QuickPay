@@ -5,36 +5,28 @@
     <div class="row justify-content-center">
         <div class="col-lg-12 mt-3">
             <div class="card">
-                <div class="card-header">Recent Transactions</div>
+                <div class="card-header">Account Balance</div>
 
                 <div class="card-body w-100 d-flex justify-content-center align-items-center">
-                    @if ($transactions->count() > 0)
+                    @if ($balance->count() > 0)
                     <table class="table table-hover text-center">
                         <thead>
                             <tr>
-                                <th scope="col">Date</th>
-                                <th scope="col">Sender</th>
-                                <th scope="col">Recipient</th>
-                                <th scope="col">Title</th>
+                                <th scope="col">Currency</th>
                                 <th scope="col">Amount</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($transactions as $transaction)
-                                <tr onclick='window.document.location="/transactions/{{ $transaction->id }}"'>
-                                    <td class="align-middle">{{ DateTime::createFromFormat("yy-m-d G:i:s", $transaction->created_at)->format("d-m-yy") }}</td>
-                                    <td class="align-middle">{{ $transaction->sender->username }}</td>
-                                    <td class="align-middle">{{ $transaction->recipient->username }}</td>
-                                    <td class="align-middle">{{ $transaction->title }}</td>
-                                    <td class="align-middle font-weight-bold {{ $transaction->recipient->id == auth()->user()->id ? ('text-success') : ('text-danger') }}">
-                                        {{ ($transaction->recipient->id == auth()->user()->id ? "+" : "-") . number_format($transaction->amount, 2, ".", " ") . " " . $transaction->currency }}
-                                    </td>
+                            @foreach($balance as $currency => $amount)
+                                <tr onclick='window.document.location="/transactions/currency/{{ $currency }}"'>
+                                    <th class="align-middle">{{ $currency }}</td>
+                                    <td class="align-middle">{{ $amount }}</td>
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
                     @else
-                    No transactions were found
+                    No account balance was found
                     @endif
                 </div>
             </div>
