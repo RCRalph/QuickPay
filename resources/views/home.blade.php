@@ -3,11 +3,15 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-lg-3 mt-3">
+        <div class="col-lg-4 mt-3">
             <div class="card h-100">
-                <div class="card-header">Account Balance</div>
+            <div class="card-header d-flex">
+                    <div class="mr-auto my-auto">Account Balance</div>
+                    <a role="button" class="btn btn-primary" href="/balance">Show Balance</a>
+                </div>
 
                 <div class="card-body w-100 d-flex justify-content-center align-items-center">
+                @if ($balance->count() > 0)
                     <table class="table text-center table-hover">
                         <thead>
                             <tr>
@@ -16,24 +20,21 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <th scope="row">PLN</td>
-                                <td>122&nbsp133.00</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">EUR</td>
-                                <td>321.00</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">USD</td>
-                                <td>213.00</td>
-                            </tr>
+                            @foreach($balance as $currency => $amount)
+                                <tr>
+                                    <th scope="row">{{ $currency }}</td>
+                                    <td>{{ number_format($amount, 2, ".", " ") }}</td>
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
+                @else
+                No account balance was found
+                @endif
             </div>
         </div>
-        <div class="col-lg-9 mt-3">
+        <div class="col-lg-8 mt-3">
             <div class="card h-100">
                 <div class="card-header">Payment Requests</div>
 

@@ -29,7 +29,16 @@ class BalanceController extends Controller
         $tSender = auth()->user()->transactionsSender->groupBy("currency")->map(function ($row) {
             return -$row->sum('amount');
         });
-        $keysAndValues = [array_merge($tRecipient->keys()->toArray(), $tSender->keys()->toArray()), array_merge($tRecipient->values()->toArray(), $tSender->values()->toArray())];
+        $keysAndValues = [
+            array_merge(
+                $tRecipient->keys()->toArray(),
+                $tSender->keys()->toArray()
+            ),
+            array_merge(
+                $tRecipient->values()->toArray(),
+                $tSender->values()->toArray()
+            )
+        ];
 
         $balance = [];
         for ($i = 0; $i < count($keysAndValues[0]); $i++) {
@@ -41,7 +50,6 @@ class BalanceController extends Controller
             }
         }
         $balance = collect($balance)->sortDesc();
-        //dd($balance);
 
         return view('balance', compact('balance'));
     }

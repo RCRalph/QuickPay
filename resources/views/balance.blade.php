@@ -20,7 +20,7 @@
                             @foreach($balance as $currency => $amount)
                                 <tr onclick='window.document.location="/transactions/currency/{{ $currency }}"'>
                                     <th class="align-middle">{{ $currency }}</td>
-                                    <td class="align-middle">{{ $amount }}</td>
+                                    <td class="align-middle">{{ number_format($amount, 2, ".", " ") }}</td>
                                 </tr>
                             @endforeach
                         </tbody>
