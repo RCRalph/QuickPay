@@ -104,7 +104,7 @@
                                     <td class="align-middle">{{ $transaction->recipient->username }}</td>
                                     <td class="align-middle">{{ $transaction->title }}</td>
                                     <td class="align-middle font-weight-bold {{ $transaction->recipient->id == auth()->user()->id ? ('text-success') : ('text-danger') }}">
-                                        {{ ($transaction->recipient->id == auth()->user()->id ? "+" : "-") . number_format($transaction->amount, 2, ".", " ") . " " . $transaction->currency->ISO-4217 }}
+                                        {{ ($transaction->recipient->id == auth()->user()->id ? "+" : "-") . number_format($transaction->amount, 2, ".", " ") . " " . $transaction->currency->ISO_4217 }}
                                     </td>
                                 </tr>
                             @endforeach

@@ -23,18 +23,19 @@ class HomeController extends Controller
      */
     public function index()
     {
-        // -- get transactions --
+        // -- Get Transactions --
         $transactions = auth()->user()->transactionsSender
             ->merge(auth()->user()->transactionsRecipient)
             ->sortByDesc("created_at")->take(5);
 
-        // -- get balance --
+        // -- Get Balance --
         $tRecipient = auth()->user()->transactionsRecipient->groupBy("currency_id")->map(function ($row) {
             return $row->sum('amount');
         });
         $tSender = auth()->user()->transactionsSender->groupBy("currency_id")->map(function ($row) {
             return -$row->sum('amount');
         });
+
         $keysAndValues = [
             array_merge(
                 $tRecipient->keys()->toArray(),
@@ -48,11 +49,12 @@ class HomeController extends Controller
 
         $balance = [];
         for ($i = 0; $i < count($keysAndValues[0]); $i++) {
-            if (array_key_exists($keysAndValues[0][$i], $balance)) {
-                $balance[$keysAndValues[0][$i]] += $keysAndValues[1][$i];
+            $ISO_4217 = \App\Currency::find($keysAndValues[0][$i])->ISO_4217;
+            if (array_key_exists($ISO_4217, $balance)) {
+                $balance[$ISO_4217] += $keysAndValues[1][$i];
             }
             else {
-                $balance[$keysAndValues[0][$i]] = $keysAndValues[1][$i];
+                $balance[$ISO_4217] = $keysAndValues[1][$i];
             }
         }
         $balance = collect($balance)->sortDesc()->take(4);

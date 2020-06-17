@@ -12,32 +12,32 @@
 
                 <div class="card-body w-100 d-flex justify-content-center align-items-center">
                     @if ($transactions->count() > 0)
-                    <table class="table table-hover text-center">
-                        <thead>
-                            <tr>
-                                <th scope="col">Date</th>
-                                <th scope="col">Sender</th>
-                                <th scope="col">Recipient</th>
-                                <th scope="col">Title</th>
-                                <th scope="col">Amount</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($transactions as $transaction)
-                                <tr onclick='window.document.location="/transactions/{{ $transaction->id }}"'>
-                                    <td class="align-middle">{{ DateTime::createFromFormat("yy-m-d G:i:s", $transaction->created_at)->format("yy-m-d") }}</td>
-                                    <td class="align-middle">{{ $transaction->sender_id == 0 ? "Superuser" : $transaction->sender->username }}</td>
-                                    <td class="align-middle">{{ $transaction->recipient->username }}</td>
-                                    <td class="align-middle">{{ $transaction->title }}</td>
-                                    <td class="align-middle font-weight-bold {{ $transaction->recipient->id == auth()->user()->id ? ('text-success') : ('text-danger') }}">
-                                        {{ ($transaction->recipient->id == auth()->user()->id ? "+" : "-") . number_format($transaction->amount, 2, ".", " ") . " " . $transaction->currency->ISO-4217 }}
-                                    </td>
+                        <table class="table table-hover text-center">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Date</th>
+                                    <th scope="col">Sender</th>
+                                    <th scope="col">Recipient</th>
+                                    <th scope="col">Title</th>
+                                    <th scope="col">Amount</th>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @foreach($transactions as $transaction)
+                                    <tr onclick='window.document.location="/transactions/{{ $transaction->id }}"'>
+                                        <td class="align-middle">{{ DateTime::createFromFormat("yy-m-d G:i:s", $transaction->created_at)->format("yy-m-d") }}</td>
+                                        <td class="align-middle">{{ $transaction->sender_id == 0 ? "Superuser" : $transaction->sender->username }}</td>
+                                        <td class="align-middle">{{ $transaction->recipient->username }}</td>
+                                        <td class="align-middle">{{ $transaction->title }}</td>
+                                        <td class="align-middle font-weight-bold {{ $transaction->recipient->id == auth()->user()->id ? ('text-success') : ('text-danger') }}">
+                                            {{ ($transaction->recipient->id == auth()->user()->id ? "+" : "-") . number_format($transaction->amount, 2, ".", " ") . " " . $transaction->currency->ISO_4217 }}
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
                     @else
-                    No transactions were found
+                        No transactions were found
                     @endif
                 </div>
             </div>

@@ -23,10 +23,10 @@ class BalanceController extends Controller
      */
     public function index()
     {
-        $tRecipient = auth()->user()->transactionsRecipient->groupBy("currency")->map(function ($row) {
+        $tRecipient = auth()->user()->transactionsRecipient->groupBy("currency_id")->map(function ($row) {
             return $row->sum('amount');
         });
-        $tSender = auth()->user()->transactionsSender->groupBy("currency")->map(function ($row) {
+        $tSender = auth()->user()->transactionsSender->groupBy("currency_id")->map(function ($row) {
             return -$row->sum('amount');
         });
         $keysAndValues = [
@@ -38,19 +38,27 @@ class BalanceController extends Controller
                 $tRecipient->values()->toArray(),
                 $tSender->values()->toArray()
             )
-        ];
+		];
 
         $balance = [];
         for ($i = 0; $i < count($keysAndValues[0]); $i++) {
-            if (array_key_exists($keysAndValues[0][$i], $balance)) {
-                $balance[$keysAndValues[0][$i]] += $keysAndValues[1][$i];
+			$id = \App\Currency::find($keysAndValues[0][$i])->id;
+            if (array_key_exists($id, $balance)) {
+                $balance[$id] += $keysAndValues[1][$i];
             }
             else {
-                $balance[$keysAndValues[0][$i]] = $keysAndValues[1][$i];
-            }
-        }
-        $balance = collect($balance)->sortDesc();
+				$balance[$id] = $keysAndValues[1][$i];
+			}
+		}
 
-        return view('balance', compact('balance'));
+		//get currency info
+		$currencies = \App\Currency::find(array_keys($balance))->toArray();
+		$currencyData = [];
+		foreach($currencies as $currency) {
+			$currencyData[$currency["id"]] = ["ISO_4217" => $currency["ISO_4217"], "name" => $currency["name"]];
+		}
+
+        $balance = collect($balance)->sortDesc();
+        return view('balance', compact('balance', 'currencyData'));
     }
 }
