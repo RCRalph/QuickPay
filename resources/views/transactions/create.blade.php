@@ -2,23 +2,23 @@
 
 @section('content')
 <div class="container">
-<div class="row justify-content-center">
+    <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">{{ __('New Transaction') }}</div>
 
                 <div class="card-body w-100 {{count($currencies) == 0 ? 'd-flex justify-content-center align-items-center' : ''}}">
                     @if (count($currencies) > 0)
-                        <form method="POST" action="{{ route('register') }}">
+                        <form method="POST" action="/transactions" enctype="multipart/form-data">
                             @csrf
 
                             <div class="form-group row">
-                                <label for="recipent" class="col-md-4 col-form-label text-md-right">{{ __('Recipent username') }}</label>
+                                <label for="recipient" class="col-md-4 col-form-label text-md-right">{{ __('Recipient username') }}</label>
 
                                 <div class="col-md-6">
-                                    <input id="recipent" type="text" class="form-control @error('recipent') is-invalid @enderror" name="recipent" value="{{ old('recipent') }}" required autocomplete="recipent" autofocus>
+                                    <input id="recipient" type="text" class="form-control @error('recipient') is-invalid @enderror" name="username" value="{{ old('recipient') }}" required autocomplete="recipient" autofocus>
 
-                                    @error('recipent')
+                                    @error('recipient')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>
@@ -44,7 +44,7 @@
                                 <label for="description" class="col-md-4 col-form-label text-md-right">{{ __('Description') }}</label>
 
                                 <div class="col-md-6">
-                                    <textarea id="description" class="form-control @error('description') is-invalid @enderror" name="description" value="{{ old('description') }}" required autocomplete="description"></textarea>
+                                    <textarea id="description" class="form-control @error('description') is-invalid @enderror" name="description" value="{{ old('description') }}" autocomplete="description"></textarea>
 
                                     @error('description')
                                         <span class="invalid-feedback" role="alert">
@@ -74,7 +74,7 @@
                                 <div class="col-md-6">
                                     <select id="currency" class="form-control @error('currency') is-invalid @enderror" name="currency" value="{{ old('currency') }}" required autocomplete="currency">
                                         @foreach ($currencies as $currency)
-                                        <option>{{ $currency }}</option>
+                                            <option value="{{ $currency->id }}">{{ $currency->ISO_4217 }}</option>
                                         @endforeach
                                     </select>
                                     @error('currency')

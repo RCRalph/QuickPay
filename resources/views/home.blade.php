@@ -100,7 +100,7 @@
                             @foreach($transactions as $transaction)
                                 <tr onclick='window.document.location="/transactions/{{ $transaction->id }}"'>
                                     <td class="align-middle">{{ DateTime::createFromFormat("yy-m-d G:i:s", $transaction->created_at)->format("yy-m-d") }}</td>
-                                    <td class="align-middle">{{ $transaction->sender_id == 0 ? "Superuser" : $transaction->sender->username }}</td>
+                                    <td class="align-middle">{{ $transaction->sender_id == 0 ? "SuperUser" : $transaction->sender->username }}</td>
                                     <td class="align-middle">{{ $transaction->recipient->username }}</td>
                                     <td class="align-middle">{{ $transaction->title }}</td>
                                     <td class="align-middle font-weight-bold {{ $transaction->recipient->id == auth()->user()->id ? ('text-success') : ('text-danger') }}">

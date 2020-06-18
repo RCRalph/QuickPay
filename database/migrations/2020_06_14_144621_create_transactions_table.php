@@ -18,6 +18,7 @@ class CreateTransactionsTable extends Migration
             $table->unsignedBigInteger('sender_id');
             $table->unsignedBigInteger('recipient_id');
             $table->string('title');
+            $table->string('description')->nullable();
             $table->decimal('amount', 20, 2);
             $table->unsignedBigInteger('currency_id');
             $table->timestamps();
