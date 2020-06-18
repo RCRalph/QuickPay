@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Currency;
 
 class BalanceController extends Controller
 {
@@ -16,12 +17,7 @@ class BalanceController extends Controller
         $this->middleware('auth');
     }
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
-    public function index()
+    public function getBalance()
     {
         $tRecipient = auth()->user()->transactionsRecipient->groupBy("currency_id")->map(function ($row) {
             return $row->sum('amount');
@@ -42,23 +38,33 @@ class BalanceController extends Controller
 
         $balance = [];
         for ($i = 0; $i < count($keysAndValues[0]); $i++) {
-			$id = \App\Currency::find($keysAndValues[0][$i])->id;
+			$id = Currency::find($keysAndValues[0][$i])->id;
             if (array_key_exists($id, $balance)) {
                 $balance[$id] += $keysAndValues[1][$i];
             }
             else {
 				$balance[$id] = $keysAndValues[1][$i];
 			}
-		}
+        }
 
+        return collect($balance)->sortDesc();
+    }
+
+    /**
+     * Show the application dashboard.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function index()
+    {
+        $balance = $this->getBalance();
 		//get currency info
-		$currencies = \App\Currency::find(array_keys($balance))->toArray();
+		$currencies = Currency::find(array_keys($balance->toArray()))->toArray();
 		$currencyData = [];
 		foreach($currencies as $currency) {
 			$currencyData[$currency["id"]] = ["ISO_4217" => $currency["ISO_4217"], "name" => $currency["name"]];
-		}
+        }
 
-        $balance = collect($balance)->sortDesc();
         return view('balance', compact('balance', 'currencyData'));
     }
 }

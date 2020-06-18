@@ -37,8 +37,6 @@ class TransactionsController extends Controller
     public function create()
     {
         $currencies = Currency::all()->sortBy('ISO_4217');
-        //dd($currencies);
-
         return view('transactions.create', compact('currencies'));
     }
 
@@ -47,17 +45,26 @@ class TransactionsController extends Controller
 		$data = request()->validate([
 			'username' => [
 				'required',
-				'string',
-				'different:SuperUser',
+                'string',
 				Rule::exists('users')->where(function ($query) {
-                	$query->where('username', '<>', auth()->user()->username);
+                	$query->where([['username', '<>', auth()->user()->username], ['username', '<>', 'SuperUser']]);
 				})
 			],
             'title' => ['required', 'string'],
             'description' => ['max:1024'],
-            'amount' => ['required', 'numeric'],
-            'currency' => ['required', 'integer']
+            'amount' => ['required', 'numeric', 'check_balance:amount,currency'],
+            'currency' => ['required', 'integer', 'check_balance:amount,currency']
         ]);
-        dd(request()->all());
+
+        $dataToPass = [
+            "sender_id" => auth()->user()->id,
+            "recipient_id" => User::where("username", "=", $data["username"])->first()->id,
+            "title" => $data["title"],
+            "description" => $data["description"],
+            "amount" => $data["amount"],
+            "currency_id" => $data["currency"]
+        ];
+        Transaction::create($dataToPass);
+        return redirect("/transactions");
     }
 }
