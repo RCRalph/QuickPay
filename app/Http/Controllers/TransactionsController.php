@@ -79,4 +79,14 @@ class TransactionsController extends Controller
         }
         abort(404);
     }
+
+    public function currency($currency)
+    {
+        $currencyData = Currency::findOrFail($currency);
+        $tSender = auth()->user()->transactionsSender;
+        $tRecipient = auth()->user()->transactionsRecipient;
+        $transactions = $tSender->merge($tRecipient)->where('currency_id', $currency)->sortByDesc("created_at");
+
+        return view('transactions.currency', compact('transactions', 'currencyData'));
+    }
 }

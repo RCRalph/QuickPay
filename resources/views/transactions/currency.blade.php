@@ -6,8 +6,11 @@
         <div class="col-lg-12 mt-3">
             <div class="card">
                 <div class="card-header d-flex">
-                    <div class="mr-auto my-auto">Transactions</div>
-                    <a role="button" class="btn btn-primary" href="/transactions/create">New Transaction</a>
+                    <div class="mr-auto my-auto">Transactions By Currency: {{ $currencyData->ISO_4217 }}</div>
+                    <div class="d-flex">
+                        <a role="button" class="btn btn-primary mr-3" href="/transactions/create">New Transaction</a>
+                        <a role="button" class="btn btn-primary" href="/transactions">Show All Transactions</a>
+                    </div>
                 </div>
 
                 <div class="card-body w-100 d-flex justify-content-center align-items-center">
