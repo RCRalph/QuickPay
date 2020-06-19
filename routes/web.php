@@ -24,5 +24,6 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/transactions', 'TransactionsController@index')->name('transactions.index');
 Route::post('/transactions', 'TransactionsController@store')->name('transactions.store');
 Route::get('/transactions/create', 'TransactionsController@create')->name('transactions.create');
+Route::get('/transactions/{transaction}', 'TransactionsController@show')->name('transactions.show');
 
 Route::get('/balance', 'BalanceController@index')->name('balance.index');

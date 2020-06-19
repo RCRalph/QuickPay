@@ -67,4 +67,15 @@ class TransactionsController extends Controller
         Transaction::create($dataToPass);
         return redirect("/transactions");
     }
+
+    public function show($transaction)
+    {
+        $transaction = Transaction::findOrFail($transaction);
+        if ($transaction->sender_id == auth()->user()->id || $transaction->recipient_id == auth()->user()->id) {
+            $sender = User::find($transaction->sender_id);
+            $recipient = User::find($transaction->recipient_id);
+            return view("transactions.show", compact("transaction", "sender", "recipient"));
+        }
+        abort(404);
+    }
 }

@@ -22,7 +22,7 @@
                         <tbody>
                             @foreach($balance as $currency => $amount)
                                 <tr>
-                                    <th scope="row">{{ $currency }}</td>
+                                    <th scope="row">{{ $currencyData[$currency]["ISO_4217"] }}</td>
                                     <td>{{ number_format($amount, 2, ".", " ") }}</td>
                                 </tr>
                             @endforeach
