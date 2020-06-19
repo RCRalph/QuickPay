@@ -50,8 +50,8 @@ class TransactionsController extends Controller
                 	$query->where([['username', '<>', auth()->user()->username], ['username', '<>', 'SuperUser']]);
 				})
 			],
-            'title' => ['required', 'string'],
-            'description' => ['max:1024'],
+            'title' => ['required', 'string', 'max:127'],
+            'description' => ['max:1023'],
             'amount' => ['required', 'numeric', 'check_balance:amount,currency'],
             'currency' => ['required', 'integer', 'check_balance:amount,currency']
         ]);
@@ -74,7 +74,8 @@ class TransactionsController extends Controller
         if ($transaction->sender_id == auth()->user()->id || $transaction->recipient_id == auth()->user()->id) {
             $sender = User::find($transaction->sender_id);
             $recipient = User::find($transaction->recipient_id);
-            return view("transactions.show", compact("transaction", "sender", "recipient"));
+            $currency = Currency::find($transaction->currency_id);
+            return view("transactions.show", compact("transaction", "sender", "recipient", "currency"));
         }
         abort(404);
     }
