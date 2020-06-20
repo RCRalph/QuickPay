@@ -53,7 +53,7 @@ class TransactionsController extends Controller
             'title' => ['required', 'string', 'max:255'],
             'description' => ['max:2047'],
             'amount' => ['required', 'numeric', 'check_balance:amount,currency'],
-            'currency' => ['required', 'integer']
+            'currency' => ['required', 'integer', 'exists:currencies,id']
         ]);
 
         Transaction::create([

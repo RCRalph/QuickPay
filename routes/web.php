@@ -31,5 +31,6 @@ Route::get('/requests', 'RequestsController@index')->name('requests.index');
 Route::post('/requests', 'RequestsController@store')->name('requests.store');
 Route::get('/requests/create', 'RequestsController@create')->name('requests.create');
 Route::get('/requests/{request}', 'RequestsController@show')->name('requests.show');
+Route::delete('/requests/{request}', 'RequestsController@destroy')->name('requests.destroy');
 
 Route::get('/balance', 'BalanceController@index')->name('balance.index');

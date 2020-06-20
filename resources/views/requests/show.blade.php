@@ -6,7 +6,7 @@
         <div class="col-lg-12 mt-3">
             <div class="card">
                 <div class="card-header d-flex">
-                    <div class="mr-auto my-auto">Request #{{$request->id}}</div>
+                    <div class="mr-auto my-auto">Request #{{ $request->id }}</div>
                     <div class="d-flex">
                         <a role="button" class="btn btn-primary mr-3" href="/requests/create">New Request</a>
                         <a role="button" class="btn btn-primary" href="/requests">Show requests</a>
@@ -55,7 +55,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-6 mb-3">
+                                <div class="col-md-6 {{ $request->description != null ? 'mb-3' : '' }}">
                                     <div class="card">
                                         <div class="card-header text-center font-weight-bold h4">
                                             Amount
@@ -80,10 +80,24 @@
                                 </div>
                             </div>
 							@endif
-                            <div class="row mt-3">
-                                <div class="col-md-12">
-                                    <button class="btn btn-block btn-success" href="/requests/create" disabled>Complete Request</button>
-                                    <button class="btn btn-block btn-danger" href="/requests">Delete Request</button>
+                            <hr>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <form method="POST" action="/requests/{{ $request->id }}" enctype="multipart/form-data">
+                                        @csrf
+                                        <input name="_method" type="hidden" value="DELETE">
+                                        <input type="hidden" name="btnAct" value="a">
+                                        <button type="submit" class="btn btn-block btn-success font-weight-bold" {{ $isDisabled ? 'disabled' : '' }}>Accept Request</button>
+                                    </form>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <form method="POST" action="/requests/{{ $request->id }}" enctype="multipart/form-data">
+                                        @csrf
+                                        <input name="_method" type="hidden" value="DELETE">
+                                        <input type="hidden" name="btnAct" value="d">
+                                        <button type="submit" class="btn btn-block btn-danger font-weight-bold">Delete Request</button>
+                                    </form>
                                 </div>
                             </div>
                         </div>

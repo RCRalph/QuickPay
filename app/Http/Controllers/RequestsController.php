@@ -10,6 +10,11 @@ use App\Request;
 
 class RequestsController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
         $sent = auth()->user()->requestsSender->sortByDesc('created_at');
@@ -25,7 +30,12 @@ class RequestsController extends Controller
             $sender = User::find($request->sender_id);
             $reciever = User::find($request->reciever_id);
             $currency = Currency::find($request->currency_id);
-            return view("requests.show", compact("request", "sender", "reciever", "currency"));
+
+            $balance = app('App\Http\Controllers\BalanceController')->getBalance()->toArray();
+            $isDisabled = array_key_exists($currency->id, $balance) ?
+                (floatval($request->amount) > $balance[$currency->id]) : true;
+
+            return view("requests.show", compact("request", "sender", "reciever", "currency", "isDisabled"));
         }
         abort(404);
     }
@@ -47,7 +57,7 @@ class RequestsController extends Controller
             'title' => ['required', 'string', 'max:255'],
             'description' => ['max:2047'],
             'amount' => ['required', 'numeric'],
-            'currency' => ['required', 'integer']
+            'currency' => ['required', 'integer', 'exists:currencies,id']
         ]);
 
         if (strtolower($data["username"]) == "superuser") {
@@ -59,6 +69,7 @@ class RequestsController extends Controller
                 "amount" => $data["amount"],
                 "currency_id" => $data["currency"]
             ]);
+            return redirect("/transactions");
         }
         else {
             Request::create([
@@ -69,8 +80,41 @@ class RequestsController extends Controller
                 "amount" => $data["amount"],
                 "currency_id" => $data["currency"]
             ]);
+            return redirect("/requests");
         }
+    }
 
-        return redirect("/requests");
+    public function destroy($request)
+    {
+        $data = request()->validate([
+            'btnAct' => ['required', Rule::in(['a', 'd'])]
+        ]);
+
+        $request = Request::findOrFail($request);
+        if ($request->sender_id == auth()->user()->id || $request->reciever_id == auth()->user()->id) {
+            if ($data['btnAct'] == 'a') {
+                $balance = app('App\Http\Controllers\BalanceController')->getBalance()->toArray();
+                $currency = Currency::findOrFail($request->currency_id);
+                if (array_key_exists($currency->id, $balance)) {
+                    if (floatval($request->amount) <= $balance[$currency->id]) {
+                        Transaction::create([
+                            "sender_id" => $request->reciever_id,
+                            "recipient_id" => $request->sender_id,
+                            "title" => $request->title,
+                            "description" => $request->description,
+                            "amount" => $request->amount,
+                            "currency_id" => $request->currency_id
+                        ]);
+                        $request->delete();
+                    }
+                }
+                return redirect("/transactions");
+            }
+            else {
+                $request->delete();
+                return redirect("/requests");
+            }
+        }
+        abort(404);
     }
 }
