@@ -50,8 +50,8 @@ class TransactionsController extends Controller
                 	$query->where([['username', '<>', auth()->user()->username], ['username', '<>', 'SuperUser']]);
 				})
 			],
-            'title' => ['required', 'string', 'max:127'],
-            'description' => ['max:1023'],
+            'title' => ['required', 'string', 'max:255'],
+            'description' => ['string', 'max:2047'],
             'amount' => ['required', 'numeric', 'check_balance:amount,currency'],
             'currency' => ['required', 'integer', 'check_balance:amount,currency']
         ]);
