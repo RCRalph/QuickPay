@@ -27,4 +27,9 @@ Route::get('/transactions/create', 'TransactionsController@create')->name('trans
 Route::get('/transactions/currency/{transaction}', 'TransactionsController@currency')->name('transactions.currency');
 Route::get('/transactions/{transaction}', 'TransactionsController@show')->name('transactions.show');
 
+Route::get('/requests', 'RequestsController@index')->name('requests.index');
+Route::post('/requests', 'RequestsController@store')->name('requests.store');
+Route::get('/requests/create', 'RequestsController@create')->name('requests.create');
+Route::get('/requests/{request}', 'RequestsController@show')->name('requests.show');
+
 Route::get('/balance', 'BalanceController@index')->name('balance.index');

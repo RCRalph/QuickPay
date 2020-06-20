@@ -37,7 +37,7 @@
                             </tbody>
                         </table>
                     @else
-                        No transactions were found
+                        No transactions found
                     @endif
                 </div>
             </div>

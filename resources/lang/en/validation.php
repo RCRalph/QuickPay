@@ -14,6 +14,8 @@ return [
     */
 
     'check_balance' => 'Not enough money to complete this transaction.',
+    'check_reciever' => "The entered user doesn't exist.",
+    'check_superuser' => "The username has already been taken.",
 
     'accepted' => 'The :attribute must be accepted.',
     'active_url' => 'The :attribute is not a valid URL.',

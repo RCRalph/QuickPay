@@ -5,15 +5,15 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header">{{ __('New Transaction') }}</div>
+                <div class="card-header">{{ __('New Request') }}</div>
 
                 <div class="card-body w-100 {{count($currencies) == 0 ? 'd-flex justify-content-center align-items-center' : ''}}">
                     @if (count($currencies) > 0)
-                        <form method="POST" action="/transactions" enctype="multipart/form-data">
+                        <form method="POST" action="/requests" enctype="multipart/form-data">
                             @csrf
 
                             <div class="form-group row">
-                                <label for="username" class="col-md-4 col-form-label text-md-right">{{ __('Recipient\'s username') }}</label>
+                                <label for="username" class="col-md-4 col-form-label text-md-right">{{ __('Reciever\'s username') }}</label>
 
                                 <div class="col-md-6">
                                     <input id="username" type="text" class="form-control @error('username') is-invalid @enderror" name="username" value="{{ old('username') }}" autocomplete="username" autofocus>
@@ -86,7 +86,7 @@
                             </div>
                         </form>
                     @else
-                        Currently you are unable to create a transaction due to lack of funds.
+                        Currently you are unable to create a request due to lack of funds.
                     @endif
                 </div>
             </div>

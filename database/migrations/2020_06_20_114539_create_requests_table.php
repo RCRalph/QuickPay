@@ -16,14 +16,12 @@ class CreateRequestsTable extends Migration
         Schema::create('requests', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('sender_id');
-            $table->unsignedBigInteger('recipient_id');
+            $table->unsignedBigInteger('reciever_id');
             $table->string('title');
+            $table->string('description')->nullable();
             $table->decimal('amount', 20, 2);
-            $table->string('currency');
-            $table->boolean('fulfilled');
+            $table->unsignedBigInteger('currency_id');
             $table->timestamps();
-
-            $table->index(['sender_id', 'recipient_id']);
         });
     }
 

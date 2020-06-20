@@ -51,20 +51,20 @@ class TransactionsController extends Controller
 				})
 			],
             'title' => ['required', 'string', 'max:255'],
-            'description' => ['string', 'max:2047'],
+            'description' => ['max:2047'],
             'amount' => ['required', 'numeric', 'check_balance:amount,currency'],
-            'currency' => ['required', 'integer', 'check_balance:amount,currency']
+            'currency' => ['required', 'integer']
         ]);
 
-        $dataToPass = [
+        Transaction::create([
             "sender_id" => auth()->user()->id,
             "recipient_id" => User::where("username", "=", $data["username"])->first()->id,
             "title" => $data["title"],
             "description" => $data["description"],
             "amount" => $data["amount"],
             "currency_id" => $data["currency"]
-        ];
-        Transaction::create($dataToPass);
+        ]);
+
         return redirect("/transactions");
     }
 

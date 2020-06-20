@@ -28,6 +28,9 @@ class HomeController extends Controller
             ->merge(auth()->user()->transactionsRecipient)
             ->sortByDesc("created_at")->take(5);
 
+        // -- Get Requests --
+        $requests = auth()->user()->requestsReciever->sortByDesc("created_at")->take(3);
+
         // -- Get Balance --
         $balance = app('App\Http\Controllers\BalanceController')->getBalance()->take(3);
         $currencies = Currency::find(array_keys($balance->toArray()))->toArray();
@@ -36,6 +39,6 @@ class HomeController extends Controller
 			$currencyData[$currency["id"]] = ["ISO_4217" => $currency["ISO_4217"], "name" => $currency["name"]];
         }
 
-        return view('home', compact('transactions', 'balance', 'currencyData'));
+        return view('home', compact('transactions', 'balance', 'currencyData', 'requests'));
     }
 }

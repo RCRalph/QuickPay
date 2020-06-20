@@ -26,7 +26,7 @@
                             </tbody>
                         </table>
                     @else
-                        No account balance was found
+                        No account balance found
                     @endif
                 </div>
             </div>

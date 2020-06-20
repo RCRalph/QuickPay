@@ -10,4 +10,9 @@ class Currency extends Model
     {
         return $this->belongsToMany(Transaction::class);
     }
+
+    public function request()
+    {
+        return $this->belongsToMany(Request::class);
+    }
 }

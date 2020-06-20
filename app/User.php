@@ -46,4 +46,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(Transaction::class, "recipient_id")->latest();
     }
+
+    public function requestsSender()
+    {
+        return $this->hasMany(Request::class, "sender_id");
+    }
+
+    public function requestsReciever()
+    {
+        return $this->hasMany(Request::class, "reciever_id");
+    }
 }
