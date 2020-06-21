@@ -102,8 +102,8 @@
                             @foreach($transactions as $transaction)
                                 <tr onclick='window.document.location="/transactions/{{ $transaction->id }}"'>
                                     <td class="align-middle">{{ DateTime::createFromFormat("yy-m-d G:i:s", $transaction->created_at)->format("yy-m-d") }}</td>
-                                    <td class="align-middle {{ $transaction->sender_id == auth()->user()->id ? 'font-weight-bold' : '' }}">{{ $transaction->sender_id == 0 ? "SuperUser" : $transaction->sender->username }}</td>
-                                    <td class="align-middle {{ $transaction->recipient_id == auth()->user()->id ? 'font-weight-bold' : '' }}">{{ $transaction->recipient->username }}</td>
+                                    <td class="align-middle {{ $transaction->sender_id == auth()->user()->id ? 'text-primary font-weight-bold' : '' }}">{{ $transaction->sender_id == 0 ? "SuperUser" : $transaction->sender->username }}</td>
+                                    <td class="align-middle {{ $transaction->recipient_id == auth()->user()->id ? 'text-primary font-weight-bold' : '' }}">{{ $transaction->recipient->username }}</td>
                                     <td class="align-middle">{{ $transaction->title }}</td>
                                     <td class="align-middle font-weight-bold {{ $transaction->recipient->id == auth()->user()->id ? ('text-success') : ('text-danger') }}">
                                         {{ ($transaction->recipient->id == auth()->user()->id ? "+" : "-") . number_format($transaction->amount, 2, ".", " ") . " " . $transaction->currency->ISO_4217 }}
@@ -113,7 +113,7 @@
                             </tbody>
                         </table>
                     @else
-                    No transactions were found
+                    	No transactions were found
                     @endif
                 </div>
             </div>

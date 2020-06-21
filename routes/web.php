@@ -20,6 +20,9 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/balance', 'BalanceController@index')->name('balance.index');
+
+Route::get('/users/{user}', 'UsersController@show')->name('users.show');
 
 Route::get('/transactions', 'TransactionsController@index')->name('transactions.index');
 Route::post('/transactions', 'TransactionsController@store')->name('transactions.store');
@@ -32,5 +35,3 @@ Route::post('/requests', 'RequestsController@store')->name('requests.store');
 Route::get('/requests/create', 'RequestsController@create')->name('requests.create');
 Route::get('/requests/{request}', 'RequestsController@show')->name('requests.show');
 Route::delete('/requests/{request}', 'RequestsController@destroy')->name('requests.destroy');
-
-Route::get('/balance', 'BalanceController@index')->name('balance.index');

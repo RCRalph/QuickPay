@@ -76,7 +76,9 @@
                             </div>
                         @endif
                     @else
+                    <div class="text-center">
                         No requests found
+                    </div>
                     @endif
                 </div>
             </div>

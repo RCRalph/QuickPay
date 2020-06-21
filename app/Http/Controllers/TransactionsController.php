@@ -77,7 +77,7 @@ class TransactionsController extends Controller
             $currency = Currency::find($transaction->currency_id);
             return view("transactions.show", compact("transaction", "sender", "recipient", "currency"));
         }
-        abort(404);
+        abort(403);
     }
 
     public function currency($currency)

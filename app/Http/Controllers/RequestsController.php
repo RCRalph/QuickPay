@@ -92,7 +92,7 @@ class RequestsController extends Controller
 
         $request = Request::findOrFail($request);
         if ($request->sender_id == auth()->user()->id || $request->reciever_id == auth()->user()->id) {
-            if ($data['btnAct'] == 'a') {
+            if ($data['btnAct'] == 'a' && $request->reciever_id == auth()->user()->id) {
                 $balance = app('App\Http\Controllers\BalanceController')->getBalance()->toArray();
                 $currency = Currency::findOrFail($request->currency_id);
                 if (array_key_exists($currency->id, $balance)) {
@@ -110,10 +110,8 @@ class RequestsController extends Controller
                 }
                 return redirect("/transactions");
             }
-            else {
-                $request->delete();
-                return redirect("/requests");
-            }
+            $request->delete();
+            return redirect("/requests");
         }
         abort(404);
     }

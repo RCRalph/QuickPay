@@ -6,7 +6,7 @@
         <div class="col-lg-12 mt-3">
             <div class="card">
                 <div class="card-header d-flex">
-                    <div class="mr-auto my-auto">Request #{{ $request->id }}</div>
+                    <div class="mr-auto my-auto font-weight-bold h2">Request #{{ $request->id }}</div>
                     <div class="d-flex">
                         <a role="button" class="btn btn-primary mr-3" href="/requests/create">New Request</a>
                         <a role="button" class="btn btn-primary" href="/requests">Show requests</a>
@@ -16,10 +16,10 @@
                 <div class="row">
                     <div class="card-body w-100 d-flex justify-content-between align-items-center mx-3">
                         <div class="card w-100">
-                            <div class="card-header text-center font-weight-bold h2 text-nowrap">Sender</div>
-                            <div class="card-body text-center d-flex flex-column justify-content-center align-items-center">
-                                <img src="https://i.pinimg.com/originals/81/6d/a5/816da533638aee63cfbd315ea24cccbd.jpg" class="rounded-circle" style="max-width: 75%; max-height: 225px;">
-                                <div class="mt-3 font-weight-bold h5">{{ $sender->username ?? "SuperUser" }}</div>
+                            <div class="card-header text-center font-weight-bold h2 text-nowrap">Payer</div>
+                            <div class="card-body text-center">
+                                <img src="https://pbs.twimg.com/media/D7dBfozUEAEkItp.jpg" class="rounded-circle" style="max-width: 75%; max-height: 225px;">
+                                <div class="mt-3 font-weight-bold h5">{{ $reciever->username }}</div>
                             </div>
                         </div>
 
@@ -29,9 +29,10 @@
 
                         <div class="card w-100">
                             <div class="card-header text-center font-weight-bold h2 text-nowrap">Reciever</div>
-                            <div class="card-body text-center">
-                                <img src="https://pbs.twimg.com/media/D7dBfozUEAEkItp.jpg" class="rounded-circle" style="max-width: 75%; max-height: 225px;">
-                                <div class="mt-3 font-weight-bold h5">{{ $reciever->username }}</div>
+
+                            <div class="card-body text-center d-flex flex-column justify-content-center align-items-center">
+                                <img src="https://i.pinimg.com/originals/81/6d/a5/816da533638aee63cfbd315ea24cccbd.jpg" class="rounded-circle" style="max-width: 75%; max-height: 225px;">
+                                <div class="mt-3 font-weight-bold h5">{{ $sender->username ?? "SuperUser" }}</div>
                             </div>
                         </div>
                     </div>
@@ -82,16 +83,18 @@
 							@endif
                             <hr>
                             <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <form method="POST" action="/requests/{{ $request->id }}" enctype="multipart/form-data">
-                                        @csrf
-                                        <input name="_method" type="hidden" value="DELETE">
-                                        <input type="hidden" name="btnAct" value="a">
-                                        <button type="submit" class="btn btn-block btn-success font-weight-bold" {{ $isDisabled ? 'disabled' : '' }}>Accept Request</button>
-                                    </form>
-                                </div>
+                                @if ($request->reciever_id == auth()->user()->id)
+                                    <div class="col-md-6 mb-3">
+                                        <form method="POST" action="/requests/{{ $request->id }}" enctype="multipart/form-data">
+                                            @csrf
+                                            <input name="_method" type="hidden" value="DELETE">
+                                            <input type="hidden" name="btnAct" value="a">
+                                            <button type="submit" class="btn btn-block btn-success font-weight-bold" {{ $isDisabled ? 'disabled' : '' }}>Accept Request</button>
+                                        </form>
+                                    </div>
+                                @endif
 
-                                <div class="col-md-6">
+                                <div class="col-md-{{ $request->reciever_id == auth()->user()->id ? '6' : '12' }}">
                                     <form method="POST" action="/requests/{{ $request->id }}" enctype="multipart/form-data">
                                         @csrf
                                         <input name="_method" type="hidden" value="DELETE">
