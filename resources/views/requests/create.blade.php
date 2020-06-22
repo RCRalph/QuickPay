@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header">{{ __('New Request') }}</div>
+                <div class="card-header font-weight-bold h2">{{ __('New Request') }}</div>
 
                 <div class="card-body w-100 {{count($currencies) == 0 ? 'd-flex justify-content-center align-items-center' : ''}}">
                     @if (count($currencies) > 0)

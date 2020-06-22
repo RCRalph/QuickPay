@@ -19,7 +19,7 @@
                             <div class="card w-100">
                                 <div class="card-header text-center font-weight-bold h2 text-nowrap">Payer</div>
                                 <div class="card-body text-center d-flex flex-column justify-content-center align-items-center">
-                                    <img src="/storage/{{ $reciever['picture'] ?? 'default-profile-picture.png' }}" class="rounded{{ $reciever['picture'] != null ? '-circle' : ''}}" style="max-width: 75%; max-height: 225px;">
+                                    <img src="/storage/{{ $reciever['picture'] }}" class="rounded{{ $reciever['picture'] != 'default-profile-picture.png' ? '-circle' : '' }}" style="max-width: 75%; max-height: 225px;">
                                     <div class="mt-3 font-weight-bold h5">{{ $reciever['username'] }}</div>
                                 </div>
                             </div>
@@ -33,7 +33,7 @@
                             <div class="card w-100">
                                 <div class="card-header text-center font-weight-bold h2 text-nowrap">Reciever</div>
                                 <div class="card-body text-center">
-                                    <img src="/storage/{{ $sender['picture'] ?? 'default-profile-picture.png' }}" class="rounded{{ $sender['picture'] != null ? '-circle' : ''}}" style="max-width: 75%; max-height: 225px;">
+                                    <img src="/storage/{{ $sender['picture'] }}" class="rounded{{ $sender['picture'] != 'default-profile-picture.png' ? '-circle' : '' }}" style="max-width: 75%; max-height: 225px;">
                                     <div class="mt-3 font-weight-bold h5">{{ $sender['username'] }}</div>
                                 </div>
                             </div>
@@ -86,7 +86,7 @@
 							@endif
                             <hr>
                             <div class="row">
-                                @if ($request->reciever_id == auth()->user()->id)
+                                @can ('complete', $request)
                                     <div class="col-md-6 mb-3">
                                         <form method="POST" action="/requests/{{ $request->id }}" enctype="multipart/form-data">
                                             @csrf
@@ -95,9 +95,9 @@
                                             <button type="submit" class="btn btn-block btn-success font-weight-bold" {{ $isDisabled ? 'disabled' : '' }}>Accept Request</button>
                                         </form>
                                     </div>
-                                @endif
+                                @endcan
 
-                                <div class="col-md-{{ $request->reciever_id == auth()->user()->id ? '6' : '12' }}">
+                                <div class="@can('complete', $request) col-md-6 @else col-md-12 @endcan">
                                     <form method="POST" action="/requests/{{ $request->id }}" enctype="multipart/form-data">
                                         @csrf
                                         <input name="_method" type="hidden" value="DELETE">

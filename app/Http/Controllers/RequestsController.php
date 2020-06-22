@@ -25,18 +25,25 @@ class RequestsController extends Controller
 
     public function show(Request $request)
     {
-        if ($request->sender_id == auth()->user()->id || $request->reciever_id == auth()->user()->id) {
-            $sender = User::find($request->sender_id);
-            $reciever = User::find($request->reciever_id);
-            $currency = Currency::find($request->currency_id);
+        $this->authorize("view", $request);
 
-            $balance = app('App\Http\Controllers\BalanceController')->getBalance()->toArray();
-            $isDisabled = array_key_exists($currency->id, $balance) ?
-                (floatval($request->amount) > $balance[$currency->id]) : true;
-
-            return view("requests.show", compact("request", "sender", "reciever", "currency", "isDisabled"));
+        $sender = User::find($request->sender_id);
+        if ($sender->picture == null) {
+            $sender->picture = "default-profile-picture.png";
         }
-        abort(404);
+
+        $reciever = User::find($request->reciever_id);
+        if ($reciever->picture == null) {
+            $reciever->picture = "default-profile-picture.png";
+        }
+
+        $currency = Currency::find($request->currency_id);
+
+        $balance = app('App\Http\Controllers\BalanceController')->getBalance()->toArray();
+        $isDisabled = array_key_exists($currency->id, $balance) ?
+            (floatval($request->amount) > $balance[$currency->id]) : true;
+
+        return view("requests.show", compact("request", "sender", "reciever", "currency", "isDisabled"));
     }
 
     public function create()
@@ -85,32 +92,33 @@ class RequestsController extends Controller
 
     public function destroy(Request $request)
     {
+        $this->authorize('view', $request);
+
         $data = request()->validate([
             'btnAct' => ['required', Rule::in(['a', 'd'])]
         ]);
 
-        if ($request->sender_id == auth()->user()->id || $request->reciever_id == auth()->user()->id) {
-            if ($data['btnAct'] == 'a' && $request->reciever_id == auth()->user()->id) {
-                $balance = app('App\Http\Controllers\BalanceController')->getBalance()->toArray();
-                $currency = Currency::findOrFail($request->currency_id);
-                if (array_key_exists($currency->id, $balance)) {
-                    if (floatval($request->amount) <= $balance[$currency->id]) {
-                        Transaction::create([
-                            "sender_id" => $request->reciever_id,
-                            "recipient_id" => $request->sender_id,
-                            "title" => $request->title,
-                            "description" => $request->description,
-                            "amount" => $request->amount,
-                            "currency_id" => $request->currency_id
-                        ]);
-                        $request->delete();
-                    }
+        if ($data['btnAct'] == 'a') {
+            $this->authorize('complete', $request);
+
+            $balance = app('App\Http\Controllers\BalanceController')->getBalance()->toArray();
+            $currency = Currency::findOrFail($request->currency_id);
+
+            if (array_key_exists($currency->id, $balance)) {
+                if (floatval($request->amount) <= $balance[$currency->id]) {
+                    Transaction::create([
+                        "sender_id" => $request->reciever_id,
+                        "recipient_id" => $request->sender_id,
+                        "title" => $request->title,
+                        "description" => $request->description,
+                        "amount" => $request->amount,
+                        "currency_id" => $request->currency_id
+                    ]);
                 }
-                return redirect("/transactions");
             }
-            $request->delete();
-            return redirect("/requests");
         }
-        abort(404);
+
+        $request->delete();
+        return redirect($data["btnAct"] == 'a' ? "/transactions" : "/requests");
     }
 }

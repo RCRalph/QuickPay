@@ -81,16 +81,25 @@ class TransactionsController extends Controller
             ];
         }
         else {
+            if ($sender->picture == null) {
+                $sender->picture = "default-profile-picture.png";
+            }
             $sender = $sender->toArray();
         }
 
         $recipient = User::find($transaction->recipient_id);
         if ($recipient == null) {
-            $recipient = collect([
+            $recipient = [
                 "id" => 0,
                 "username" => "SuperUser",
                 "picture" => "superuser.jpg"
-            ]);
+            ];
+        }
+        else {
+            if ($recipient->picture == null) {
+                $recipient->picture = "default-profile-picture.png";
+            }
+            $recipient = $recipient->toArray();
         }
 
         $currency = Currency::find($transaction->currency_id);

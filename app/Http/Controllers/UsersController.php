@@ -19,6 +19,10 @@ class UsersController extends Controller
 
     public function show(User $user)
     {
+        if ($user->picture == null) {
+            $user->picture = "default-profile-picture.png";
+        }
+
         $transactionCount = $user->transactionsRecipient->count() + $user->transactionsSender->count();
 
         return view("users.show", compact("user", "transactionCount"));

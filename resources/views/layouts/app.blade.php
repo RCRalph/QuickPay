@@ -68,7 +68,7 @@
                         @else
                             <li class="nav-item dropdown">
                                     <a id="navbarDropdown" class="nav-link dropdown-toggle p-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                        <img src="/storage/{{ auth()->user()->picture ?? 'default-profile-picture.png'}}" class="rounded-circle border border-primary mx-1 bg-white" style="height: 40px; width: 40px;">
+                                        <img src="/storage/{{ auth()->user()->picture ?? 'default-profile-picture.png'}}" class="rounded-circle mx-1 bg-white border" style="height: 40px; width: 40px;">
                                         <span class="caret"></span>
                                     </a>
 
