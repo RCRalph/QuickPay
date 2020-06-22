@@ -68,25 +68,42 @@ class TransactionsController extends Controller
         return redirect("/transactions");
     }
 
-    public function show($transaction)
+    public function show(Transaction $transaction)
     {
-        $transaction = Transaction::findOrFail($transaction);
-        if ($transaction->sender_id == auth()->user()->id || $transaction->recipient_id == auth()->user()->id) {
-            $sender = User::find($transaction->sender_id);
-            $recipient = User::find($transaction->recipient_id);
-            $currency = Currency::find($transaction->currency_id);
-            return view("transactions.show", compact("transaction", "sender", "recipient", "currency"));
+        $this->authorize("view", $transaction);
+
+        $sender = User::find($transaction->sender_id);
+        if ($sender == null) {
+            $sender = [
+                "id" => 0,
+                "username" => "SuperUser",
+                "picture" => "superuser.jpg"
+            ];
         }
-        abort(403);
+        else {
+            $sender = $sender->toArray();
+        }
+
+        $recipient = User::find($transaction->recipient_id);
+        if ($recipient == null) {
+            $recipient = collect([
+                "id" => 0,
+                "username" => "SuperUser",
+                "picture" => "superuser.jpg"
+            ]);
+        }
+
+        $currency = Currency::find($transaction->currency_id);
+
+        return view("transactions.show", compact("transaction", "sender", "recipient", "currency"));
     }
 
-    public function currency($currency)
+    public function currency(Currency $currency)
     {
-        $currencyData = Currency::findOrFail($currency);
         $tSender = auth()->user()->transactionsSender;
         $tRecipient = auth()->user()->transactionsRecipient;
-        $transactions = $tSender->merge($tRecipient)->where('currency_id', $currency)->sortByDesc("created_at");
+        $transactions = $tSender->merge($tRecipient)->where('currency_id', $currency->id)->sortByDesc("created_at");
 
-        return view('transactions.currency', compact('transactions', 'currencyData'));
+        return view('transactions.currency', compact('transactions', 'currency'));
     }
 }

@@ -23,9 +23,8 @@ class RequestsController extends Controller
         return view('requests.index', compact('sent', 'recieved'));
     }
 
-    public function show($request)
+    public function show(Request $request)
     {
-        $request = Request::findOrFail($request);
         if ($request->sender_id == auth()->user()->id || $request->reciever_id == auth()->user()->id) {
             $sender = User::find($request->sender_id);
             $reciever = User::find($request->reciever_id);
@@ -84,13 +83,12 @@ class RequestsController extends Controller
         }
     }
 
-    public function destroy($request)
+    public function destroy(Request $request)
     {
         $data = request()->validate([
             'btnAct' => ['required', Rule::in(['a', 'd'])]
         ]);
 
-        $request = Request::findOrFail($request);
         if ($request->sender_id == auth()->user()->id || $request->reciever_id == auth()->user()->id) {
             if ($data['btnAct'] == 'a' && $request->reciever_id == auth()->user()->id) {
                 $balance = app('App\Http\Controllers\BalanceController')->getBalance()->toArray();

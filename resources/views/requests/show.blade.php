@@ -15,26 +15,29 @@
 
                 <div class="row">
                     <div class="card-body w-100 d-flex justify-content-between align-items-center mx-3">
-                        <div class="card w-100">
-                            <div class="card-header text-center font-weight-bold h2 text-nowrap">Payer</div>
-                            <div class="card-body text-center">
-                                <img src="https://pbs.twimg.com/media/D7dBfozUEAEkItp.jpg" class="rounded-circle" style="max-width: 75%; max-height: 225px;">
-                                <div class="mt-3 font-weight-bold h5">{{ $reciever->username }}</div>
+                        <a href="{{ $reciever['id'] == 0 ? '#' : '/users/' . $reciever['id'] }}" class="text-decoration-none w-100 text-dark">
+                            <div class="card w-100">
+                                <div class="card-header text-center font-weight-bold h2 text-nowrap">Payer</div>
+                                <div class="card-body text-center d-flex flex-column justify-content-center align-items-center">
+                                    <img src="/storage/{{ $reciever['picture'] ?? 'default-profile-picture.png' }}" class="rounded{{ $reciever['picture'] != null ? '-circle' : ''}}" style="max-width: 75%; max-height: 225px;">
+                                    <div class="mt-3 font-weight-bold h5">{{ $reciever['username'] }}</div>
+                                </div>
                             </div>
-                        </div>
+                        </a>
 
                         <div class="display-1 my-0 py-0 mx-4 text-primary">
                             <i class="fa fa-arrow-right" aria-hidden="true"></i>
                         </div>
 
-                        <div class="card w-100">
-                            <div class="card-header text-center font-weight-bold h2 text-nowrap">Reciever</div>
-
-                            <div class="card-body text-center d-flex flex-column justify-content-center align-items-center">
-                                <img src="https://i.pinimg.com/originals/81/6d/a5/816da533638aee63cfbd315ea24cccbd.jpg" class="rounded-circle" style="max-width: 75%; max-height: 225px;">
-                                <div class="mt-3 font-weight-bold h5">{{ $sender->username ?? "SuperUser" }}</div>
+                        <a href="{{ $sender['id'] == 0 ? '#' : '/users/' .  $sender['id'] }}" class="text-decoration-none w-100 text-dark">
+                            <div class="card w-100">
+                                <div class="card-header text-center font-weight-bold h2 text-nowrap">Reciever</div>
+                                <div class="card-body text-center">
+                                    <img src="/storage/{{ $sender['picture'] ?? 'default-profile-picture.png' }}" class="rounded{{ $sender['picture'] != null ? '-circle' : ''}}" style="max-width: 75%; max-height: 225px;">
+                                    <div class="mt-3 font-weight-bold h5">{{ $sender['username'] }}</div>
+                                </div>
                             </div>
-                        </div>
+                        </a>
                     </div>
                 </div>
 

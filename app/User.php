@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'username', 'email', 'password',
+        'username', 'email', 'password', 'picture'
     ];
 
     /**
@@ -37,14 +37,30 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::created(function ($user) {
+            Transaction::create([
+                "sender_id" => 0,
+                "recipient_id" => $user->id,
+                "title" => "Welcome to QuickPay",
+                "description" => "Welcome to QuickPay. Here is 100 EUR to get you going.",
+                "amount" => 100,
+                "currency_id" => 2
+            ]);
+        });
+    }
+
     public function transactionsSender()
     {
-        return $this->hasMany(Transaction::class, "sender_id")->latest();
+        return $this->hasMany(Transaction::class, "sender_id");
     }
 
     public function transactionsRecipient()
     {
-        return $this->hasMany(Transaction::class, "recipient_id")->latest();
+        return $this->hasMany(Transaction::class, "recipient_id");
     }
 
     public function requestsSender()

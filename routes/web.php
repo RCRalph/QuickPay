@@ -23,11 +23,13 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/balance', 'BalanceController@index')->name('balance.index');
 
 Route::get('/users/{user}', 'UsersController@show')->name('users.show');
+Route::get('/users/{user}/edit', 'UsersController@edit')->name('users.edit');
+Route::patch('/users/{user}', 'UsersController@update')->name('users.update');
 
 Route::get('/transactions', 'TransactionsController@index')->name('transactions.index');
 Route::post('/transactions', 'TransactionsController@store')->name('transactions.store');
 Route::get('/transactions/create', 'TransactionsController@create')->name('transactions.create');
-Route::get('/transactions/currency/{transaction}', 'TransactionsController@currency')->name('transactions.currency');
+Route::get('/transactions/currency/{currency}', 'TransactionsController@currency')->name('transactions.currency');
 Route::get('/transactions/{transaction}', 'TransactionsController@show')->name('transactions.show');
 
 Route::get('/requests', 'RequestsController@index')->name('requests.index');

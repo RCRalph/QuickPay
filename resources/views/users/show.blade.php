@@ -7,15 +7,15 @@
             <div class="card">
                 <div class="card-header d-flex">
                     <div class="mr-auto my-auto font-weight-bold h2">User #{{ $user->id }}</div>
-                    @if ($user->id == auth()->user()->id)
-                    <a role="button" class="btn btn-primary" href="/requests/create">Edit profile</a>
-                    @endif
+                    @can('update', $user)
+                        <a role="button" class="btn btn-primary" href="/users/{{ $user->id }}/edit">Edit profile</a>
+                    @endcan
                 </div>
 
                 <div class="card-body">
                     <div class="row">
                         <div class="col-lg-5 text-center mb-3">
-                            <img src="https://pbs.twimg.com/media/D7dBfozUEAEkItp.jpg" class="rounded-circle" style="max-width: 100%; max-height: 400px;">
+                            <img src="/storage/{{ $user->picture ?? 'default-profile-picture.png' }}" class="rounded{{ $user->picture != null ? '-circle' : '' }}" style="max-width: 100%; max-height: 400px;">
                         </div>
                         <div class="col-lg-7 d-flex align-items-center">
                             <div class="card w-100">
@@ -34,7 +34,7 @@
                                     </div>
                                     <hr>
                                     <div class="row">
-                                        <div class="h4 col-6 text-right font-weight-bold my-auto">Completed transactions:</div>
+                                        <div class="h4 col-6 text-right font-weight-bold my-auto">Transactions completed:</div>
                                         <div class="h4 col-6 my-auto">{{ $transactionCount }}</div>
                                     </div>
                                 </div>

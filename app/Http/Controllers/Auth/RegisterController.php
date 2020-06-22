@@ -71,15 +71,6 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
         ]);
 
-        Transaction::create([
-           "sender_id" => 0,
-           "recipient_id" => User::where("username", "=", $data["username"])->first()->id,
-           "title" => "Welcome to QuickPay",
-           "description" => "Welcome to QuickPay. Here is 100 EUR to get you going.",
-           "amount" => 100,
-           "currency_id" => 2
-        ]);
-
         return $user;
     }
 }
