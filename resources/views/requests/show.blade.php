@@ -26,7 +26,7 @@
                         </a>
 
                         <div class="display-1 my-0 py-0 mx-4 text-primary">
-                            <i class="fa fa-arrow-right" aria-hidden="true"></i>
+							<i class="fas fa-long-arrow-alt-right"></i>
                         </div>
 
                         <a href="{{ $sender['id'] == 0 ? '#' : '/users/' .  $sender['id'] }}" class="text-decoration-none w-100 text-dark">
