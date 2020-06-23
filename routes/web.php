@@ -20,7 +20,9 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
 Route::get('/balance', 'BalanceController@index')->name('balance.index');
+Route::get('/balance/exchange', 'BalanceController@exchange')->name('balance.exchange');
 
 Route::get('/users/{user}', 'UsersController@show')->name('users.show');
 Route::get('/users/{user}/edit', 'UsersController@edit')->name('users.edit');

@@ -5,7 +5,10 @@
     <div class="row justify-content-center">
         <div class="col-lg-12 mt-3">
             <div class="card">
-                <div class="card-header font-weight-bold h2">Account Balance</div>
+                <div class="card-header d-flex">
+					<div class="mr-auto my-auto font-weight-bold h2">Account Balance</div>
+                    <a role="button" class="btn btn-primary" href="/balance/exchange">Exchange Currencies</a>
+				</div>
 
                 <div class="card-body w-100 d-flex justify-content-center align-items-center">
                     @if ($balance->count() > 0)

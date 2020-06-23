@@ -1247,6 +1247,65 @@
         ]
     },
     {
+        "name": "laracasts/utilities",
+        "version": "3.1",
+        "version_normalized": "3.1.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/laracasts/PHP-Vars-To-Js-Transformer.git",
+            "reference": "7c5eb11221de608eef8c70c2d3540c8cd80466e3"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/laracasts/PHP-Vars-To-Js-Transformer/zipball/7c5eb11221de608eef8c70c2d3540c8cd80466e3",
+            "reference": "7c5eb11221de608eef8c70c2d3540c8cd80466e3",
+            "shasum": ""
+        },
+        "require": {
+            "illuminate/support": "^5.0|^6.0|^7.0",
+            "php": ">=5.5.0|>=7.2.5"
+        },
+        "require-dev": {
+            "phpspec/phpspec": "~2.0"
+        },
+        "time": "2020-03-03T16:07:08+00:00",
+        "type": "library",
+        "extra": {
+            "laravel": {
+                "providers": [
+                    "Laracasts\\Utilities\\JavaScript\\JavaScriptServiceProvider"
+                ],
+                "aliases": {
+                    "JavaScript": "Laracasts\\Utilities\\JavaScript\\JavaScriptFacade"
+                }
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "files": [
+                "src/helpers.php"
+            ],
+            "psr-4": {
+                "Laracasts\\Utilities\\JavaScript\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Jeffrey Way",
+                "email": "jeffrey@laracasts.com"
+            }
+        ],
+        "description": "Transform your PHP to JavaScript",
+        "keywords": [
+            "javascript",
+            "laravel"
+        ]
+    },
+    {
         "name": "laravel/framework",
         "version": "v7.15.0",
         "version_normalized": "7.15.0.0",

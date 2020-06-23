@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Currency;
+use JavaScript;
 
 class BalanceController extends Controller
 {
@@ -65,6 +66,23 @@ class BalanceController extends Controller
 			$currencyData[$currency["id"]] = ["ISO_4217" => $currency["ISO_4217"], "name" => $currency["name"]];
         }
 
-        return view('balance', compact('balance', 'currencyData'));
+        return view('balance.index', compact('balance', 'currencyData'));
+    }
+
+    public function exchange()
+    {
+        $balance = $this->getBalance()->toArray();
+        foreach ($balance as $currency => $amount) {
+            if ($amount <= 0) {
+                unset($balance[$currency]);
+            }
+        }
+
+        JavaScript::put([
+            "balance" => $balance
+        ]);
+        $balance = collect($balance);
+
+        return view('balance.exchange', compact('balance'));
     }
 }

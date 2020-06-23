@@ -48,7 +48,18 @@
                         </div>
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-md-6 mb-3">
+								<div class="col-lg-4 mb-3">
+									<div class="card">
+										<div class="card-header text-center font-weight-bold h4">
+											Created at
+										</div>
+										<div class="card-body text-center">
+											{{ DateTime::createFromFormat("yy-m-d G:i:s", $request->created_at)->format("yy-m-d G:i") }}
+										</div>
+									</div>
+								</div>
+
+                                <div class="col-lg-4 mb-3">
                                     <div class="card">
                                         <div class="card-header text-center font-weight-bold h4">
                                             Title
@@ -59,13 +70,13 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-6 {{ $request->description != null ? 'mb-3' : '' }}">
+                                <div class="col-lg-4 {{ $request->description != null ? 'mb-3' : '' }}">
                                     <div class="card">
                                         <div class="card-header text-center font-weight-bold h4">
                                             Amount
                                         </div>
                                         <div class="card-body text-center font-weight-bold text-primary">
-                                        {{ number_format($request->amount, 2, ".", " ") }} {{ $currency->ISO_4217 }}
+                                        	{{ number_format($request->amount, 2, ".", " ") }} {{ $currency->ISO_4217 }}
                                         </div>
                                     </div>
                                 </div>

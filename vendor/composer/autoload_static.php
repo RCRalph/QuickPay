@@ -35,6 +35,7 @@ class ComposerStaticInit39ffbf429259dc42796c4ff6840fde1b
         'ed962a97bd972bc82007176b647d4e36' => __DIR__ . '/..' . '/facade/ignition/src/helpers.php',
         '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
         'b6b991a57620e2fb6b2f66f03fe9ddc2' => __DIR__ . '/..' . '/symfony/string/Resources/functions.php',
+        '6292c1671f9440c89e0af20a0f78754a' => __DIR__ . '/..' . '/laracasts/utilities/src/helpers.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -131,6 +132,7 @@ class ComposerStaticInit39ffbf429259dc42796c4ff6840fde1b
             'Laravel\\Ui\\' => 11,
             'Laravel\\Tinker\\' => 15,
             'Laravel\\Telescope\\' => 18,
+            'Laracasts\\Utilities\\JavaScript\\' => 31,
         ),
         'I' => 
         array (
@@ -404,6 +406,10 @@ class ComposerStaticInit39ffbf429259dc42796c4ff6840fde1b
         array (
             0 => __DIR__ . '/..' . '/laravel/telescope/src',
         ),
+        'Laracasts\\Utilities\\JavaScript\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/laracasts/utilities/src',
+        ),
         'Intervention\\Image\\' => 
         array (
             0 => __DIR__ . '/..' . '/intervention/image/src/Intervention/Image',
@@ -544,6 +550,8 @@ class ComposerStaticInit39ffbf429259dc42796c4ff6840fde1b
         'App\\Http\\Middleware\\TrustHosts' => __DIR__ . '/../..' . '/app/Http/Middleware/TrustHosts.php',
         'App\\Http\\Middleware\\TrustProxies' => __DIR__ . '/../..' . '/app/Http/Middleware/TrustProxies.php',
         'App\\Http\\Middleware\\VerifyCsrfToken' => __DIR__ . '/../..' . '/app/Http/Middleware/VerifyCsrfToken.php',
+        'App\\Policies\\RequestPolicy' => __DIR__ . '/../..' . '/app/Policies/RequestPolicy.php',
+        'App\\Policies\\TransactionPolicy' => __DIR__ . '/../..' . '/app/Policies/TransactionPolicy.php',
         'App\\Policies\\UserPolicy' => __DIR__ . '/../..' . '/app/Policies/UserPolicy.php',
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',
         'App\\Providers\\AuthServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AuthServiceProvider.php',
@@ -2547,6 +2555,13 @@ class ComposerStaticInit39ffbf429259dc42796c4ff6840fde1b
         'Intervention\\Image\\Response' => __DIR__ . '/..' . '/intervention/image/src/Intervention/Image/Response.php',
         'Intervention\\Image\\Size' => __DIR__ . '/..' . '/intervention/image/src/Intervention/Image/Size.php',
         'JsonException' => __DIR__ . '/..' . '/symfony/polyfill-php73/Resources/stubs/JsonException.php',
+        'Laracasts\\Utilities\\JavaScript\\JavaScriptFacade' => __DIR__ . '/..' . '/laracasts/utilities/src/JavaScriptFacade.php',
+        'Laracasts\\Utilities\\JavaScript\\JavaScriptServiceProvider' => __DIR__ . '/..' . '/laracasts/utilities/src/JavaScriptServiceProvider.php',
+        'Laracasts\\Utilities\\JavaScript\\LaravelViewBinder' => __DIR__ . '/..' . '/laracasts/utilities/src/LaravelViewBinder.php',
+        'Laracasts\\Utilities\\JavaScript\\Transformers\\DefaultTransformer' => __DIR__ . '/..' . '/laracasts/utilities/src/Transformers/DefaultTransformer.php',
+        'Laracasts\\Utilities\\JavaScript\\Transformers\\ObjectTransformer' => __DIR__ . '/..' . '/laracasts/utilities/src/Transformers/ObjectTransformer.php',
+        'Laracasts\\Utilities\\JavaScript\\Transformers\\Transformer' => __DIR__ . '/..' . '/laracasts/utilities/src/Transformers/Transformer.php',
+        'Laracasts\\Utilities\\JavaScript\\ViewBinder' => __DIR__ . '/..' . '/laracasts/utilities/src/ViewBinder.php',
         'Laravel\\Telescope\\AuthorizesRequests' => __DIR__ . '/..' . '/laravel/telescope/src/AuthorizesRequests.php',
         'Laravel\\Telescope\\Avatar' => __DIR__ . '/..' . '/laravel/telescope/src/Avatar.php',
         'Laravel\\Telescope\\Console\\ClearCommand' => __DIR__ . '/..' . '/laravel/telescope/src/Console/ClearCommand.php',

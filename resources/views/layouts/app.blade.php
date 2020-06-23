@@ -39,16 +39,28 @@
                     <ul class="navbar-nav mr-auto">
                         @auth
                         <li class="nav-item">
-                            <a id="homeView" class="nav-link" href="/home">{{ __('Home') }}</a>
+                            <a id="homeView" class="nav-link" href="/home">
+								<i class="fas fa-home"></i>
+								{{ __('Home') }}
+							</a>
                         </li>
                         <li class="nav-item">
-                            <a id="balanceView" class="nav-link" href="/balance">{{ __('Account Balance') }}</a>
+                            <a id="balanceView" class="nav-link" href="/balance">
+								<i class="fas fa-file-invoice-dollar"></i>
+								{{ __('Account Balance') }}
+							</a>
                         </li>
                         <li class="nav-item">
-                            <a id="requestsView" class="nav-link" href="/requests">{{ __('Requests') }}</a>
+                            <a id="requestsView" class="nav-link" href="/requests">
+								<i class="fas fa-hand-holding-usd"></i>
+								{{ __('Requests') }}
+							</a>
                         </li>
                         <li class="nav-item">
-                            <a id="transactionsView" class="nav-link" href="/transactions">{{ __('Transactions') }}</a>
+                            <a id="transactionsView" class="nav-link" href="/transactions">
+								<i class="fas fa-exchange-alt"></i>
+								{{ __('Transactions') }}
+							</a>
                         </li>
                         @endauth
                     </ul>
