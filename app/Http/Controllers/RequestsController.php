@@ -62,7 +62,7 @@ class RequestsController extends Controller
 			],
             'title' => ['required', 'string', 'max:255'],
             'description' => ['max:2047'],
-            'amount' => ['required', 'numeric'],
+            'amount' => ['required', 'numeric', 'min:0', 'not_in:0'],
             'currency' => ['required', 'integer', 'exists:currencies,id']
         ]);
 
@@ -72,7 +72,7 @@ class RequestsController extends Controller
                 "recipient_id" => auth()->user()->id,
                 "title" => $data["title"],
                 "description" => $data["description"],
-                "amount" => $data["amount"],
+                "amount" => floor($data["amount"] * 100) / 100,
                 "currency_id" => $data["currency"]
             ]);
             return redirect("/transactions");
@@ -83,7 +83,7 @@ class RequestsController extends Controller
                 "reciever_id" => User::where("username", "=", $data["username"])->first()->id,
                 "title" => $data["title"],
                 "description" => $data["description"],
-                "amount" => $data["amount"],
+                "amount" => floor($data["amount"] * 100) / 100,
                 "currency_id" => $data["currency"]
             ]);
             return redirect("/requests");

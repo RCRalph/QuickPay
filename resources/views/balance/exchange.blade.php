@@ -8,7 +8,7 @@
                 <div class="card-header font-weight-bold h2">Exchange Currencies</div>
 
                 <div class="card-body w-100 d-flex justify-content-center align-items-center">
-                    @if ($balance->count() > 0)
+                    @if ($canExchange)
                         <div id="currency" class="w-100"></div>
                     @else
                         Not enough money
@@ -18,4 +18,8 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('script')
+	<script src="{{ asset('js/exchange.js') }}" defer></script>
 @endsection

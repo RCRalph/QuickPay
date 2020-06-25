@@ -71,18 +71,21 @@ class BalanceController extends Controller
 
     public function exchange()
     {
-        $balance = $this->getBalance()->toArray();
+        $balance = $this->getBalance()->sortBy("id")->toArray();
         foreach ($balance as $currency => $amount) {
             if ($amount <= 0) {
                 unset($balance[$currency]);
             }
-        }
+		}
+		$canExchange = count($balance);
 
-        JavaScript::put([
-            "balance" => $balance
-        ]);
-        $balance = collect($balance);
+		if ($canExchange) {
+			JavaScript::put([
+				"balance" => $balance,
+				"currencies" => Currency::all()->toArray()
+			]);
+		}
 
-        return view('balance.exchange', compact('balance'));
+        return view('balance.exchange', compact('canExchange'));
     }
 }

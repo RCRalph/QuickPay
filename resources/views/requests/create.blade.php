@@ -68,7 +68,7 @@
                                         @enderror
                                     </div>
                                     <div class="col-md-3 ml-auto">
-                                        <select id="currency" class="form-control @error('currency') is-invalid @enderror" name="currency" value="{{ old('currency') }}" autocomplete="currency">
+                                        <select id="currency" class="form-control @error('amount') is-invalid @enderror" name="currency" value="{{ old('currency') }}" autocomplete="currency">
                                             @foreach ($currencies as $currency)
                                                 <option value="{{ $currency->id }}" {{ $currency->id == old('currency') ? "selected" : "" }}>{{ $currency->ISO_4217 }}</option>
                                             @endforeach

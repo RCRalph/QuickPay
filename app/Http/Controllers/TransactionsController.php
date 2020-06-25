@@ -52,7 +52,7 @@ class TransactionsController extends Controller
 			],
             'title' => ['required', 'string', 'max:255'],
             'description' => ['max:2047'],
-            'amount' => ['required', 'numeric', 'check_balance:amount,currency'],
+            'amount' => ['required', 'numeric', 'check_balance:amount,currency', 'min:0', 'not_in:0'],
             'currency' => ['required', 'integer', 'exists:currencies,id']
         ]);
 
@@ -61,7 +61,7 @@ class TransactionsController extends Controller
             "recipient_id" => User::where("username", "=", $data["username"])->first()->id,
             "title" => $data["title"],
             "description" => $data["description"],
-            "amount" => $data["amount"],
+            "amount" => floor($data["amount"] * 100) / 100,
             "currency_id" => $data["currency"]
         ]);
 
