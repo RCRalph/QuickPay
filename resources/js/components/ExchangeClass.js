@@ -15,11 +15,11 @@ class Currency extends React.Component {
 			avaliableCurrencies: Object.keys(balance).map(item => {
 				return currencies[parseInt(item, 10) - 1];
 			}),
-			exchangeRates: {"EURUSD": 0.9},
-			currentValueLeft: "0",
-			currentValueRight: "0",
-			currentCurrencyLeft: "1",
-			currentCurrencyRight: "1"
+			exchangeRates: {"EURUSD": 1.1, "USDEUR": 0.9},
+			currentValueLeft: 0,
+			currentValueRight: 0,
+			currentCurrencyLeft: 1,
+			currentCurrencyRight: 1
 		}
 		this.handleCurrencies = this.handleCurrencies.bind(this);
 		this.handleValues = this.handleValues.bind(this);
@@ -33,20 +33,75 @@ class Currency extends React.Component {
 	}
 
 	handleCurrencies(event) {
-		if (event.currentTarget.id == "currenciesLeft") {
-			this.setState({
-				currentCurrencyLeft: event.currentTarget.value
-			});
+		const target = event.currentTarget;
+		let changedCurrencies = [this.state.currentCurrencyLeft, this.state.currentCurrencyRight];
+
+		if (target.id == "currenciesLeft") {
+			changedCurrencies[0] = parseInt(target.value);
+			changedCurrencies[1] = parseInt(changedCurrencies[0] == changedCurrencies[1] ?
+				(changedCurrencies[0] == 1 ? "2" : "1") :
+				changedCurrencies[1]);
 		}
 		else {
-			this.setState({
-				currentCurrencyRight: event.currentTarget.value
-			});
+			changedCurrencies[1] = parseInt(target.value != this.state.currentCurrencyLeft ?
+				target.value :
+				(this.state.currentCurrencyLeft == 1 ? "2" : "1"));
 		}
+
+		const exchangeName = this.state.currencies[changedCurrencies[0] - 1].ISO_4217 + this.state.currencies[changedCurrencies[1] - 1].ISO_4217;
+		let exchangeValue;
+		if (!(exchangeName in this.state.exchangeRates)) {
+			//makeAPICall()
+		}
+		else {
+			exchangeValue = this.state.exchangeRates[exchangeName];
+		}
+
+		let values = {
+			left: this.state.currentValueLeft,
+			right: this.state.currentValueRight
+		}
+
+		if (target.id == "currenciesLeft") {
+			values.left = values.left > this.state.balance[changedCurrencies[0]] ?
+				this.state.balance[changedCurrencies[0]] :
+				values.left;
+		}
+		values.right = values.left * exchangeValue;
+
+		this.setState({
+			currentValueLeft: values.left,
+			currentValueRight: values.right,
+			currentCurrencyLeft: changedCurrencies[0],
+			currentCurrencyRight: changedCurrencies[1],
+			exchangeRates: {
+				...this.state.exchangeRates,
+				[exchangeName]: exchangeValue
+			}
+		});
 	}
 
 	handleValues(event) {
+		const target = event.currentTarget;
+		if (target.id == "valueLeft") {
+			let valueLeft = 0;
+			if (target.value > balance[this.state.currentCurrencyLeft]) {
+				valueLeft = balance[this.state.currentCurrencyLeft];
+			}
+			else if (target.value < 0) {
+				valueLeft = 0;
+			}
+			else {
+				valueLeft = Math.round(target.value * 100) / 100;
+			}
 
+			this.setState({
+				currentValueLeft: valueLeft
+			});
+		}
+		else {
+
+		}
 	}
 
 	render() {
@@ -73,13 +128,13 @@ class Currency extends React.Component {
 			<form>
 				<div className="row">
 					<div className="w-100 d-flex justify-content-between align-items-center mx-3">
-						<Block {...dataLeft} handleCurrencies={this.handleCurrencies} />
+						<Block {...dataLeft} handleValues={this.handleValues} handleCurrencies={this.handleCurrencies} />
 
 						<div className="display-1 my-0 py-0 mx-4 text-primary">
 							<FontAwesomeIcon icon={faLongArrowAltRight} />
 						</div>
 
-						<Block {...dataRight} handleCurrencies={this.handleCurrencies} />
+						<Block {...dataRight} handleValues={this.handleValues} handleCurrencies={this.handleCurrencies} />
 					</div>
 				</div>
 

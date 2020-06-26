@@ -4,7 +4,7 @@ function Block(props) {
 	return (
 		<div className="w-100 row">
 			<div className="col-lg-7">
-				<input type="number" step="0.01" id={props.id} className="form-control" placeholder={props.placeholder} value={props.currentValue}/>
+				<input type="number" step="0.01" id={props.id} className="form-control" placeholder={props.placeholder} value={props.currentValue} onChange={props.handleValues} />
 			</div>
 
 			<div className="col-lg-4 ml-auto">

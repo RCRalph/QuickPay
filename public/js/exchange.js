@@ -34829,7 +34829,8 @@ function Block(props) {
     id: props.id,
     className: "form-control",
     placeholder: props.placeholder,
-    value: props.currentValue
+    value: props.currentValue,
+    onChange: props.handleValues
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "col-lg-4 ml-auto"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
@@ -34900,6 +34901,55 @@ function _extends() {
   };
 
   return _extends.apply(this, arguments);
+}
+
+function ownKeys(object, enumerableOnly) {
+  var keys = Object.keys(object);
+
+  if (Object.getOwnPropertySymbols) {
+    var symbols = Object.getOwnPropertySymbols(object);
+    if (enumerableOnly) symbols = symbols.filter(function (sym) {
+      return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+    });
+    keys.push.apply(keys, symbols);
+  }
+
+  return keys;
+}
+
+function _objectSpread(target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = arguments[i] != null ? arguments[i] : {};
+
+    if (i % 2) {
+      ownKeys(Object(source), true).forEach(function (key) {
+        _defineProperty(target, key, source[key]);
+      });
+    } else if (Object.getOwnPropertyDescriptors) {
+      Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
+    } else {
+      ownKeys(Object(source)).forEach(function (key) {
+        Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+      });
+    }
+  }
+
+  return target;
+}
+
+function _defineProperty(obj, key, value) {
+  if (key in obj) {
+    Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+  } else {
+    obj[key] = value;
+  }
+
+  return obj;
 }
 
 function _classCallCheck(instance, Constructor) {
@@ -35027,12 +35077,13 @@ var Currency = /*#__PURE__*/function (_React$Component) {
         return currencies[parseInt(item, 10) - 1];
       }),
       exchangeRates: {
-        "EURUSD": 0.9
+        "EURUSD": 1.1,
+        "USDEUR": 0.9
       },
-      currentValueLeft: "0",
-      currentValueRight: "0",
-      currentCurrencyLeft: "1",
-      currentCurrencyRight: "1"
+      currentValueLeft: 0,
+      currentValueRight: 0,
+      currentCurrencyLeft: 1,
+      currentCurrencyRight: 1
     };
     _this.handleCurrencies = _this.handleCurrencies.bind(_assertThisInitialized(_this));
     _this.handleValues = _this.handleValues.bind(_assertThisInitialized(_this));
@@ -35050,19 +35101,63 @@ var Currency = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "handleCurrencies",
     value: function handleCurrencies(event) {
-      if (event.currentTarget.id == "currenciesLeft") {
-        this.setState({
-          currentCurrencyLeft: event.currentTarget.value
-        });
+      var target = event.currentTarget;
+      var changedCurrencies = [this.state.currentCurrencyLeft, this.state.currentCurrencyRight];
+
+      if (target.id == "currenciesLeft") {
+        changedCurrencies[0] = parseInt(target.value);
+        changedCurrencies[1] = parseInt(changedCurrencies[0] == changedCurrencies[1] ? changedCurrencies[0] == 1 ? "2" : "1" : changedCurrencies[1]);
       } else {
-        this.setState({
-          currentCurrencyRight: event.currentTarget.value
-        });
+        changedCurrencies[1] = parseInt(target.value != this.state.currentCurrencyLeft ? target.value : this.state.currentCurrencyLeft == 1 ? "2" : "1");
       }
+
+      var exchangeName = this.state.currencies[changedCurrencies[0] - 1].ISO_4217 + this.state.currencies[changedCurrencies[1] - 1].ISO_4217;
+      var exchangeValue;
+
+      if (!(exchangeName in this.state.exchangeRates)) {//makeAPICall()
+      } else {
+        exchangeValue = this.state.exchangeRates[exchangeName];
+      }
+
+      var values = {
+        left: this.state.currentValueLeft,
+        right: this.state.currentValueRight
+      };
+
+      if (target.id == "currenciesLeft") {
+        values.left = values.left > this.state.balance[changedCurrencies[0]] ? this.state.balance[changedCurrencies[0]] : values.left;
+      }
+
+      values.right = values.left * exchangeValue;
+      this.setState({
+        currentValueLeft: values.left,
+        currentValueRight: values.right,
+        currentCurrencyLeft: changedCurrencies[0],
+        currentCurrencyRight: changedCurrencies[1],
+        exchangeRates: _objectSpread(_objectSpread({}, this.state.exchangeRates), {}, _defineProperty({}, exchangeName, exchangeValue))
+      });
     }
   }, {
     key: "handleValues",
-    value: function handleValues(event) {}
+    value: function handleValues(event) {
+      var target = event.currentTarget;
+
+      if (target.id == "valueLeft") {
+        var valueLeft = 0;
+
+        if (target.value > balance[this.state.currentCurrencyLeft]) {
+          valueLeft = balance[this.state.currentCurrencyLeft];
+        } else if (target.value < 0) {
+          valueLeft = 0;
+        } else {
+          valueLeft = Math.round(target.value * 100) / 100;
+        }
+
+        this.setState({
+          currentValueLeft: valueLeft
+        });
+      } else {}
+    }
   }, {
     key: "render",
     value: function render() {
@@ -35088,12 +35183,14 @@ var Currency = /*#__PURE__*/function (_React$Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "w-100 d-flex justify-content-between align-items-center mx-3"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ExchangeBlock__WEBPACK_IMPORTED_MODULE_4__["default"], _extends({}, dataLeft, {
+        handleValues: this.handleValues,
         handleCurrencies: this.handleCurrencies
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "display-1 my-0 py-0 mx-4 text-primary"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_fortawesome_react_fontawesome__WEBPACK_IMPORTED_MODULE_2__["FontAwesomeIcon"], {
         icon: _fortawesome_fontawesome_free_solid__WEBPACK_IMPORTED_MODULE_3__["faLongArrowAltRight"]
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ExchangeBlock__WEBPACK_IMPORTED_MODULE_4__["default"], _extends({}, dataRight, {
+        handleValues: this.handleValues,
         handleCurrencies: this.handleCurrencies
       })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "row"
