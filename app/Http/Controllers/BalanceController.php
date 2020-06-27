@@ -58,7 +58,8 @@ class BalanceController extends Controller
      */
     public function index()
     {
-        $balance = $this->getBalance();
+		$balance = $this->getBalance();
+
 		//get currency info
 		$currencies = Currency::find(array_keys($balance->toArray()))->toArray();
 		$currencyData = [];
@@ -82,7 +83,8 @@ class BalanceController extends Controller
 		if ($canExchange) {
 			JavaScript::put([
 				"balance" => $balance,
-				"currencies" => Currency::all()->toArray()
+				"currencies" => Currency::all()->toArray(),
+				"exchangeKey" => config("app.fixer_io_key")
 			]);
 		}
 

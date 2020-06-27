@@ -35073,17 +35073,16 @@ var Currency = /*#__PURE__*/function (_React$Component) {
     _this.state = {
       balance: balance,
       currencies: currencies,
+      exchangeKey: exchangeKey,
       avaliableCurrencies: Object.keys(balance).map(function (item) {
         return currencies[parseInt(item, 10) - 1];
       }),
-      exchangeRates: {
-        "EURUSD": 1.1,
-        "USDEUR": 0.9
-      },
+      exchangeRates: {},
       currentValueLeft: 0,
       currentValueRight: 0,
       currentCurrencyLeft: 1,
-      currentCurrencyRight: 1
+      currentCurrencyRight: 1,
+      currentExchangeRate: 1
     };
     _this.handleCurrencies = _this.handleCurrencies.bind(_assertThisInitialized(_this));
     _this.handleValues = _this.handleValues.bind(_assertThisInitialized(_this));
@@ -35093,9 +35092,34 @@ var Currency = /*#__PURE__*/function (_React$Component) {
   _createClass(Currency, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      this.setState({
-        currentCurrencyLeft: this.state.avaliableCurrencies[0].id,
-        currentCurrencyRight: this.state.avaliableCurrencies[0].id == 1 ? this.state.currencies[1].id : 1
+      var _this2 = this;
+
+      var currencies = {
+        left: this.state.avaliableCurrencies[0].id,
+        right: this.state.avaliableCurrencies[0].id == 1 ? this.state.currencies[1].id : 1
+      };
+      var fetchLink = "http://data.fixer.io/api/latest?access_key=" + this.state.exchangeKey + "&symbols=" + this.state.currencies.map(function (item) {
+        return item.ISO_4217 != "EUR" ? item.ISO_4217 : "";
+      }).filter(function (item) {
+        return item != "";
+      }).join(",") + "&format=1";
+      fetch(fetchLink).then(function (data) {
+        return data.json();
+      }).then(function (data) {
+        var rates = _objectSpread(_objectSpread({}, data.rates), {}, {
+          EUR: 1
+        });
+
+        var currentRate = rates[_this2.state.currencies[currencies.right - 1].ISO_4217] / rates[_this2.state.currencies[currencies.left - 1].ISO_4217];
+
+        _this2.setState({
+          currentCurrencyLeft: currencies.left,
+          currentCurrencyRight: currencies.right,
+          exchangeRates: rates,
+          currentExchangeRate: currentRate
+        });
+      })["catch"](function (error) {
+        return console.log(error);
       });
     }
   }, {
@@ -35111,52 +35135,41 @@ var Currency = /*#__PURE__*/function (_React$Component) {
         changedCurrencies[1] = parseInt(target.value != this.state.currentCurrencyLeft ? target.value : this.state.currentCurrencyLeft == 1 ? "2" : "1");
       }
 
-      var exchangeName = this.state.currencies[changedCurrencies[0] - 1].ISO_4217 + this.state.currencies[changedCurrencies[1] - 1].ISO_4217;
-      var exchangeValue;
-
-      if (!(exchangeName in this.state.exchangeRates)) {//makeAPICall()
-      } else {
-        exchangeValue = this.state.exchangeRates[exchangeName];
-      }
-
+      var exchangeRate = this.state.exchangeRates[this.state.currencies[changedCurrencies[1] - 1].ISO_4217] / this.state.exchangeRates[this.state.currencies[changedCurrencies[0] - 1].ISO_4217];
+      console.log(exchangeRate);
       var values = {
         left: this.state.currentValueLeft,
         right: this.state.currentValueRight
       };
 
       if (target.id == "currenciesLeft") {
-        values.left = values.left > this.state.balance[changedCurrencies[0]] ? this.state.balance[changedCurrencies[0]] : values.left;
+        values.left = Math.round((values.left > this.state.balance[changedCurrencies[0]] ? this.state.balance[changedCurrencies[0]] : values.left) * 100) / 100;
       }
 
-      values.right = values.left * exchangeValue;
+      values.right = Math.round(values.left * exchangeRate * 100) / 100;
       this.setState({
         currentValueLeft: values.left,
         currentValueRight: values.right,
         currentCurrencyLeft: changedCurrencies[0],
         currentCurrencyRight: changedCurrencies[1],
-        exchangeRates: _objectSpread(_objectSpread({}, this.state.exchangeRates), {}, _defineProperty({}, exchangeName, exchangeValue))
+        currentExchangeRate: exchangeRate
       });
     }
   }, {
     key: "handleValues",
     value: function handleValues(event) {
       var target = event.currentTarget;
-
-      if (target.id == "valueLeft") {
-        var valueLeft = 0;
-
-        if (target.value > balance[this.state.currentCurrencyLeft]) {
-          valueLeft = balance[this.state.currentCurrencyLeft];
-        } else if (target.value < 0) {
-          valueLeft = 0;
-        } else {
-          valueLeft = Math.round(target.value * 100) / 100;
-        }
-
-        this.setState({
-          currentValueLeft: valueLeft
-        });
-      } else {}
+      target.value = parseFloat(target.value);
+      var values = {
+        left: this.state.currentValueLeft,
+        right: this.state.currentValueRight
+      };
+      values.left = Math.round((target.id == "valueRight" ? target.value / exchangeRate : target.value) * 100) / 100;
+      values.left = values.left > this.state.balance[this.state.currentCurrencyLeft] ? this.state.balance[this.state.currentCurrencyLeft] : values.left < 0 ? 0 : values.left;
+      this.setState({
+        currentValueLeft: parseFloat(values.left),
+        currentValueRight: Math.round(parseFloat(values.left) * this.state.currentExchangeRate * 100) / 100
+      });
     }
   }, {
     key: "render",
@@ -35179,6 +35192,12 @@ var Currency = /*#__PURE__*/function (_React$Component) {
         currencies: this.state.currencies
       };
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "row"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-6 text-right font-weight-bold"
+      }, "Exchange rate:"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-6"
+      }, this.state.currentExchangeRate)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "row"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "w-100 d-flex justify-content-between align-items-center mx-3"

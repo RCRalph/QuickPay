@@ -12,24 +12,48 @@ class Currency extends React.Component {
 		this.state = {
 			balance: balance,
 			currencies: currencies,
+			exchangeKey: exchangeKey,
 			avaliableCurrencies: Object.keys(balance).map(item => {
 				return currencies[parseInt(item, 10) - 1];
 			}),
-			exchangeRates: {"EURUSD": 1.1, "USDEUR": 0.9},
+			exchangeRates: {},
 			currentValueLeft: 0,
 			currentValueRight: 0,
 			currentCurrencyLeft: 1,
-			currentCurrencyRight: 1
+			currentCurrencyRight: 1,
+			currentExchangeRate: 1
 		}
 		this.handleCurrencies = this.handleCurrencies.bind(this);
 		this.handleValues = this.handleValues.bind(this);
 	}
 
 	componentDidMount() {
-		this.setState({
-			currentCurrencyLeft: this.state.avaliableCurrencies[0].id,
-			currentCurrencyRight: this.state.avaliableCurrencies[0].id == 1 ? this.state.currencies[1].id : 1
-		});
+		let currencies = {
+			left: this.state.avaliableCurrencies[0].id,
+			right: this.state.avaliableCurrencies[0].id == 1 ? this.state.currencies[1].id : 1
+		}
+
+		const fetchLink = "http://data.fixer.io/api/latest?access_key=" + this.state.exchangeKey +
+			"&symbols=" + this.state.currencies.map(item => {
+				return item.ISO_4217 != "EUR" ? item.ISO_4217 : "";
+			}).filter(item => {
+				return item != "";
+			}).join(",") + "&format=1";
+
+		fetch(fetchLink)
+			.then(data => data.json())
+			.then(data => {
+				const rates = { ...data.rates, EUR: 1 };
+				const currentRate = rates[this.state.currencies[currencies.right - 1].ISO_4217] / rates[this.state.currencies[currencies.left - 1].ISO_4217];
+
+				this.setState({
+					currentCurrencyLeft: currencies.left,
+					currentCurrencyRight: currencies.right,
+					exchangeRates: rates,
+					currentExchangeRate: currentRate
+				});
+			})
+			.catch(error => console.log(error));
 	}
 
 	handleCurrencies(event) {
@@ -48,14 +72,8 @@ class Currency extends React.Component {
 				(this.state.currentCurrencyLeft == 1 ? "2" : "1"));
 		}
 
-		const exchangeName = this.state.currencies[changedCurrencies[0] - 1].ISO_4217 + this.state.currencies[changedCurrencies[1] - 1].ISO_4217;
-		let exchangeValue;
-		if (!(exchangeName in this.state.exchangeRates)) {
-			//makeAPICall()
-		}
-		else {
-			exchangeValue = this.state.exchangeRates[exchangeName];
-		}
+		const exchangeRate = this.state.exchangeRates[this.state.currencies[changedCurrencies[1] - 1].ISO_4217] / this.state.exchangeRates[this.state.currencies[changedCurrencies[0] - 1].ISO_4217]
+		console.log(exchangeRate);
 
 		let values = {
 			left: this.state.currentValueLeft,
@@ -63,49 +81,43 @@ class Currency extends React.Component {
 		}
 
 		if (target.id == "currenciesLeft") {
-			values.left = values.left > this.state.balance[changedCurrencies[0]] ?
+			values.left = Math.round((values.left > this.state.balance[changedCurrencies[0]] ?
 				this.state.balance[changedCurrencies[0]] :
-				values.left;
+				values.left) * 100) / 100;
 		}
-		values.right = values.left * exchangeValue;
+		values.right = Math.round(values.left * exchangeRate * 100) / 100;
 
 		this.setState({
 			currentValueLeft: values.left,
 			currentValueRight: values.right,
 			currentCurrencyLeft: changedCurrencies[0],
 			currentCurrencyRight: changedCurrencies[1],
-			exchangeRates: {
-				...this.state.exchangeRates,
-				[exchangeName]: exchangeValue
-			}
+			currentExchangeRate: exchangeRate
 		});
 	}
 
 	handleValues(event) {
-		const target = event.currentTarget;
-		if (target.id == "valueLeft") {
-			let valueLeft = 0;
-			if (target.value > balance[this.state.currentCurrencyLeft]) {
-				valueLeft = balance[this.state.currentCurrencyLeft];
-			}
-			else if (target.value < 0) {
-				valueLeft = 0;
-			}
-			else {
-				valueLeft = Math.round(target.value * 100) / 100;
-			}
-
-			this.setState({
-				currentValueLeft: valueLeft
-			});
+		let target = event.currentTarget;
+		target.value = parseFloat(target.value);
+		let values = {
+			left: this.state.currentValueLeft,
+			right: this.state.currentValueRight
 		}
-		else {
 
-		}
+		values.left = Math.round((target.id == "valueRight" ? target.value / exchangeRate : target.value) * 100) / 100;
+
+		values.left = values.left > this.state.balance[this.state.currentCurrencyLeft] ?
+			this.state.balance[this.state.currentCurrencyLeft] :
+			(values.left < 0 ? 0 : values.left);
+
+		this.setState({
+			currentValueLeft: parseFloat(values.left),
+			currentValueRight: Math.round(parseFloat(values.left) * this.state.currentExchangeRate * 100) / 100
+		});
 	}
 
 	render() {
-		let dataLeft = {
+		const dataLeft = {
 			id: "valueLeft",
 			placeholder: "Amount to exchange",
 			currentValue: this.state.currentValueLeft,
@@ -114,7 +126,7 @@ class Currency extends React.Component {
 			currencies: this.state.avaliableCurrencies,
 		}
 
-		let dataRight = {
+		const dataRight = {
 			id: "valueRight",
 			placeholder: "Amount to get",
 			currentValue: this.state.currentValueRight,
@@ -126,6 +138,16 @@ class Currency extends React.Component {
 
 		return (
 			<form>
+				<div className="row">
+					<div className="col-6 text-right font-weight-bold">
+						Exchange rate:
+					</div>
+
+					<div className="col-6">
+						{this.state.currentExchangeRate}
+					</div>
+				</div>
+
 				<div className="row">
 					<div className="w-100 d-flex justify-content-between align-items-center mx-3">
 						<Block {...dataLeft} handleValues={this.handleValues} handleCurrencies={this.handleCurrencies} />
