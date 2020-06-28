@@ -35094,16 +35094,20 @@ var Currency = /*#__PURE__*/function (_React$Component) {
     value: function componentDidMount() {
       var _this2 = this;
 
+      fetch("/api/getExchangeData").then(function (data) {
+        return console.log(data);
+      }); //get currencies
+
       var currencies = {
         left: this.state.avaliableCurrencies[0].id,
         right: this.state.avaliableCurrencies[0].id == 1 ? this.state.currencies[1].id : 1
       };
-      var fetchLink = "http://data.fixer.io/api/latest?access_key=" + this.state.exchangeKey + "&symbols=" + this.state.currencies.map(function (item) {
+      var currencyFetchLink = "http://data.fixer.io/api/latest?access_key=" + this.state.exchangeKey + "&symbols=" + this.state.currencies.map(function (item) {
         return item.ISO_4217 != "EUR" ? item.ISO_4217 : "";
       }).filter(function (item) {
         return item != "";
       }).join(",") + "&format=1";
-      fetch(fetchLink).then(function (data) {
+      fetch(currencyFetchLink).then(function (data) {
         return data.json();
       }).then(function (data) {
         var rates = _objectSpread(_objectSpread({}, data.rates), {}, {
@@ -35116,7 +35120,9 @@ var Currency = /*#__PURE__*/function (_React$Component) {
           currentCurrencyLeft: currencies.left,
           currentCurrencyRight: currencies.right,
           exchangeRates: rates,
-          currentExchangeRate: currentRate
+          currentExchangeRate: currentRate,
+          currentValueLeft: "",
+          currentValueRight: ""
         });
       })["catch"](function (error) {
         return console.log(error);
@@ -35164,13 +35170,16 @@ var Currency = /*#__PURE__*/function (_React$Component) {
         left: this.state.currentValueLeft,
         right: this.state.currentValueRight
       };
-      values.left = Math.round((target.id == "valueRight" ? target.value / exchangeRate : target.value) * 100) / 100;
+      values.left = Math.round((target.id == "valueRight" ? target.value / this.state.currentExchangeRate : target.value) * 100) / 100;
       values.left = values.left > this.state.balance[this.state.currentCurrencyLeft] ? this.state.balance[this.state.currentCurrencyLeft] : values.left < 0 ? 0 : values.left;
       this.setState({
         currentValueLeft: parseFloat(values.left),
         currentValueRight: Math.round(parseFloat(values.left) * this.state.currentExchangeRate * 100) / 100
       });
     }
+  }, {
+    key: "handleSubmit",
+    value: function handleSubmit() {}
   }, {
     key: "render",
     value: function render() {
@@ -35191,7 +35200,9 @@ var Currency = /*#__PURE__*/function (_React$Component) {
         currencyValue: this.state.currentCurrencyRight,
         currencies: this.state.currencies
       };
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+        onSubmit: this.handleSubmit
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "row"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-6 text-right font-weight-bold"

@@ -18,23 +18,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/currencies', 'ApiController@currencies');
 
-Route::get('/balance', 'BalanceController@index')->name('balance.index');
-Route::get('/balance/exchange', 'BalanceController@exchange')->name('balance.exchange');
+Route::middleware([['auth:sanctum']])->group(function () {
 
-Route::get('/users/{user}', 'UsersController@show')->name('users.show');
-Route::get('/users/{user}/edit', 'UsersController@edit')->name('users.edit');
-Route::patch('/users/{user}', 'UsersController@update')->name('users.update');
-
-Route::get('/transactions', 'TransactionsController@index')->name('transactions.index');
-Route::post('/transactions', 'TransactionsController@store')->name('transactions.store');
-Route::get('/transactions/create', 'TransactionsController@create')->name('transactions.create');
-Route::get('/transactions/currency/{currency}', 'TransactionsController@currency')->name('transactions.currency');
-Route::get('/transactions/{transaction}', 'TransactionsController@show')->name('transactions.show');
-
-Route::get('/requests', 'RequestsController@index')->name('requests.index');
-Route::post('/requests', 'RequestsController@store')->name('requests.store');
-Route::get('/requests/create', 'RequestsController@create')->name('requests.create');
-Route::get('/requests/{request}', 'RequestsController@show')->name('requests.show');
-Route::delete('/requests/{request}', 'RequestsController@destroy')->name('requests.destroy');
+});

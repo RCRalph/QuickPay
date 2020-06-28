@@ -28,19 +28,22 @@ class Currency extends React.Component {
 	}
 
 	componentDidMount() {
+		fetch("/api/getExchangeData").then(data => console.log(data));
+
+		//get currencies
 		let currencies = {
 			left: this.state.avaliableCurrencies[0].id,
 			right: this.state.avaliableCurrencies[0].id == 1 ? this.state.currencies[1].id : 1
 		}
 
-		const fetchLink = "http://data.fixer.io/api/latest?access_key=" + this.state.exchangeKey +
+		const currencyFetchLink = "http://data.fixer.io/api/latest?access_key=" + this.state.exchangeKey +
 			"&symbols=" + this.state.currencies.map(item => {
 				return item.ISO_4217 != "EUR" ? item.ISO_4217 : "";
 			}).filter(item => {
 				return item != "";
 			}).join(",") + "&format=1";
 
-		fetch(fetchLink)
+		fetch(currencyFetchLink)
 			.then(data => data.json())
 			.then(data => {
 				const rates = { ...data.rates, EUR: 1 };
@@ -50,7 +53,9 @@ class Currency extends React.Component {
 					currentCurrencyLeft: currencies.left,
 					currentCurrencyRight: currencies.right,
 					exchangeRates: rates,
-					currentExchangeRate: currentRate
+					currentExchangeRate: currentRate,
+					currentValueLeft: "",
+					currentValueRight: ""
 				});
 			})
 			.catch(error => console.log(error));
@@ -104,7 +109,7 @@ class Currency extends React.Component {
 			right: this.state.currentValueRight
 		}
 
-		values.left = Math.round((target.id == "valueRight" ? target.value / exchangeRate : target.value) * 100) / 100;
+		values.left = Math.round((target.id == "valueRight" ? target.value / this.state.currentExchangeRate : target.value) * 100) / 100;
 
 		values.left = values.left > this.state.balance[this.state.currentCurrencyLeft] ?
 			this.state.balance[this.state.currentCurrencyLeft] :
@@ -114,6 +119,10 @@ class Currency extends React.Component {
 			currentValueLeft: parseFloat(values.left),
 			currentValueRight: Math.round(parseFloat(values.left) * this.state.currentExchangeRate * 100) / 100
 		});
+	}
+
+	handleSubmit() {
+
 	}
 
 	render() {
@@ -137,7 +146,7 @@ class Currency extends React.Component {
 		}
 
 		return (
-			<form>
+			<form onSubmit={this.handleSubmit}>
 				<div className="row">
 					<div className="col-6 text-right font-weight-bold">
 						Exchange rate:

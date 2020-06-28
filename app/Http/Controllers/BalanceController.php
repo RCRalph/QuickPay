@@ -68,7 +68,7 @@ class BalanceController extends Controller
         }
 
         return view('balance.index', compact('balance', 'currencyData'));
-    }
+	}
 
     public function exchange()
     {
@@ -89,5 +89,5 @@ class BalanceController extends Controller
 		}
 
         return view('balance.exchange', compact('canExchange'));
-    }
+	}
 }

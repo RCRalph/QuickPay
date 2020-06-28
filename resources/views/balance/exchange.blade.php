@@ -9,7 +9,8 @@
 
                 <div class="card-body w-100 d-flex justify-content-center align-items-center">
                     @if ($canExchange)
-                        <div id="currency" class="w-100"></div>
+						@csrf
+						<div id="currency" class="w-100"></div>
                     @else
                         Not enough money
                     @endif

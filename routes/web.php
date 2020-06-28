@@ -23,6 +23,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/balance', 'BalanceController@index')->name('balance.index');
 Route::get('/balance/exchange', 'BalanceController@exchange')->name('balance.exchange');
+Route::post('/balance', 'BalanceController@executeExchange')->name('balance.executeExchange');
 
 Route::get('/users/{user}', 'UsersController@show')->name('users.show');
 Route::get('/users/{user}/edit', 'UsersController@edit')->name('users.edit');

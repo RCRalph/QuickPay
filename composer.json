@@ -15,6 +15,8 @@
         "intervention/image": "^2.5",
         "laracasts/utilities": "^3.1",
         "laravel/framework": "^7.0",
+        "laravel/passport": "^9.2",
+        "laravel/sanctum": "^2.4",
         "laravel/telescope": "^3.5",
         "laravel/tinker": "^2.0",
         "laravel/ui": "^2.0"
