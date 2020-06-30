@@ -80,6 +80,8 @@ class BalanceController extends Controller
 		}
 		$canExchange = count($balance);
 
+		$token = auth()->user()->createToken("authToken")->accessToken;
+
 		if ($canExchange) {
 			JavaScript::put([
 				"balance" => $balance,
@@ -88,6 +90,6 @@ class BalanceController extends Controller
 			]);
 		}
 
-        return view('balance.exchange', compact('canExchange'));
+		return view('balance.exchange', compact('canExchange', 'token'));
 	}
 }

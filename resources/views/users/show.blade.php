@@ -15,7 +15,7 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-lg-5 text-center mb-3">
-                            <img src="/storage/{{ $user->picture }}" class="rounded{{ $user->picture != null ? '-circle' : '' }}" style="max-width: 100%; max-height: 400px;">
+                            <img src="/storage/{{ $user->picture }}" class="rounded{{ $user->picture != 'default-profile-picture.png' ? '-circle' : '' }}" style="max-width: 100%; max-height: 400px;">
                         </div>
                         <div class="col-lg-7 d-flex align-items-center">
                             <div class="card w-100">

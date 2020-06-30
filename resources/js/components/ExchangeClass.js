@@ -4,18 +4,19 @@ import ReactDOM from 'react-dom';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLongArrowAltRight } from "@fortawesome/fontawesome-free-solid";
 
+import axios from 'axios';
+
 import Block from "./ExchangeBlock";
 
 class Currency extends React.Component {
-	constructor() {
-		super();
+	constructor(props) {
+		super(props);
 		this.state = {
-			balance: balance,
-			currencies: currencies,
-			exchangeKey: exchangeKey,
-			avaliableCurrencies: Object.keys(balance).map(item => {
-				return currencies[parseInt(item, 10) - 1];
-			}),
+			token: props.token,
+			balance: {},
+			currencies: [],
+			exchangeKey: "",
+			avaliableCurrencies: [],
 			exchangeRates: {},
 			currentValueLeft: 0,
 			currentValueRight: 0,
@@ -28,37 +29,52 @@ class Currency extends React.Component {
 	}
 
 	componentDidMount() {
-		fetch("/api/getExchangeData").then(data => console.log(data));
+		axios({
+			method: "post",
+			url: "/api/getExchangeData",
+			headers: {
+				Authorization: "Bearer " + this.state.token
+			}
+		})
+		.then(response => {
+			const apiData = response.data;
+			const avaliableCurrencies = Object.keys(apiData.balance).map(item => {
+				return apiData.currencies[parseInt(item, 10) - 1];
+			})
 
-		//get currencies
-		let currencies = {
-			left: this.state.avaliableCurrencies[0].id,
-			right: this.state.avaliableCurrencies[0].id == 1 ? this.state.currencies[1].id : 1
-		}
+			//get currencies
+			let currencies = {
+				left: avaliableCurrencies[0].id,
+				right: avaliableCurrencies[0].id == 1 ? apiData.currencies[1].id : 1
+			}
 
-		const currencyFetchLink = "http://data.fixer.io/api/latest?access_key=" + this.state.exchangeKey +
-			"&symbols=" + this.state.currencies.map(item => {
-				return item.ISO_4217 != "EUR" ? item.ISO_4217 : "";
-			}).filter(item => {
-				return item != "";
-			}).join(",") + "&format=1";
+			const currencyFetchLink = "http://data.fixer.io/api/latest?access_key=" +
+				apiData.exchangeKey +
+				"&symbols=" +
+				apiData.currencies.map(item => item.ISO_4217 != "EUR" ? item.ISO_4217 : "").filter(item => item != "").join(",") +
+				"&format=1";
 
-		fetch(currencyFetchLink)
+			fetch(currencyFetchLink)
 			.then(data => data.json())
 			.then(data => {
 				const rates = { ...data.rates, EUR: 1 };
-				const currentRate = rates[this.state.currencies[currencies.right - 1].ISO_4217] / rates[this.state.currencies[currencies.left - 1].ISO_4217];
+				const currentRate = rates[apiData.currencies[currencies.right - 1].ISO_4217] / rates[apiData.currencies[currencies.left - 1].ISO_4217];
 
 				this.setState({
+					balance: apiData.balance,
+					currencies: apiData.currencies,
+					exchangeKey: apiData.exchangeKey,
+					avaliableCurrencies: avaliableCurrencies,
+					exchangeRates: rates,
 					currentCurrencyLeft: currencies.left,
 					currentCurrencyRight: currencies.right,
-					exchangeRates: rates,
 					currentExchangeRate: currentRate,
 					currentValueLeft: "",
-					currentValueRight: ""
+					currentValueRight: "",
 				});
 			})
 			.catch(error => console.log(error));
+		});
 	}
 
 	handleCurrencies(event) {
@@ -78,7 +94,6 @@ class Currency extends React.Component {
 		}
 
 		const exchangeRate = this.state.exchangeRates[this.state.currencies[changedCurrencies[1] - 1].ISO_4217] / this.state.exchangeRates[this.state.currencies[changedCurrencies[0] - 1].ISO_4217]
-		console.log(exchangeRate);
 
 		let values = {
 			left: this.state.currentValueLeft,
@@ -182,5 +197,7 @@ class Currency extends React.Component {
 export default Currency;
 
 if (document.getElementById('currency')) {
-    ReactDOM.render(<Currency />, document.getElementById('currency'));
+	const props = { token: document.getElementById('currency').attributes.token.value };
+
+    ReactDOM.render(<Currency {...props} />, document.getElementById('currency'));
 }

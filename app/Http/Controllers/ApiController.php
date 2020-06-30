@@ -3,17 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Currency;
 
 class ApiController extends Controller
 {
-	public function currencies() {
-		return response()->json([
-			"status" => "success"
-		]);
-	}
+	public function getExchangeData(Request $request) {
+		$data = $request->input();
 
-	public function getExchangeData() {
-		$balance = $this->getBalance()->sortBy("id")->toArray();
+		$balance = app('App\Http\Controllers\BalanceController')->getBalance()->sortBy("id")->toArray();
         foreach ($balance as $currency => $amount) {
             if ($amount <= 0) {
                 unset($balance[$currency]);
@@ -24,7 +21,6 @@ class ApiController extends Controller
 		$exchangeKey = config("app.fixer_io_key");
 
 		return response()->json([
-			"status" => "success",
 			"balance" => $balance,
 			"currencies" => $currencies,
 			"exchangeKey" => config("app.fixer_io_key")
