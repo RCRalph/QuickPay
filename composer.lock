@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "29e19a274e98bfcc00ae99abdc490802",
+    "content-hash": "b16b60e44e39945c92f94e09f2e51f4f",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -664,6 +664,59 @@
             "time": "2020-04-28T08:47:37+00:00"
         },
         {
+            "name": "guzzlehttp/command",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/guzzle/command.git",
+                "reference": "2aaa2521a8f8269d6f5dfc13fe2af12c76921034"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/guzzle/command/zipball/2aaa2521a8f8269d6f5dfc13fe2af12c76921034",
+                "reference": "2aaa2521a8f8269d6f5dfc13fe2af12c76921034",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^6.2",
+                "guzzlehttp/promises": "~1.3",
+                "guzzlehttp/psr7": "~1.0",
+                "php": ">=5.5.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0|~5.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.9-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "GuzzleHttp\\Command\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Michael Dowling",
+                    "email": "mtdowling@gmail.com",
+                    "homepage": "https://github.com/mtdowling"
+                },
+                {
+                    "name": "Jeremy Lindblom",
+                    "email": "jeremeamia@gmail.com",
+                    "homepage": "https://github.com/jeremeamia"
+                }
+            ],
+            "description": "Provides the foundation for building command-based web service clients",
+            "time": "2016-11-24T13:34:15+00:00"
+        },
+        {
             "name": "guzzlehttp/guzzle",
             "version": "6.5.4",
             "source": {
@@ -729,6 +782,66 @@
                 "web service"
             ],
             "time": "2020-05-25T19:35:05+00:00"
+        },
+        {
+            "name": "guzzlehttp/guzzle-services",
+            "version": "1.1.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/guzzle/guzzle-services.git",
+                "reference": "9e3abf20161cbf662d616cbb995f2811771759f7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/guzzle/guzzle-services/zipball/9e3abf20161cbf662d616cbb995f2811771759f7",
+                "reference": "9e3abf20161cbf662d616cbb995f2811771759f7",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/command": "~1.0",
+                "guzzlehttp/guzzle": "^6.2",
+                "php": ">=5.5"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0"
+            },
+            "suggest": {
+                "gimler/guzzle-description-loader": "^0.0.4"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "GuzzleHttp\\Command\\Guzzle\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Michael Dowling",
+                    "email": "mtdowling@gmail.com",
+                    "homepage": "https://github.com/mtdowling"
+                },
+                {
+                    "name": "Jeremy Lindblom",
+                    "email": "jeremeamia@gmail.com",
+                    "homepage": "https://github.com/jeremeamia"
+                },
+                {
+                    "name": "Stefano Kowalke",
+                    "email": "blueduck@mail.org",
+                    "homepage": "https://github.com/konafets"
+                }
+            ],
+            "description": "Provides an implementation of the Guzzle Command library that uses Guzzle service descriptions to describe web services, serialize requests, and parse responses into easy to use model structures.",
+            "time": "2017-10-06T14:32:02+00:00"
         },
         {
             "name": "guzzlehttp/promises",
@@ -3214,6 +3327,89 @@
                 }
             ],
             "time": "2020-03-29T20:13:32+00:00"
+        },
+        {
+            "name": "ranium/fixerio-php-client",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ranium/fixerio-php-client.git",
+                "reference": "34589c97dac27fd931a1a53378031764e76ecca8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ranium/fixerio-php-client/zipball/34589c97dac27fd931a1a53378031764e76ecca8",
+                "reference": "34589c97dac27fd931a1a53378031764e76ecca8",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "~6.0",
+                "guzzlehttp/guzzle-services": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Ranium\\Fixerio\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Abbas Ali",
+                    "email": "abbas@ranium.in"
+                }
+            ],
+            "description": "A PHP client for fixer.io foreign exchange rates and currency conversion API.",
+            "time": "2019-02-05T11:38:35+00:00"
+        },
+        {
+            "name": "ranium/laravel-fixerio",
+            "version": "v1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ranium/laravel-fixerio.git",
+                "reference": "748ade462cbdf8b8a7687698d09341c6c2454424"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ranium/laravel-fixerio/zipball/748ade462cbdf8b8a7687698d09341c6c2454424",
+                "reference": "748ade462cbdf8b8a7687698d09341c6c2454424",
+                "shasum": ""
+            },
+            "require": {
+                "ranium/fixerio-php-client": "1.*"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Ranium\\LaravelFixerio\\ServiceProvider"
+                    ],
+                    "aliases": {
+                        "Fixerio": "Ranium\\LaravelFixerio\\Facade"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Ranium\\LaravelFixerio\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Abbas Ali",
+                    "email": "abbas@ranium.in"
+                }
+            ],
+            "description": "Laravel package/client for fixer.io api, a foreign exchange rates and currency conversion API.",
+            "time": "2019-02-06T09:02:38+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",

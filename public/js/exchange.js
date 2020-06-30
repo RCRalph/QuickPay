@@ -36718,55 +36718,6 @@ function _extends() {
   return _extends.apply(this, arguments);
 }
 
-function ownKeys(object, enumerableOnly) {
-  var keys = Object.keys(object);
-
-  if (Object.getOwnPropertySymbols) {
-    var symbols = Object.getOwnPropertySymbols(object);
-    if (enumerableOnly) symbols = symbols.filter(function (sym) {
-      return Object.getOwnPropertyDescriptor(object, sym).enumerable;
-    });
-    keys.push.apply(keys, symbols);
-  }
-
-  return keys;
-}
-
-function _objectSpread(target) {
-  for (var i = 1; i < arguments.length; i++) {
-    var source = arguments[i] != null ? arguments[i] : {};
-
-    if (i % 2) {
-      ownKeys(Object(source), true).forEach(function (key) {
-        _defineProperty(target, key, source[key]);
-      });
-    } else if (Object.getOwnPropertyDescriptors) {
-      Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
-    } else {
-      ownKeys(Object(source)).forEach(function (key) {
-        Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
-      });
-    }
-  }
-
-  return target;
-}
-
-function _defineProperty(obj, key, value) {
-  if (key in obj) {
-    Object.defineProperty(obj, key, {
-      value: value,
-      enumerable: true,
-      configurable: true,
-      writable: true
-    });
-  } else {
-    obj[key] = value;
-  }
-
-  return obj;
-}
-
 function _classCallCheck(instance, Constructor) {
   if (!(instance instanceof Constructor)) {
     throw new TypeError("Cannot call a class as a function");
@@ -36887,10 +36838,10 @@ var Currency = /*#__PURE__*/function (_React$Component) {
 
     _this = _super.call(this, props);
     _this.state = {
+      ready: false,
       token: props.token,
       balance: {},
       currencies: [],
-      exchangeKey: "",
       avaliableCurrencies: [],
       exchangeRates: {},
       currentValueLeft: 0,
@@ -36919,40 +36870,26 @@ var Currency = /*#__PURE__*/function (_React$Component) {
         var apiData = response.data;
         var avaliableCurrencies = Object.keys(apiData.balance).map(function (item) {
           return apiData.currencies[parseInt(item, 10) - 1];
-        }); //get currencies
-
+        });
         var currencies = {
           left: avaliableCurrencies[0].id,
           right: avaliableCurrencies[0].id == 1 ? apiData.currencies[1].id : 1
         };
-        var currencyFetchLink = "http://data.fixer.io/api/latest?access_key=" + apiData.exchangeKey + "&symbols=" + apiData.currencies.map(function (item) {
-          return item.ISO_4217 != "EUR" ? item.ISO_4217 : "";
-        }).filter(function (item) {
-          return item != "";
-        }).join(",") + "&format=1";
-        fetch(currencyFetchLink).then(function (data) {
-          return data.json();
-        }).then(function (data) {
-          var rates = _objectSpread(_objectSpread({}, data.rates), {}, {
-            EUR: 1
-          });
+        var sourceCurrency = apiData.currencies[currencies.left - 1].ISO_4217;
+        var targetCurrency = apiData.currencies[currencies.right - 1].ISO_4217;
+        var currentRate = apiData.exchangeRates[targetCurrency] / apiData.exchangeRates[sourceCurrency];
 
-          var currentRate = rates[apiData.currencies[currencies.right - 1].ISO_4217] / rates[apiData.currencies[currencies.left - 1].ISO_4217];
-
-          _this2.setState({
-            balance: apiData.balance,
-            currencies: apiData.currencies,
-            exchangeKey: apiData.exchangeKey,
-            avaliableCurrencies: avaliableCurrencies,
-            exchangeRates: rates,
-            currentCurrencyLeft: currencies.left,
-            currentCurrencyRight: currencies.right,
-            currentExchangeRate: currentRate,
-            currentValueLeft: "",
-            currentValueRight: ""
-          });
-        })["catch"](function (error) {
-          return console.log(error);
+        _this2.setState({
+          balance: apiData.balance,
+          currencies: apiData.currencies,
+          avaliableCurrencies: avaliableCurrencies,
+          exchangeRates: apiData.exchangeRates,
+          currentCurrencyLeft: currencies.left,
+          currentCurrencyRight: currencies.right,
+          currentExchangeRate: currentRate,
+          currentValueLeft: "",
+          currentValueRight: "",
+          ready: true
         });
       });
     }
@@ -37010,52 +36947,63 @@ var Currency = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var dataLeft = {
-        id: "valueLeft",
-        placeholder: "Amount to exchange",
-        currentValue: this.state.currentValueLeft,
-        currencyID: "currenciesLeft",
-        currencyValue: this.state.currentCurrencyLeft,
-        currencies: this.state.avaliableCurrencies
-      };
-      var dataRight = {
-        id: "valueRight",
-        placeholder: "Amount to get",
-        currentValue: this.state.currentValueRight,
-        currencyID: "currenciesRight",
-        currencyLeft: this.state.currentCurrencyLeft,
-        currencyValue: this.state.currentCurrencyRight,
-        currencies: this.state.currencies
-      };
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
-        onSubmit: this.handleSubmit
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "row"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-6 text-right font-weight-bold"
-      }, "Exchange rate:"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-6"
-      }, this.state.currentExchangeRate)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "row"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "w-100 d-flex justify-content-between align-items-center mx-3"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ExchangeBlock__WEBPACK_IMPORTED_MODULE_5__["default"], _extends({}, dataLeft, {
-        handleValues: this.handleValues,
-        handleCurrencies: this.handleCurrencies
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "display-1 my-0 py-0 mx-4 text-primary"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_fortawesome_react_fontawesome__WEBPACK_IMPORTED_MODULE_2__["FontAwesomeIcon"], {
-        icon: _fortawesome_fontawesome_free_solid__WEBPACK_IMPORTED_MODULE_3__["faLongArrowAltRight"]
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ExchangeBlock__WEBPACK_IMPORTED_MODULE_5__["default"], _extends({}, dataRight, {
-        handleValues: this.handleValues,
-        handleCurrencies: this.handleCurrencies
-      })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "row"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-4 offset-4"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        className: "btn btn-primary btn-block"
-      }, "Exchange"))));
+      if (this.state.ready) {
+        var dataLeft = {
+          id: "valueLeft",
+          placeholder: "Amount to exchange",
+          currentValue: this.state.currentValueLeft,
+          currencyID: "currenciesLeft",
+          currencyValue: this.state.currentCurrencyLeft,
+          currencies: this.state.avaliableCurrencies
+        };
+        var dataRight = {
+          id: "valueRight",
+          placeholder: "Amount to get",
+          currentValue: this.state.currentValueRight,
+          currencyID: "currenciesRight",
+          currencyLeft: this.state.currentCurrencyLeft,
+          currencyValue: this.state.currentCurrencyRight,
+          currencies: this.state.currencies
+        };
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+          onSubmit: this.handleSubmit
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "row"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "col-6 text-right font-weight-bold"
+        }, "Exchange rate:"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "col-6"
+        }, this.state.currentExchangeRate)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "row"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "w-100 d-flex justify-content-between align-items-center mx-3"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ExchangeBlock__WEBPACK_IMPORTED_MODULE_5__["default"], _extends({}, dataLeft, {
+          handleValues: this.handleValues,
+          handleCurrencies: this.handleCurrencies
+        })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "display-1 my-0 py-0 mx-4 text-primary"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_fortawesome_react_fontawesome__WEBPACK_IMPORTED_MODULE_2__["FontAwesomeIcon"], {
+          icon: _fortawesome_fontawesome_free_solid__WEBPACK_IMPORTED_MODULE_3__["faLongArrowAltRight"]
+        })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ExchangeBlock__WEBPACK_IMPORTED_MODULE_5__["default"], _extends({}, dataRight, {
+          handleValues: this.handleValues,
+          handleCurrencies: this.handleCurrencies
+        })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "row"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "col-4 offset-4"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+          className: "btn btn-primary btn-block"
+        }, "Exchange"))));
+      } else {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "d-flex justify-content-center"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "spinner-grow text-primary my-5",
+          role: "status"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+          className: "sr-only"
+        }, "Loading...")));
+      }
     }
   }]);
 

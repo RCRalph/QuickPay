@@ -15,15 +15,15 @@ class ComposerStaticInit39ffbf429259dc42796c4ff6840fde1b
         '0d59ee240a4cd96ddbb4ff164fccea4d' => __DIR__ . '/..' . '/symfony/polyfill-php73/bootstrap.php',
         '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
         '667aeda72477189d0494fecd327c3641' => __DIR__ . '/..' . '/symfony/var-dumper/Resources/functions/dump.php',
+        '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
+        'a0edc8309cc5e1d60e3047b5df6b7052' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/functions_include.php',
+        'c964ee0ededf28c96ebd9db5099ef910' => __DIR__ . '/..' . '/guzzlehttp/promises/src/functions_include.php',
+        '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
         'decc78cc4436b1292c6c0d151b19445c' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/bootstrap.php',
         'def43f6c87e4f8dfd0c9e1b1bab14fe8' => __DIR__ . '/..' . '/symfony/polyfill-iconv/bootstrap.php',
         '56823cacd97af379eceaf82ad00b928f' => __DIR__ . '/..' . '/phpseclib/bcmath_compat/lib/bcmath.php',
         '2c102faa651ef8ea5874edb585946bce' => __DIR__ . '/..' . '/swiftmailer/swiftmailer/lib/swift_required.php',
-        '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
-        'a0edc8309cc5e1d60e3047b5df6b7052' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/functions_include.php',
         '801c31d8ed748cfa537fa45402288c95' => __DIR__ . '/..' . '/psy/psysh/src/functions.php',
-        'c964ee0ededf28c96ebd9db5099ef910' => __DIR__ . '/..' . '/guzzlehttp/promises/src/functions_include.php',
-        '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
         '538ca81a9a966a6716601ecf48f4eaef' => __DIR__ . '/..' . '/opis/closure/functions.php',
         'e39a8b23c42d4e1452234d762b03835a' => __DIR__ . '/..' . '/ramsey/uuid/src/functions.php',
         '7e9bd612cc444b3eed788ebbe46263a0' => __DIR__ . '/..' . '/laminas/laminas-zendframework-bridge/src/autoload.php',
@@ -114,6 +114,8 @@ class ComposerStaticInit39ffbf429259dc42796c4ff6840fde1b
         ),
         'R' => 
         array (
+            'Ranium\\LaravelFixerio\\' => 22,
+            'Ranium\\Fixerio\\' => 15,
             'Ramsey\\Uuid\\' => 12,
             'Ramsey\\Collection\\' => 18,
         ),
@@ -173,6 +175,8 @@ class ComposerStaticInit39ffbf429259dc42796c4ff6840fde1b
         array (
             'GuzzleHttp\\Psr7\\' => 16,
             'GuzzleHttp\\Promise\\' => 19,
+            'GuzzleHttp\\Command\\Guzzle\\' => 26,
+            'GuzzleHttp\\Command\\' => 19,
             'GuzzleHttp\\' => 11,
         ),
         'F' => 
@@ -357,6 +361,14 @@ class ComposerStaticInit39ffbf429259dc42796c4ff6840fde1b
         array (
             0 => __DIR__ . '/..' . '/symfony/psr-http-message-bridge',
         ),
+        'Ranium\\LaravelFixerio\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/ranium/laravel-fixerio/src',
+        ),
+        'Ranium\\Fixerio\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/ranium/fixerio-php-client/src',
+        ),
         'Ramsey\\Uuid\\' => 
         array (
             0 => __DIR__ . '/..' . '/ramsey/uuid/src',
@@ -497,6 +509,14 @@ class ComposerStaticInit39ffbf429259dc42796c4ff6840fde1b
         'GuzzleHttp\\Promise\\' => 
         array (
             0 => __DIR__ . '/..' . '/guzzlehttp/promises/src',
+        ),
+        'GuzzleHttp\\Command\\Guzzle\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/guzzlehttp/guzzle-services/src',
+        ),
+        'GuzzleHttp\\Command\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/guzzlehttp/command/src',
         ),
         'GuzzleHttp\\' => 
         array (
@@ -1501,6 +1521,46 @@ class ComposerStaticInit39ffbf429259dc42796c4ff6840fde1b
         'Fruitcake\\Cors\\HandleCors' => __DIR__ . '/..' . '/fruitcake/laravel-cors/src/HandleCors.php',
         'GuzzleHttp\\Client' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/Client.php',
         'GuzzleHttp\\ClientInterface' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/ClientInterface.php',
+        'GuzzleHttp\\Command\\Command' => __DIR__ . '/..' . '/guzzlehttp/command/src/Command.php',
+        'GuzzleHttp\\Command\\CommandInterface' => __DIR__ . '/..' . '/guzzlehttp/command/src/CommandInterface.php',
+        'GuzzleHttp\\Command\\Exception\\CommandClientException' => __DIR__ . '/..' . '/guzzlehttp/command/src/Exception/CommandClientException.php',
+        'GuzzleHttp\\Command\\Exception\\CommandException' => __DIR__ . '/..' . '/guzzlehttp/command/src/Exception/CommandException.php',
+        'GuzzleHttp\\Command\\Exception\\CommandServerException' => __DIR__ . '/..' . '/guzzlehttp/command/src/Exception/CommandServerException.php',
+        'GuzzleHttp\\Command\\Guzzle\\Description' => __DIR__ . '/..' . '/guzzlehttp/guzzle-services/src/Description.php',
+        'GuzzleHttp\\Command\\Guzzle\\DescriptionInterface' => __DIR__ . '/..' . '/guzzlehttp/guzzle-services/src/DescriptionInterface.php',
+        'GuzzleHttp\\Command\\Guzzle\\Deserializer' => __DIR__ . '/..' . '/guzzlehttp/guzzle-services/src/Deserializer.php',
+        'GuzzleHttp\\Command\\Guzzle\\GuzzleClient' => __DIR__ . '/..' . '/guzzlehttp/guzzle-services/src/GuzzleClient.php',
+        'GuzzleHttp\\Command\\Guzzle\\Handler\\ValidatedDescriptionHandler' => __DIR__ . '/..' . '/guzzlehttp/guzzle-services/src/Handler/ValidatedDescriptionHandler.php',
+        'GuzzleHttp\\Command\\Guzzle\\Operation' => __DIR__ . '/..' . '/guzzlehttp/guzzle-services/src/Operation.php',
+        'GuzzleHttp\\Command\\Guzzle\\Parameter' => __DIR__ . '/..' . '/guzzlehttp/guzzle-services/src/Parameter.php',
+        'GuzzleHttp\\Command\\Guzzle\\QuerySerializer\\QuerySerializerInterface' => __DIR__ . '/..' . '/guzzlehttp/guzzle-services/src/QuerySerializer/QuerySerializerInterface.php',
+        'GuzzleHttp\\Command\\Guzzle\\QuerySerializer\\Rfc3986Serializer' => __DIR__ . '/..' . '/guzzlehttp/guzzle-services/src/QuerySerializer/Rfc3986Serializer.php',
+        'GuzzleHttp\\Command\\Guzzle\\RequestLocation\\AbstractLocation' => __DIR__ . '/..' . '/guzzlehttp/guzzle-services/src/RequestLocation/AbstractLocation.php',
+        'GuzzleHttp\\Command\\Guzzle\\RequestLocation\\BodyLocation' => __DIR__ . '/..' . '/guzzlehttp/guzzle-services/src/RequestLocation/BodyLocation.php',
+        'GuzzleHttp\\Command\\Guzzle\\RequestLocation\\FormParamLocation' => __DIR__ . '/..' . '/guzzlehttp/guzzle-services/src/RequestLocation/FormParamLocation.php',
+        'GuzzleHttp\\Command\\Guzzle\\RequestLocation\\HeaderLocation' => __DIR__ . '/..' . '/guzzlehttp/guzzle-services/src/RequestLocation/HeaderLocation.php',
+        'GuzzleHttp\\Command\\Guzzle\\RequestLocation\\JsonLocation' => __DIR__ . '/..' . '/guzzlehttp/guzzle-services/src/RequestLocation/JsonLocation.php',
+        'GuzzleHttp\\Command\\Guzzle\\RequestLocation\\MultiPartLocation' => __DIR__ . '/..' . '/guzzlehttp/guzzle-services/src/RequestLocation/MultiPartLocation.php',
+        'GuzzleHttp\\Command\\Guzzle\\RequestLocation\\QueryLocation' => __DIR__ . '/..' . '/guzzlehttp/guzzle-services/src/RequestLocation/QueryLocation.php',
+        'GuzzleHttp\\Command\\Guzzle\\RequestLocation\\RequestLocationInterface' => __DIR__ . '/..' . '/guzzlehttp/guzzle-services/src/RequestLocation/RequestLocationInterface.php',
+        'GuzzleHttp\\Command\\Guzzle\\RequestLocation\\XmlLocation' => __DIR__ . '/..' . '/guzzlehttp/guzzle-services/src/RequestLocation/XmlLocation.php',
+        'GuzzleHttp\\Command\\Guzzle\\ResponseLocation\\AbstractLocation' => __DIR__ . '/..' . '/guzzlehttp/guzzle-services/src/ResponseLocation/AbstractLocation.php',
+        'GuzzleHttp\\Command\\Guzzle\\ResponseLocation\\BodyLocation' => __DIR__ . '/..' . '/guzzlehttp/guzzle-services/src/ResponseLocation/BodyLocation.php',
+        'GuzzleHttp\\Command\\Guzzle\\ResponseLocation\\HeaderLocation' => __DIR__ . '/..' . '/guzzlehttp/guzzle-services/src/ResponseLocation/HeaderLocation.php',
+        'GuzzleHttp\\Command\\Guzzle\\ResponseLocation\\JsonLocation' => __DIR__ . '/..' . '/guzzlehttp/guzzle-services/src/ResponseLocation/JsonLocation.php',
+        'GuzzleHttp\\Command\\Guzzle\\ResponseLocation\\ReasonPhraseLocation' => __DIR__ . '/..' . '/guzzlehttp/guzzle-services/src/ResponseLocation/ReasonPhraseLocation.php',
+        'GuzzleHttp\\Command\\Guzzle\\ResponseLocation\\ResponseLocationInterface' => __DIR__ . '/..' . '/guzzlehttp/guzzle-services/src/ResponseLocation/ResponseLocationInterface.php',
+        'GuzzleHttp\\Command\\Guzzle\\ResponseLocation\\StatusCodeLocation' => __DIR__ . '/..' . '/guzzlehttp/guzzle-services/src/ResponseLocation/StatusCodeLocation.php',
+        'GuzzleHttp\\Command\\Guzzle\\ResponseLocation\\XmlLocation' => __DIR__ . '/..' . '/guzzlehttp/guzzle-services/src/ResponseLocation/XmlLocation.php',
+        'GuzzleHttp\\Command\\Guzzle\\SchemaFormatter' => __DIR__ . '/..' . '/guzzlehttp/guzzle-services/src/SchemaFormatter.php',
+        'GuzzleHttp\\Command\\Guzzle\\SchemaValidator' => __DIR__ . '/..' . '/guzzlehttp/guzzle-services/src/SchemaValidator.php',
+        'GuzzleHttp\\Command\\Guzzle\\Serializer' => __DIR__ . '/..' . '/guzzlehttp/guzzle-services/src/Serializer.php',
+        'GuzzleHttp\\Command\\HasDataTrait' => __DIR__ . '/..' . '/guzzlehttp/command/src/HasDataTrait.php',
+        'GuzzleHttp\\Command\\Result' => __DIR__ . '/..' . '/guzzlehttp/command/src/Result.php',
+        'GuzzleHttp\\Command\\ResultInterface' => __DIR__ . '/..' . '/guzzlehttp/command/src/ResultInterface.php',
+        'GuzzleHttp\\Command\\ServiceClient' => __DIR__ . '/..' . '/guzzlehttp/command/src/ServiceClient.php',
+        'GuzzleHttp\\Command\\ServiceClientInterface' => __DIR__ . '/..' . '/guzzlehttp/command/src/ServiceClientInterface.php',
+        'GuzzleHttp\\Command\\ToArrayInterface' => __DIR__ . '/..' . '/guzzlehttp/command/src/ToArrayInterface.php',
         'GuzzleHttp\\Cookie\\CookieJar' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/Cookie/CookieJar.php',
         'GuzzleHttp\\Cookie\\CookieJarInterface' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/Cookie/CookieJarInterface.php',
         'GuzzleHttp\\Cookie\\FileCookieJar' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/Cookie/FileCookieJar.php',
@@ -4510,6 +4570,10 @@ class ComposerStaticInit39ffbf429259dc42796c4ff6840fde1b
         'Ramsey\\Uuid\\UuidInterface' => __DIR__ . '/..' . '/ramsey/uuid/src/UuidInterface.php',
         'Ramsey\\Uuid\\Validator\\GenericValidator' => __DIR__ . '/..' . '/ramsey/uuid/src/Validator/GenericValidator.php',
         'Ramsey\\Uuid\\Validator\\ValidatorInterface' => __DIR__ . '/..' . '/ramsey/uuid/src/Validator/ValidatorInterface.php',
+        'Ranium\\Fixerio\\Client' => __DIR__ . '/..' . '/ranium/fixerio-php-client/src/Client.php',
+        'Ranium\\LaravelFixerio\\Client' => __DIR__ . '/..' . '/ranium/laravel-fixerio/src/Client.php',
+        'Ranium\\LaravelFixerio\\Facade' => __DIR__ . '/..' . '/ranium/laravel-fixerio/src/Facade.php',
+        'Ranium\\LaravelFixerio\\ServiceProvider' => __DIR__ . '/..' . '/ranium/laravel-fixerio/src/ServiceProvider.php',
         'SebastianBergmann\\CodeCoverage\\CodeCoverage' => __DIR__ . '/..' . '/phpunit/php-code-coverage/src/CodeCoverage.php',
         'SebastianBergmann\\CodeCoverage\\CoveredCodeNotExecutedException' => __DIR__ . '/..' . '/phpunit/php-code-coverage/src/Exception/CoveredCodeNotExecutedException.php',
         'SebastianBergmann\\CodeCoverage\\Driver\\Driver' => __DIR__ . '/..' . '/phpunit/php-code-coverage/src/Driver/Driver.php',

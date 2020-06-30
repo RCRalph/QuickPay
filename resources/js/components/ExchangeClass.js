@@ -12,10 +12,10 @@ class Currency extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			ready: false,
 			token: props.token,
 			balance: {},
 			currencies: [],
-			exchangeKey: "",
 			avaliableCurrencies: [],
 			exchangeRates: {},
 			currentValueLeft: 0,
@@ -42,38 +42,27 @@ class Currency extends React.Component {
 				return apiData.currencies[parseInt(item, 10) - 1];
 			})
 
-			//get currencies
-			let currencies = {
+			const currencies = {
 				left: avaliableCurrencies[0].id,
 				right: avaliableCurrencies[0].id == 1 ? apiData.currencies[1].id : 1
 			}
 
-			const currencyFetchLink = "http://data.fixer.io/api/latest?access_key=" +
-				apiData.exchangeKey +
-				"&symbols=" +
-				apiData.currencies.map(item => item.ISO_4217 != "EUR" ? item.ISO_4217 : "").filter(item => item != "").join(",") +
-				"&format=1";
+			const sourceCurrency = apiData.currencies[currencies.left - 1].ISO_4217;
+			const targetCurrency = apiData.currencies[currencies.right - 1].ISO_4217;
+			const currentRate = apiData.exchangeRates[targetCurrency] / apiData.exchangeRates[sourceCurrency];
 
-			fetch(currencyFetchLink)
-			.then(data => data.json())
-			.then(data => {
-				const rates = { ...data.rates, EUR: 1 };
-				const currentRate = rates[apiData.currencies[currencies.right - 1].ISO_4217] / rates[apiData.currencies[currencies.left - 1].ISO_4217];
-
-				this.setState({
-					balance: apiData.balance,
-					currencies: apiData.currencies,
-					exchangeKey: apiData.exchangeKey,
-					avaliableCurrencies: avaliableCurrencies,
-					exchangeRates: rates,
-					currentCurrencyLeft: currencies.left,
-					currentCurrencyRight: currencies.right,
-					currentExchangeRate: currentRate,
-					currentValueLeft: "",
-					currentValueRight: "",
-				});
-			})
-			.catch(error => console.log(error));
+			this.setState({
+				balance: apiData.balance,
+				currencies: apiData.currencies,
+				avaliableCurrencies: avaliableCurrencies,
+				exchangeRates: apiData.exchangeRates,
+				currentCurrencyLeft: currencies.left,
+				currentCurrencyRight: currencies.right,
+				currentExchangeRate: currentRate,
+				currentValueLeft: "",
+				currentValueRight: "",
+				ready: true
+			});
 		});
 	}
 
@@ -141,56 +130,67 @@ class Currency extends React.Component {
 	}
 
 	render() {
-		const dataLeft = {
-			id: "valueLeft",
-			placeholder: "Amount to exchange",
-			currentValue: this.state.currentValueLeft,
-			currencyID: "currenciesLeft",
-			currencyValue: this.state.currentCurrencyLeft,
-			currencies: this.state.avaliableCurrencies,
-		}
+		if (this.state.ready) {
+			const dataLeft = {
+				id: "valueLeft",
+				placeholder: "Amount to exchange",
+				currentValue: this.state.currentValueLeft,
+				currencyID: "currenciesLeft",
+				currencyValue: this.state.currentCurrencyLeft,
+				currencies: this.state.avaliableCurrencies,
+			}
 
-		const dataRight = {
-			id: "valueRight",
-			placeholder: "Amount to get",
-			currentValue: this.state.currentValueRight,
-			currencyID: "currenciesRight",
-			currencyLeft: this.state.currentCurrencyLeft,
-			currencyValue: this.state.currentCurrencyRight,
-			currencies: this.state.currencies
-		}
+			const dataRight = {
+				id: "valueRight",
+				placeholder: "Amount to get",
+				currentValue: this.state.currentValueRight,
+				currencyID: "currenciesRight",
+				currencyLeft: this.state.currentCurrencyLeft,
+				currencyValue: this.state.currentCurrencyRight,
+				currencies: this.state.currencies
+			}
 
-		return (
-			<form onSubmit={this.handleSubmit}>
-				<div className="row">
-					<div className="col-6 text-right font-weight-bold">
-						Exchange rate:
-					</div>
-
-					<div className="col-6">
-						{this.state.currentExchangeRate}
-					</div>
-				</div>
-
-				<div className="row">
-					<div className="w-100 d-flex justify-content-between align-items-center mx-3">
-						<Block {...dataLeft} handleValues={this.handleValues} handleCurrencies={this.handleCurrencies} />
-
-						<div className="display-1 my-0 py-0 mx-4 text-primary">
-							<FontAwesomeIcon icon={faLongArrowAltRight} />
+			return (
+				<form onSubmit={this.handleSubmit}>
+					<div className="row">
+						<div className="col-6 text-right font-weight-bold">
+							Exchange rate:
 						</div>
 
-						<Block {...dataRight} handleValues={this.handleValues} handleCurrencies={this.handleCurrencies} />
+						<div className="col-6">
+							{this.state.currentExchangeRate}
+						</div>
 					</div>
-				</div>
 
-				<div className="row">
-					<div className="col-4 offset-4">
-						<button className="btn btn-primary btn-block">Exchange</button>
+					<div className="row">
+						<div className="w-100 d-flex justify-content-between align-items-center mx-3">
+							<Block {...dataLeft} handleValues={this.handleValues} handleCurrencies={this.handleCurrencies} />
+
+							<div className="display-1 my-0 py-0 mx-4 text-primary">
+								<FontAwesomeIcon icon={faLongArrowAltRight} />
+							</div>
+
+							<Block {...dataRight} handleValues={this.handleValues} handleCurrencies={this.handleCurrencies} />
+						</div>
+					</div>
+
+					<div className="row">
+						<div className="col-4 offset-4">
+							<button className="btn btn-primary btn-block">Exchange</button>
+						</div>
+					</div>
+				</form>
+			)
+		}
+		else {
+			return (
+				<div className="d-flex justify-content-center">
+					<div className="spinner-grow text-primary my-5" role="status">
+						<span className="sr-only">Loading...</span>
 					</div>
 				</div>
-			</form>
-		)
+			)
+		}
 	}
 }
 

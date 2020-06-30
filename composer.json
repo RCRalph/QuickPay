@@ -18,7 +18,8 @@
         "laravel/passport": "^9.2",
         "laravel/telescope": "^3.5",
         "laravel/tinker": "^2.0",
-        "laravel/ui": "^2.0"
+        "laravel/ui": "^2.0",
+        "ranium/laravel-fixerio": "^1.0"
     },
     "require-dev": {
         "facade/ignition": "^2.0",
