@@ -13,11 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-	$transactionCount = \App\Transaction::all()->count();
-	dd($transactionCount);
-    return view('welcome', compact('transactionCount'));
-});
+Route::get('/', 'HomeController@welcome')->name('welcome');
 
 Auth::routes();
 
