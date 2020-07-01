@@ -46,7 +46,7 @@ class UsersController extends Controller
 
             if (request()->has("picture")) {
                 $picturePath = request("picture")->store("users", "public");
-                $picture = Image::make("storage/" . $picturePath)->fit(400, 400)->save();
+                $picture = Image::make(public_path("storage/" . $picturePath))->fit(400, 400)->save();
                 $data = array_merge($data, ["picture" => $picturePath]);
             }
 
