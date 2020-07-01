@@ -69,7 +69,7 @@
                             </tbody>
                         </table>
                     @else
-                        No requests were found
+                        No requests found
                     @endif
                 </div>
             </div>
@@ -113,7 +113,7 @@
                             </tbody>
                         </table>
                     @else
-                    	No transactions were found
+                    	No transactions found
                     @endif
                 </div>
             </div>

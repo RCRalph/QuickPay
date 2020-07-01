@@ -96,6 +96,7 @@
                             </div>
 							@endif
                             <hr>
+
                             <div class="row">
                                 @can ('complete', $request)
                                     <div class="col-md-6 mb-3">

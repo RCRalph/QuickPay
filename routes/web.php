@@ -14,7 +14,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+	$transactionCount = \App\Transaction::all()->count();
+	dd($transactionCount);
+    return view('welcome', compact('transactionCount'));
 });
 
 Auth::routes();

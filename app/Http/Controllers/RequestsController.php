@@ -21,7 +21,21 @@ class RequestsController extends Controller
         $received = Request::where("receiver_id", "=", auth()->user()->id)->count() > 0;
 
         return view('requests.index', compact('sent', 'received'));
-    }
+	}
+
+	public function sent()
+	{
+		$requests = Request::where("sender_id", "=", auth()->user()->id)->orderBy("id", "DESC")->paginate(10);
+
+		return view('requests.sent', compact('requests'));
+	}
+
+	public function received()
+	{
+		$requests = Request::where("receiver_id", "=", auth()->user()->id)->orderBy("id", "DESC")->paginate(10);
+
+		return view('requests.received', compact('requests'));
+	}
 
     public function show(Request $request)
     {
@@ -39,7 +53,7 @@ class RequestsController extends Controller
 
         $currency = Currency::find($request->currency_id);
 
-        $balance = app('App\Http\Controllers\BalanceController')->getBalance()->toArray();
+		$balance = app('App\Http\Controllers\BalanceController')->getBalance()->toArray();
         $isDisabled = array_key_exists($currency->id, $balance) ?
             (floatval($request->amount) > $balance[$currency->id]) : true;
 
@@ -78,7 +92,7 @@ class RequestsController extends Controller
             return redirect("/transactions");
         }
         else {
-            Request::create([
+            $r = Request::create([
                 "sender_id" => auth()->user()->id,
                 "receiver_id" => User::where("username", "=", $data["username"])->first()->id,
                 "title" => $data["title"],
@@ -86,7 +100,7 @@ class RequestsController extends Controller
                 "amount" => floor($data["amount"] * 100) / 100,
                 "currency_id" => $data["currency"]
             ]);
-            return redirect("/requests");
+            return redirect("/requests/$r->id");
         }
     }
 
@@ -106,7 +120,7 @@ class RequestsController extends Controller
 
             if (array_key_exists($currency->id, $balance)) {
                 if (floatval($request->amount) <= $balance[$currency->id]) {
-                    Transaction::create([
+                    $t = Transaction::create([
                         "sender_id" => $request->receiver_id,
                         "recipient_id" => $request->sender_id,
                         "title" => $request->title,
@@ -119,6 +133,6 @@ class RequestsController extends Controller
         }
 
         $request->delete();
-        return redirect($data["btnAct"] == 'a' ? "/transactions" : "/requests");
+        return redirect($data["btnAct"] == 'a' ? "/transactions/$t->id" : "/requests/received");
     }
 }

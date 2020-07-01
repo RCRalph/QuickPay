@@ -30,7 +30,7 @@ class RequestPolicy
      */
     public function view(User $user, Request $request)
     {
-        return $user->id == $request->sender_id || $user->id == $request->reciever_id;
+        return $user->id == $request->sender_id || $user->id == $request->receiver_id;
     }
 
     /**
@@ -77,7 +77,7 @@ class RequestPolicy
      */
     public function complete(User $user, Request $request)
     {
-        return $user->id == $request->reciever_id;
+        return $user->id == $request->receiver_id;
     }
 
     /**

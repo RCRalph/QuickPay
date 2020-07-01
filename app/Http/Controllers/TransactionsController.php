@@ -54,7 +54,7 @@ class TransactionsController extends Controller
             'currency' => ['required', 'integer', 'exists:currencies,id']
         ]);
 
-        Transaction::create([
+        $t = Transaction::create([
             "sender_id" => auth()->user()->id,
             "recipient_id" => User::where("username", "=", $data["username"])->first()->id,
             "title" => $data["title"],
@@ -63,7 +63,7 @@ class TransactionsController extends Controller
             "currency_id" => $data["currency"]
         ]);
 
-        return redirect("/transactions");
+        return redirect("/transactions$t->id");
     }
 
     public function show(Transaction $transaction)
