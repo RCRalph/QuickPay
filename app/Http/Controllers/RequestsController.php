@@ -17,10 +17,10 @@ class RequestsController extends Controller
 
     public function index()
     {
-        $sent = auth()->user()->requestsSender->sortByDesc('created_at');
-        $recieved = auth()->user()->requestsReciever->sortByDesc('created_at');
+		$sent = Request::where("sender_id", "=", auth()->user()->id)->orderBy("id", "DESC")->paginate(1);
+        $received = Request::where("receiver_id", "=", auth()->user()->id)->orderBy("id", "DESC")->paginate(1);
 
-        return view('requests.index', compact('sent', 'recieved'));
+        return view('requests.index', compact('sent', 'received'));
     }
 
     public function show(Request $request)
@@ -32,9 +32,9 @@ class RequestsController extends Controller
             $sender->picture = "default-profile-picture.png";
         }
 
-        $reciever = User::find($request->reciever_id);
-        if ($reciever->picture == null) {
-            $reciever->picture = "default-profile-picture.png";
+        $receiver = User::find($request->receiver_id);
+        if ($receiver->picture == null) {
+            $receiver->picture = "default-profile-picture.png";
         }
 
         $currency = Currency::find($request->currency_id);
@@ -43,7 +43,7 @@ class RequestsController extends Controller
         $isDisabled = array_key_exists($currency->id, $balance) ?
             (floatval($request->amount) > $balance[$currency->id]) : true;
 
-        return view("requests.show", compact("request", "sender", "reciever", "currency", "isDisabled"));
+        return view("requests.show", compact("request", "sender", "receiver", "currency", "isDisabled"));
     }
 
     public function create()
@@ -58,11 +58,11 @@ class RequestsController extends Controller
 			'username' => [
 				'required',
                 'string',
-				'check_reciever:username,username'
+				'check_receiver:username,username'
 			],
             'title' => ['required', 'string', 'max:255'],
             'description' => ['max:2047'],
-            'amount' => ['required', 'numeric', 'min:0', 'not_in:0'],
+            'amount' => ['required', 'numeric', 'gt:0'],
             'currency' => ['required', 'integer', 'exists:currencies,id']
         ]);
 
@@ -80,7 +80,7 @@ class RequestsController extends Controller
         else {
             Request::create([
                 "sender_id" => auth()->user()->id,
-                "reciever_id" => User::where("username", "=", $data["username"])->first()->id,
+                "receiver_id" => User::where("username", "=", $data["username"])->first()->id,
                 "title" => $data["title"],
                 "description" => $data["description"],
                 "amount" => floor($data["amount"] * 100) / 100,
@@ -107,7 +107,7 @@ class RequestsController extends Controller
             if (array_key_exists($currency->id, $balance)) {
                 if (floatval($request->amount) <= $balance[$currency->id]) {
                     Transaction::create([
-                        "sender_id" => $request->reciever_id,
+                        "sender_id" => $request->receiver_id,
                         "recipient_id" => $request->sender_id,
                         "title" => $request->title,
                         "description" => $request->description,

@@ -17,5 +17,6 @@ use Illuminate\Support\Facades\Route;
 //Route::post('/getExchangeData', "ApiController@getExchangeData");
 
 Route::middleware("auth:api")->group(function() {
-	Route::post('/getExchangeData', "ApiController@getExchangeData");
+	Route::post('/exchange/index', "ApiController@index");
+	Route::post('/exchange/store', "ApiController@store");
 });

@@ -26,10 +26,10 @@ class HomeController extends Controller
         // -- Get Transactions --
         $transactions = auth()->user()->transactionsSender
             ->merge(auth()->user()->transactionsRecipient)
-            ->sortByDesc("created_at")->take(5);
+			->sortByDesc("id")->take(5);
 
         // -- Get Requests --
-        $requests = auth()->user()->requestsReciever->sortByDesc("created_at")->take(3);
+        $requests = auth()->user()->requestsReceiver->sortByDesc("id")->take(3);
 
         // -- Get Balance --
         $balance = app('App\Http\Controllers\BalanceController')->getBalance()->take(3);

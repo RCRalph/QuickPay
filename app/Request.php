@@ -13,9 +13,9 @@ class Request extends Model
         return $this->belongsTo(User::class, 'sender_id');
     }
 
-    public function reciever()
+    public function receiver()
     {
-        return $this->belongsTo(User::class, 'reciever_id');
+        return $this->belongsTo(User::class, 'receiver_id');
     }
 
     public function currency()

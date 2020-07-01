@@ -27,9 +27,7 @@ class TransactionsController extends Controller
      */
     public function index()
     {
-        $tSender = auth()->user()->transactionsSender;
-        $tRecipient = auth()->user()->transactionsRecipient;
-        $transactions = $tSender->merge($tRecipient)->sortByDesc("created_at");
+        $transactions = Transaction::where("sender_id", "=", auth()->user()->id)->orWhere("recipient_id", "=", auth()->user()->id)->orderBy("id", "DESC")->paginate(10);
 
         return view('transactions.index', compact('transactions'));
     }
@@ -52,7 +50,7 @@ class TransactionsController extends Controller
 			],
             'title' => ['required', 'string', 'max:255'],
             'description' => ['max:2047'],
-            'amount' => ['required', 'numeric', 'check_balance:amount,currency', 'min:0', 'not_in:0'],
+            'amount' => ['required', 'numeric', 'check_balance:amount,currency', 'gt:0'],
             'currency' => ['required', 'integer', 'exists:currencies,id']
         ]);
 

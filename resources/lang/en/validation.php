@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'check_balance' => 'Not enough money to complete this transaction.',
+    'check_balance' => 'Not enough money.',
     'check_reciever' => "The entered user doesn't exist.",
     'check_superuser' => "The username has already been taken.",
 

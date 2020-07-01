@@ -79,16 +79,7 @@ class BalanceController extends Controller
             }
 		}
 		$canExchange = count($balance);
-
-		$token = auth()->user()->createToken("authToken")->accessToken;
-
-		if ($canExchange) {
-			JavaScript::put([
-				"balance" => $balance,
-				"currencies" => Currency::all()->toArray(),
-				"exchangeKey" => config("app.fixer_io_key")
-			]);
-		}
+		$token = $canExchange ? auth()->user()->createToken("authToken")->accessToken : "";
 
 		return view('balance.exchange', compact('canExchange', 'token'));
 	}

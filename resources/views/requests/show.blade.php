@@ -15,12 +15,12 @@
 
                 <div class="row">
                     <div class="card-body w-100 d-flex justify-content-between align-items-center mx-3">
-                        <a href="{{ $reciever['id'] == 0 ? '#' : '/users/' . $reciever['id'] }}" class="text-decoration-none w-100 text-dark">
+                        <a href="{{ $receiver['id'] == 0 ? '#' : '/users/' . $receiver['id'] }}" class="text-decoration-none w-100 text-dark">
                             <div class="card w-100">
                                 <div class="card-header text-center font-weight-bold h2 text-nowrap">Payer</div>
                                 <div class="card-body text-center d-flex flex-column justify-content-center align-items-center">
-                                    <img src="/storage/{{ $reciever['picture'] }}" class="rounded{{ $reciever['picture'] != 'default-profile-picture.png' ? '-circle' : '' }}" style="max-width: 75%; max-height: 225px;">
-                                    <div class="mt-3 font-weight-bold h5">{{ $reciever['username'] }}</div>
+                                    <img src="/storage/{{ $receiver['picture'] }}" class="rounded{{ $receiver['picture'] != 'default-profile-picture.png' ? '-circle' : '' }}" style="max-width: 75%; max-height: 225px;">
+                                    <div class="mt-3 font-weight-bold h5">{{ $receiver['username'] }}</div>
                                 </div>
                             </div>
                         </a>
@@ -31,7 +31,7 @@
 
                         <a href="{{ $sender['id'] == 0 ? '#' : '/users/' .  $sender['id'] }}" class="text-decoration-none w-100 text-dark">
                             <div class="card w-100">
-                                <div class="card-header text-center font-weight-bold h2 text-nowrap">Reciever</div>
+                                <div class="card-header text-center font-weight-bold h2 text-nowrap">Receiver</div>
                                 <div class="card-body text-center">
                                     <img src="/storage/{{ $sender['picture'] }}" class="rounded{{ $sender['picture'] != 'default-profile-picture.png' ? '-circle' : '' }}" style="max-width: 75%; max-height: 225px;">
                                     <div class="mt-3 font-weight-bold h5">{{ $sender['username'] }}</div>

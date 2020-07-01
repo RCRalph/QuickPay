@@ -75,8 +75,8 @@
                                         <div class="card-header text-center font-weight-bold h4">
                                             Amount
                                         </div>
-                                        <div class="card-body text-center font-weight-bold {{ $transaction->recipient->id == auth()->user()->id ? ('text-success') : ('text-danger') }}">
-                                        {{ ($transaction->recipient->id == auth()->user()->id ? "+" : "-") . number_format($transaction->amount, 2, ".", " ") }} {{ $currency->ISO_4217 }}
+                                        <div class="card-body text-center font-weight-bold {{ $transaction->recipient_id == auth()->user()->id ? ('text-success') : ('text-danger') }}">
+                                        	{{ ($transaction->recipient_id == auth()->user()->id ? "+" : "-") . number_format($transaction->amount, 2, ".", " ") }} {{ $currency->ISO_4217 }}
                                         </div>
                                     </div>
                                 </div>

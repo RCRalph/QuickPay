@@ -43,14 +43,14 @@ class User extends Authenticatable
         parent::boot();
 
         static::created(function ($user) {
-            Transaction::create([
-                "sender_id" => 0,
-                "recipient_id" => $user->id,
-                "title" => "Welcome to QuickPay",
-                "description" => "Welcome to QuickPay. Here is 100 EUR to get you going.",
-                "amount" => 100,
-                "currency_id" => 2
-            ]);
+			Transaction::create([
+				"sender_id" => 0,
+				"recipient_id" => $user->id,
+				"title" => "Welcome to QuickPay",
+				"description" => "Welcome to QuickPay. Here is 100 EUR to get you going.",
+				"amount" => 100,
+				"currency_id" => 2
+			]);
         });
     }
 
@@ -69,8 +69,8 @@ class User extends Authenticatable
         return $this->hasMany(Request::class, "sender_id");
     }
 
-    public function requestsReciever()
+    public function requestsReceiver()
     {
-        return $this->hasMany(Request::class, "reciever_id");
+        return $this->hasMany(Request::class, "receiver_id");
     }
 }

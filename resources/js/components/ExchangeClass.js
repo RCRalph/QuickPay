@@ -26,12 +26,13 @@ class Currency extends React.Component {
 		}
 		this.handleCurrencies = this.handleCurrencies.bind(this);
 		this.handleValues = this.handleValues.bind(this);
+		this.handleSubmit = this.handleSubmit.bind(this);
 	}
 
 	componentDidMount() {
 		axios({
 			method: "post",
-			url: "/api/getExchangeData",
+			url: "/api/exchange/index",
 			headers: {
 				Authorization: "Bearer " + this.state.token
 			}
@@ -125,8 +126,40 @@ class Currency extends React.Component {
 		});
 	}
 
-	handleSubmit() {
+	handleSubmit(event) {
+		event.preventDefault();
+		let element = document.getElementById("submitButton");
+		element.innerHTML = '<div class="spinner-border text-light" role="status"><span class="sr-only">Loading...</span></div>';
+		element.disabled = true;
+		axios({
+			method: "post",
+			url: "/api/exchange/store",
+			headers: {
+				Authorization: "Bearer " + this.state.token
+			},
+			data: {
+				value: this.state.currentValueLeft,
+				sourceCurrency: this.state.currentCurrencyLeft,
+				targetCurrency: this.state.currentCurrencyRight
+			}
+		})
+		.then(response => {
+			console.log(response);
+			if (response.data.status == "success") {
+				window.location.href = "/transactions";
+			}
+			else {
+				let element = document.getElementById("submitButton");
+				element.innerHTML = (Exchange);
 
+				element.classList.add("btn-danger");
+				setTimeout(() => {
+					element.classList.remove("btn-danger");
+					element.disabled = false;
+				}, 500);
+
+			}
+		});
 	}
 
 	render() {
@@ -176,7 +209,7 @@ class Currency extends React.Component {
 
 					<div className="row">
 						<div className="col-4 offset-4">
-							<button className="btn btn-primary btn-block">Exchange</button>
+							<button className="btn btn-primary btn-block" id="submitButton">Exchange</button>
 						</div>
 					</div>
 				</form>

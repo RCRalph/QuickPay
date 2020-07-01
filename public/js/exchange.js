@@ -36852,6 +36852,7 @@ var Currency = /*#__PURE__*/function (_React$Component) {
     };
     _this.handleCurrencies = _this.handleCurrencies.bind(_assertThisInitialized(_this));
     _this.handleValues = _this.handleValues.bind(_assertThisInitialized(_this));
+    _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -36862,7 +36863,7 @@ var Currency = /*#__PURE__*/function (_React$Component) {
 
       axios__WEBPACK_IMPORTED_MODULE_4___default()({
         method: "post",
-        url: "/api/getExchangeData",
+        url: "/api/exchange/index",
         headers: {
           Authorization: "Bearer " + this.state.token
         }
@@ -36943,7 +36944,42 @@ var Currency = /*#__PURE__*/function (_React$Component) {
     }
   }, {
     key: "handleSubmit",
-    value: function handleSubmit() {}
+    value: function handleSubmit(event) {
+      event.preventDefault();
+      var element = document.getElementById("submitButton");
+      element.innerHTML = '<div class="spinner-border text-light" role="status"><span class="sr-only">Loading...</span></div>';
+      element.disabled = true;
+      axios__WEBPACK_IMPORTED_MODULE_4___default()({
+        method: "post",
+        url: "/api/exchange/store",
+        headers: {
+          Authorization: "Bearer " + this.state.token
+        },
+        data: {
+          value: this.state.currentValueLeft,
+          sourceCurrency: this.state.currentCurrencyLeft,
+          targetCurrency: this.state.currentCurrencyRight
+        }
+      }).then(function (response) {
+        console.log(response);
+
+        if (response.data.status == "success") {
+          window.location.href = "/transactions";
+        } else {
+          var _element = document.getElementById("submitButton");
+
+          _element.innerHTML = Exchange;
+
+          _element.classList.add("btn-danger");
+
+          setTimeout(function () {
+            _element.classList.remove("btn-danger");
+
+            _element.disabled = false;
+          }, 500);
+        }
+      });
+    }
   }, {
     key: "render",
     value: function render() {
@@ -36992,7 +37028,8 @@ var Currency = /*#__PURE__*/function (_React$Component) {
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "col-4 offset-4"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-          className: "btn btn-primary btn-block"
+          className: "btn btn-primary btn-block",
+          id: "submitButton"
         }, "Exchange"))));
       } else {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {

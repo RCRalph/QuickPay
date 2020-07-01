@@ -17,7 +17,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+
     }
 
     /**
@@ -39,7 +39,7 @@ class AppServiceProvider extends ServiceProvider
             return (strtolower($username) != "superuser");
         });
 
-        Validator::extend('check_reciever', function ($attribute, $value, $parameters, $validator) {
+        Validator::extend('check_receiver', function ($attribute, $value, $parameters, $validator) {
             $columnName = $validator->getData()[$parameters[0]];
             $username = $validator->getData()[$parameters[1]];
             return (strtolower($username) == "superuser" || User::where("username", "=", $username)->exists());

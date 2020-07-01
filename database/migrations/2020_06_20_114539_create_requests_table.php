@@ -16,7 +16,7 @@ class CreateRequestsTable extends Migration
         Schema::create('requests', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('sender_id');
-            $table->unsignedBigInteger('reciever_id');
+            $table->unsignedBigInteger('receiver_id');
             $table->string('title');
             $table->string('description')->nullable();
             $table->decimal('amount', 20, 2);
