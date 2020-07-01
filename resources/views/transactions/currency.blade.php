@@ -6,7 +6,7 @@
         <div class="col-lg-12 mt-3">
             <div class="card">
                 <div class="card-header d-flex">
-                    <div class="mr-auto my-auto font-weight-bold h2">Transactions By Currency: {{ $currency->ISO_4217 }}</div>
+                    <div class="mr-auto my-auto h4">Transactions By Currency: {{ $currency->ISO_4217 }}</div>
                     <div class="d-flex">
                         <a role="button" class="btn btn-primary mr-3" href="/transactions/create">New Transaction</a>
                         <a role="button" class="btn btn-primary" href="/transactions">Show All Transactions</a>

@@ -3,10 +3,10 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-lg-4 mt-3">
+        <div class="col-xl-4 mt-3">
             <div class="card h-100">
                 <div class="card-header d-flex">
-                    <div class="mr-auto my-auto">Account Balance</div>
+                    <div class="mr-auto my-auto h4">Account Balance</div>
                     <a role="button" class="btn btn-primary" href="/balance">Show Balance</a>
                 </div>
 
@@ -34,10 +34,10 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-8 mt-3">
+        <div class="col-xl-8 mt-3">
             <div class="card h-100">
             <div class="card-header d-flex">
-                    <div class="mr-auto my-auto">Payment Requests</div>
+                    <div class="mr-auto my-auto h4">Payment Requests</div>
                     <div class="d-flex">
                         <a role="button" class="btn btn-primary mr-3" href="/requests/create">New Request</a>
                         <a role="button" class="btn btn-primary" href="/requests">Show Requests</a>
@@ -79,7 +79,7 @@
         <div class="col-lg-12 mt-3">
             <div class="card">
                 <div class="card-header d-flex">
-                    <div class="mr-auto my-auto">Recent Transactions</div>
+                    <div class="mr-auto my-auto h4">Recent Transactions</div>
                     <div class="d-flex">
                         <a role="button" class="btn btn-primary mr-3" href="/transactions/create">New Transaction</a>
                         <a role="button" class="btn btn-primary" href="/transactions">Show Transactions</a>

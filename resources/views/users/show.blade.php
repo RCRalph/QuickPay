@@ -6,7 +6,7 @@
         <div class="col-lg-12 mt-3">
             <div class="card">
                 <div class="card-header d-flex">
-                    <div class="mr-auto my-auto font-weight-bold h2">User #{{ $user->id }}</div>
+                    <div class="mr-auto my-auto h4">User #{{ $user->id }}</div>
                     @can('update', $user)
                         <a role="button" class="btn btn-primary" href="/users/{{ $user->id }}/edit">Edit profile</a>
                     @endcan

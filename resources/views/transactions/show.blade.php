@@ -6,7 +6,7 @@
         <div class="col-lg-12 mt-3">
             <div class="card">
                 <div class="card-header d-flex">
-                    <div class="mr-auto my-auto h2 font-weight-bold">Transaction #{{$transaction->id}}</div>
+                    <div class="mr-auto my-auto h4">Transaction #{{$transaction->id}}</div>
                     <div class="d-flex">
                         <a role="button" class="btn btn-primary mr-3" href="/transactions/create">New Transaction</a>
                         <a role="button" class="btn btn-primary" href="/transactions">Show Transactions</a>

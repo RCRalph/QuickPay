@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Edit profile') }}</div>
+                <div class="card-header h4">{{ __('Edit profile') }}</div>
 
                 <div class="card-body">
                     <form method="POST" action="/users/{{ $user->id }}" enctype="multipart/form-data">

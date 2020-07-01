@@ -17,8 +17,8 @@ class RequestsController extends Controller
 
     public function index()
     {
-		$sent = Request::where("sender_id", "=", auth()->user()->id)->orderBy("id", "DESC")->paginate(1);
-        $received = Request::where("receiver_id", "=", auth()->user()->id)->orderBy("id", "DESC")->paginate(1);
+		$sent = Request::where("sender_id", "=", auth()->user()->id)->count() > 0;
+        $received = Request::where("receiver_id", "=", auth()->user()->id)->count() > 0;
 
         return view('requests.index', compact('sent', 'received'));
     }

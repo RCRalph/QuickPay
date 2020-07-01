@@ -36,6 +36,8 @@ Route::get('/transactions/currency/{currency}', 'TransactionsController@currency
 Route::get('/transactions/{transaction}', 'TransactionsController@show')->name('transactions.show');
 
 Route::get('/requests', 'RequestsController@index')->name('requests.index');
+Route::get('/requests/sent', 'RequestsController@sent')->name('requests.sent');
+Route::get('/requests/received', 'RequestsController@received')->name('requests.sent');
 Route::post('/requests', 'RequestsController@store')->name('requests.store');
 Route::get('/requests/create', 'RequestsController@create')->name('requests.create');
 Route::get('/requests/{request}', 'RequestsController@show')->name('requests.show');

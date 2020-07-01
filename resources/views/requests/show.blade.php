@@ -6,7 +6,7 @@
         <div class="col-lg-12 mt-3">
             <div class="card">
                 <div class="card-header d-flex">
-                    <div class="mr-auto my-auto font-weight-bold h2">Request #{{ $request->id }}</div>
+                    <div class="mr-auto my-auto h4">Request #{{ $request->id }}</div>
                     <div class="d-flex">
                         <a role="button" class="btn btn-primary mr-3" href="/requests/create">New Request</a>
                         <a role="button" class="btn btn-primary" href="/requests">Show requests</a>

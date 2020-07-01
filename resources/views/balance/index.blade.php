@@ -6,7 +6,7 @@
         <div class="col-lg-12 mt-3">
             <div class="card">
                 <div class="card-header d-flex">
-					<div class="mr-auto my-auto font-weight-bold h2">Account Balance</div>
+					<div class="mr-auto my-auto h4">Account Balance</div>
                     <a role="button" class="btn btn-primary" href="/balance/exchange">Exchange Currencies</a>
 				</div>
 
