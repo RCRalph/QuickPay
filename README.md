@@ -1,7 +1,7 @@
 # About the project
 The project was created with intention to create a PayPal clone. Heroku doesn't provide me with any type of storage, which means that currency exchange and profile pictures are impossible to add. Also on mobile devices the dropdown menu sometimes doesn't work. For the best experience, please use the wide-screen version. You can request money from the SuperUser and instantly get the amount you want.
 
-Created with Laravel Framework:
+# Created with Laravel Framework:
 
 <p align="center"><img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1566331377/laravel-logolockup-cmyk-red.svg" width="400"></p>
 
