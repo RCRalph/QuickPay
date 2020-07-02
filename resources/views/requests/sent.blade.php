@@ -16,29 +16,31 @@
                 <div class="card-body">
                     @if ($requests->count() > 0)
 						<div class="card-body w-100 d-flex justify-content-center align-items-center">
-							<table class="table table-hover text-center">
-								<thead>
-									<tr>
-										<th scope="col">Date</th>
-										<th scope="col">Receiver</th>
-										<th scope="col">Title</th>
-										<th scope="col">Amount</th>
-									</tr>
-								</thead>
-
-								<tbody>
-									@foreach($requests as $request)
-										<tr onclick='window.document.location="/requests/{{ $request->id }}"'>
-											<td class="align-middle">{{ DateTime::createFromFormat("yy-m-d G:i:s", $request->created_at)->format("yy-m-d") }}</td>
-											<td class="align-middle">{{ $request->receiver_id == 0 ? "SuperUser" : $request->receiver->username }}</td>
-											<td class="align-middle">{{ $request->title }}</td>
-											<td class="align-middle font-weight-bold ">
-												{{ number_format($request->amount, 2, ".", " ") }} {{ $request->currency->ISO_4217 }}
-											</td>
+							<div class="table-responsive-xl w-100">
+								<table class="table table-hover text-center text-nowrap">
+									<thead>
+										<tr>
+											<th scope="col">Date</th>
+											<th scope="col">Receiver</th>
+											<th scope="col">Title</th>
+											<th scope="col">Amount</th>
 										</tr>
-									@endforeach
-								</tbody>
-							</table>
+									</thead>
+
+									<tbody>
+										@foreach($requests as $request)
+											<tr onclick='window.document.location="/requests/{{ $request->id }}"'>
+												<td class="align-middle">{{ DateTime::createFromFormat("yy-m-d G:i:s", $request->created_at)->format("yy-m-d") }}</td>
+												<td class="align-middle">{{ $request->receiver_id == 0 ? "SuperUser" : $request->receiver->username }}</td>
+												<td class="align-middle">{{ $request->title }}</td>
+												<td class="align-middle font-weight-bold ">
+													{{ number_format($request->amount, 2, ".", " ") }} {{ $request->currency->ISO_4217 }}
+												</td>
+											</tr>
+										@endforeach
+									</tbody>
+								</table>
+							</div>
 						</div>
 
 						<div class="d-flex justify-content-center">
