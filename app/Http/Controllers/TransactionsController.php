@@ -63,7 +63,7 @@ class TransactionsController extends Controller
             "currency_id" => $data["currency"]
         ]);
 
-        return redirect("/transactions$t->id");
+        return redirect("/transactions/$t->id");
     }
 
     public function show(Transaction $transaction)
