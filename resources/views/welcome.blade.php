@@ -3,7 +3,7 @@
 @section('content')
 	<div class="container text-center">
 		<header class="masthead text-center">
-			<h1 class="masthead-heading mt-1 mb-5 display-1">QuickPay</h1>
+			<h1 class="masthead-heading mt-1 mb-5 display-3">QuickPay</h1>
 			<p class="h3">An Online Money Transfer Platform</p>
 		</header>
 
