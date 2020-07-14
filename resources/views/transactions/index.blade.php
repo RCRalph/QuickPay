@@ -10,7 +10,7 @@
                     <a role="button" class="btn btn-primary" href="/transactions/create">New Transaction</a>
                 </div>
 
-                <div class="card-body w-100 d-flex justify-content-center align-items-center">
+                <div class="card-body w-100">
 					@if ($transactions->count() > 0)
 						<div class="table-responsive-xl w-100">
 							<table class="table table-hover text-center text-nowrap">

@@ -10,7 +10,7 @@
                     <a role="button" class="btn btn-primary" href="/balance/exchange">Exchange Currencies</a>
 				</div>
 
-                <div class="card-body w-100 d-flex justify-content-center align-items-center">
+                <div class="card-body w-100">
 					@if ($balance->count() > 0)
 						<div class="table-responsive-xl w-100">
 							<table class="table table-hover text-center text-nowrap">

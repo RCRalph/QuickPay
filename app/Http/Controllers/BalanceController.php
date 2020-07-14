@@ -46,7 +46,13 @@ class BalanceController extends Controller
             else {
 				$balance[$id] = $keysAndValues[1][$i];
 			}
-        }
+		}
+
+		foreach($balance as $key => $value) {
+			if ($value < 0.01) {
+				unset($balance[$key]);
+			}
+		}
 
         return collect($balance)->sortDesc();
     }
