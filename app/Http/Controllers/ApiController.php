@@ -66,6 +66,11 @@ class ApiController extends Controller
 			"currency_id" => $data["targetCurrency"]
 		]);
 
+		$tokens = auth()->user()->tokens;
+		foreach ($tokens as $token) {
+			$token->revoke();
+		}
+
 		return response()->json([
 			"status" => "success"
 		]);
