@@ -19,7 +19,7 @@
                             <div class="card w-100">
                                 <div class="card-header text-center font-weight-bold h2 text-nowrap">Sender</div>
                                 <div class="card-body text-center d-flex flex-column justify-content-center align-items-center">
-                                    <img src="/storage/{{ $sender['picture'] }}" class="rounded{{ $sender['picture'] != 'default-profile-picture.png' ? '-circle' : '' }}" style="max-width: 75%; max-height: 225px;">
+                                    <img src="/storage/{{ $sender['picture'] }}" class="rounded{{ ($sender['picture'] != 'default-profile-picture.png' && $sender['picture'] != 'quickpay.svg') ? '-circle' : '' }}" style="max-width: 75%; max-height: 225px;">
                                     <div class="mt-3 font-weight-bold h5">{{ $sender['username'] }}</div>
                                 </div>
                             </div>
@@ -54,7 +54,7 @@
 											Created at
                                         </div>
                                         <div class="card-body text-center">
-                                        	{{ DateTime::createFromFormat("yy-m-d G:i:s", $transaction->created_at)->format("yy-m-d G:i") }}
+                                        	{{ DateTime::createFromFormat("Y-m-d G:i:s", $transaction->created_at)->format("Y-m-d G:i") }}
                                         </div>
                                     </div>
                                 </div>

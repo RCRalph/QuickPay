@@ -13,7 +13,6 @@ class Currency extends React.Component {
 		super(props);
 		this.state = {
 			ready: false,
-			token: props.token,
 			balance: {},
 			currencies: [],
 			avaliableCurrencies: [],
@@ -30,41 +29,35 @@ class Currency extends React.Component {
 	}
 
 	componentDidMount() {
-		axios({
-			method: "post",
-			url: "/api/exchange/index",
-			headers: {
-				Authorization: "Bearer " + this.state.token
-			}
-		})
-		.then(response => {
-			const apiData = response.data;
-			const avaliableCurrencies = Object.keys(apiData.balance).map(item => {
-				return apiData.currencies[parseInt(item, 10) - 1];
-			})
+		axios.get("/exchange/index")
+			.then(response => {
+				const apiData = response.data;
+				const avaliableCurrencies = Object.keys(apiData.balance).map(item => {
+					return apiData.currencies[parseInt(item, 10) - 1];
+				})
 
-			const currencies = {
-				left: avaliableCurrencies[0].id,
-				right: avaliableCurrencies[0].id == 1 ? apiData.currencies[1].id : 1
-			}
+				const currencies = {
+					left: avaliableCurrencies[0].id,
+					right: avaliableCurrencies[0].id == 1 ? apiData.currencies[1].id : 1
+				}
 
-			const sourceCurrency = apiData.currencies[currencies.left - 1].ISO_4217;
-			const targetCurrency = apiData.currencies[currencies.right - 1].ISO_4217;
-			const currentRate = apiData.exchangeRates[targetCurrency] / apiData.exchangeRates[sourceCurrency];
+				const sourceCurrency = apiData.currencies[currencies.left - 1].ISO_4217;
+				const targetCurrency = apiData.currencies[currencies.right - 1].ISO_4217;
+				const currentRate = apiData.exchangeRates[targetCurrency] / apiData.exchangeRates[sourceCurrency];
 
-			this.setState({
-				balance: apiData.balance,
-				currencies: apiData.currencies,
-				avaliableCurrencies: avaliableCurrencies,
-				exchangeRates: apiData.exchangeRates,
-				currentCurrencyLeft: currencies.left,
-				currentCurrencyRight: currencies.right,
-				currentExchangeRate: currentRate,
-				currentValueLeft: "",
-				currentValueRight: "",
-				ready: true
+				this.setState({
+					balance: apiData.balance,
+					currencies: apiData.currencies,
+					avaliableCurrencies: avaliableCurrencies,
+					exchangeRates: apiData.exchangeRates,
+					currentCurrencyLeft: currencies.left,
+					currentCurrencyRight: currencies.right,
+					currentExchangeRate: currentRate,
+					currentValueLeft: "",
+					currentValueRight: "",
+					ready: true
+				});
 			});
-		});
 	}
 
 	handleCurrencies(event) {
@@ -131,20 +124,12 @@ class Currency extends React.Component {
 		let element = document.getElementById("submitButton");
 		element.innerHTML = '<div class="spinner-border text-light" role="status"><span class="sr-only">Loading...</span></div>';
 		element.disabled = true;
-		axios({
-			method: "post",
-			url: "/api/exchange/store",
-			headers: {
-				Authorization: "Bearer " + this.state.token
-			},
-			data: {
-				value: this.state.currentValueLeft,
-				sourceCurrency: this.state.currentCurrencyLeft,
-				targetCurrency: this.state.currentCurrencyRight
-			}
+		axios.post("/exchange/store", {
+			value: this.state.currentValueLeft,
+			sourceCurrency: this.state.currentCurrencyLeft,
+			targetCurrency: this.state.currentCurrencyRight
 		})
 		.then(response => {
-			console.log(response);
 			if (response.data.status == "success") {
 				window.location.href = "/transactions";
 			}
@@ -157,9 +142,8 @@ class Currency extends React.Component {
 					element.classList.remove("btn-danger");
 					element.disabled = false;
 				}, 500);
-
 			}
-		});
+		})
 	}
 
 	render() {
@@ -230,7 +214,5 @@ class Currency extends React.Component {
 export default Currency;
 
 if (document.getElementById('currency')) {
-	const props = { token: document.getElementById('currency').attributes.token.value };
-
-    ReactDOM.render(<Currency {...props} />, document.getElementById('currency'));
+    ReactDOM.render(<Currency />, document.getElementById('currency'));
 }

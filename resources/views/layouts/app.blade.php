@@ -7,6 +7,8 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
+	<link rel="icon" href="{{ URL::asset('favicon.svg') }}" type="image/svg"/>
+
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Fonts -->
@@ -24,9 +26,10 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-dark bg-dark shadow-sm">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
-                </a>
+                <a class="navbar-brand" @auth href="/home" @else href="/" @endauth>
+					<img src="/favicon.svg" width="30" height="30" class="d-inline-block align-top" alt="">
+					{{ config('app.name', 'QuickPay') }}
+				</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -35,12 +38,6 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
                         @auth
-                        <li class="nav-item">
-                            <a id="homeView" class="nav-link" href="/home">
-								<i class="fas fa-home"></i>
-								{{ __('Home') }}
-							</a>
-                        </li>
                         <li class="nav-item">
                             <a id="balanceView" class="nav-link" href="/balance">
 								<i class="fas fa-file-invoice-dollar"></i>

@@ -53,7 +53,7 @@ class RequestsController extends Controller
 
         $currency = Currency::find($request->currency_id);
 
-		$balance = app('App\Http\Controllers\BalanceController')->getBalance()->toArray();
+		$balance = $this->getBalance()->toArray();
         $isDisabled = array_key_exists($currency->id, $balance) ?
             (floatval($request->amount) > $balance[$currency->id]) : true;
 
@@ -115,7 +115,7 @@ class RequestsController extends Controller
         if ($data['btnAct'] == 'a') {
             $this->authorize('complete', $request);
 
-            $balance = app('App\Http\Controllers\BalanceController')->getBalance()->toArray();
+            $balance = $this->getBalance()->toArray();
             $currency = Currency::findOrFail($request->currency_id);
 
             if (array_key_exists($currency->id, $balance)) {

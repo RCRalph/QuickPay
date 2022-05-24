@@ -30,7 +30,7 @@
 									<tbody>
 										@foreach($requests as $request)
 											<tr onclick='window.document.location="/requests/{{ $request->id }}"'>
-												<td class="align-middle">{{ DateTime::createFromFormat("yy-m-d G:i:s", $request->created_at)->format("yy-m-d") }}</td>
+												<td class="align-middle">{{ DateTime::createFromFormat("Y-m-d G:i:s", $request->created_at)->format("Y-m-d") }}</td>
 												<td class="align-middle">{{ $request->receiver_id == 0 ? "SuperUser" : $request->receiver->username }}</td>
 												<td class="align-middle">{{ $request->title }}</td>
 												<td class="align-middle font-weight-bold ">

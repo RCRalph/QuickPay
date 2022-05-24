@@ -12,7 +12,7 @@ class ApiController extends Controller
 	public function index() {
 		$currencies = Currency::all()->toArray();
 
-		$balance = app('App\Http\Controllers\BalanceController')->getBalance()->sortBy("id")->toArray();
+		$balance = $this->getBalance()->sortBy("id")->toArray();
         foreach ($balance as $currency => $amount) {
             if ($amount <= 0) {
                 unset($balance[$currency]);
@@ -44,9 +44,7 @@ class ApiController extends Controller
 		$sourceCurrencyISO = Currency::find($data["sourceCurrency"])->ISO_4217;
 		$targetCurrencyISO = Currency::find($data["targetCurrency"])->ISO_4217;
 
-		$targetValue = $data["value"] *
-			$exchangeRates[$targetCurrencyISO] /
-			$exchangeRates[$sourceCurrencyISO];
+		$targetValue = $data["value"] * $exchangeRates[$targetCurrencyISO] / $exchangeRates[$sourceCurrencyISO];
 
 		$targetValue = floor($targetValue * 100) / 100;
 
@@ -65,11 +63,6 @@ class ApiController extends Controller
 			"amount" => $targetValue,
 			"currency_id" => $data["targetCurrency"]
 		]);
-
-		$tokens = auth()->user()->tokens;
-		foreach ($tokens as $token) {
-			$token->revoke();
-		}
 
 		return response()->json([
 			"status" => "success"
