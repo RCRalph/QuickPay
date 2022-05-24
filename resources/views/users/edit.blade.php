@@ -30,7 +30,7 @@
                             <label for="picture" class="col-md-4 col-form-label text-md-right">{{ __('Profile picture') }}</label>
 
                             <div class="col-md-6">
-                                <input type="file" id="picture" name="picture" class="form-control-file @error('picture') is-invalid @enderror" >
+                                <input type="file" id="picture" name="picture" class="form-control form-control-file @error('picture') is-invalid @enderror" >
 
                                 @error('picture')
                                     <span class="invalid-feedback" role="alert">
