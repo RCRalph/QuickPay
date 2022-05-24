@@ -30,7 +30,7 @@
                                     <hr>
                                     <div class="row">
                                         <div class="h4 col-6 text-right font-weight-bold my-auto">Member since:</div>
-                                        <div class="h4 col-6 my-auto">{{ DateTime::createFromFormat("yy-m-d G:i:s", $user->created_at)->format("yy-m-d") }}</div>
+                                        <div class="h4 col-6 my-auto">{{ DateTime::createFromFormat("Y-m-d G:i:s", $user->created_at)->format("Y-m-d") }}</div>
                                     </div>
                                     <hr>
                                     <div class="row">

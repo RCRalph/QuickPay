@@ -26,7 +26,7 @@
 								<tbody>
 									@foreach($transactions as $transaction)
 										<tr onclick='window.document.location="/transactions/{{ $transaction->id }}"'>
-											<td class="align-middle">{{ DateTime::createFromFormat("yy-m-d G:i:s", $transaction->created_at)->format("yy-m-d") }}</td>
+											<td class="align-middle">{{ DateTime::createFromFormat("Y-m-d G:i:s", $transaction->created_at)->format("Y-m-d") }}</td>
 											<td class="align-middle {{ $transaction->sender_id == auth()->user()->id ? 'text-primary font-weight-bold' : '' }}">{{ $transaction->sender_id == 0 ? "SuperUser" : $transaction->sender->username }}</td>
 											<td class="align-middle {{ $transaction->recipient_id == auth()->user()->id ? 'text-primary font-weight-bold' : '' }}">{{ $transaction->recipient_id == 0 ? "SuperUser" : $transaction->recipient->username }}</td>
 											<td class="align-middle">{{ $transaction->title }}</td>

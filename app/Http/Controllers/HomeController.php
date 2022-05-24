@@ -33,7 +33,7 @@ class HomeController extends Controller
         $requests = auth()->user()->requestsReceiver->sortByDesc("id")->take(3);
 
         // -- Get Balance --
-        $balance = app('App\Http\Controllers\BalanceController')->getBalance()->take(3);
+        $balance = $this->getBalance()->take(3);
         $currencies = Currency::find(array_keys($balance->toArray()))->toArray();
 		$currencyData = [];
 		foreach($currencies as $currency) {

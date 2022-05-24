@@ -27,7 +27,10 @@ class TransactionsController extends Controller
      */
     public function index()
     {
-        $transactions = Transaction::where("sender_id", "=", auth()->user()->id)->orWhere("recipient_id", "=", auth()->user()->id)->orderBy("id", "DESC")->paginate(10);
+        $transactions = Transaction::where("sender_id", "=", auth()->user()->id)
+			->orWhere("recipient_id", "=", auth()->user()->id)
+			->orderBy("id", "DESC")
+			->paginate(10);
 
         return view('transactions.index', compact('transactions'));
     }
@@ -74,8 +77,8 @@ class TransactionsController extends Controller
         if ($sender == null) {
             $sender = [
                 "id" => 0,
-                "username" => "SuperUser",
-                "picture" => "superuser.jpg"
+                "username" => "QuickPay",
+                "picture" => "quickpay.svg"
             ];
         }
         else {
@@ -89,8 +92,8 @@ class TransactionsController extends Controller
         if ($recipient == null) {
             $recipient = [
                 "id" => 0,
-                "username" => "SuperUser",
-                "picture" => "superuser.jpg"
+                "username" => "QuickPay",
+                "picture" => "quickpay.svg"
             ];
         }
         else {

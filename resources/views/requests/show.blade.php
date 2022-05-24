@@ -54,7 +54,7 @@
 											Created at
 										</div>
 										<div class="card-body text-center">
-											{{ DateTime::createFromFormat("yy-m-d G:i:s", $request->created_at)->format("yy-m-d G:i") }}
+											{{ DateTime::createFromFormat("Y-m-d G:i:s", $request->created_at)->format("Y-m-d G:i") }}
 										</div>
 									</div>
 								</div>

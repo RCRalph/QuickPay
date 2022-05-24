@@ -34,14 +34,14 @@ class UsersController extends Controller
         return view("users.edit", compact("user"));
     }
 
-    public function update(\Illuminate\Http\Request $request)
+    public function update(Request $request)
     {
         $this->authorize("update", auth()->user());
 
         if (request()->has("dataUpdate")) {
             $data = request()->validate([
                 "email" => ["required", "string", "email", "max:255", "unique:users,email," . auth()->user()->id],
-                "picture" => ["image"]
+                "picture" => ["image", "mimes:png,jpg,bmp,gif"]
             ]);
 
             if (request()->has("picture")) {

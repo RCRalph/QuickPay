@@ -4,7 +4,9 @@
 	<div class="container text-center">
 		<header class="masthead text-center">
 			<h1 class="masthead-heading mt-1 mb-5 display-3">QuickPay</h1>
-			<p class="h3">An Online Money Transfer Platform</p>
+			<p class="h3 mb-4">An Online Money Transfer Platform</p>
+
+			<a href="/register" type="button" class="btn btn-lg btn-dark">Register now!</a>
 		</header>
 
 		<hr>

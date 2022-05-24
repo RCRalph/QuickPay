@@ -9,7 +9,7 @@
 
                 <div class="card-body w-100 d-flex justify-content-center align-items-center">
                     @if ($canExchange)
-						<div id="currency" class="w-100" token="{{ $token }}"></div>
+						<div id="currency" class="w-100"></div>
                     @else
                         Not enough money
                     @endif
